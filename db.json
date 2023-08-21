@@ -1,0 +1,37 @@
+{
+  "partidas": [
+    {
+      "": {
+        "partidaNacimiento": {
+          "persona": " ",
+          "bday": "",
+          "lugarNacimiento": "",
+          "madre": " ",
+          "padre": " "
+        },
+        "partidaMatrimonio": {
+          "persona": " ",
+          "hijoDe": {
+            "madre": " ",
+            "padre": ""
+          },
+          "age": "",
+          "nacionalidad": "",
+          "bdayPlace": "",
+          "conyuge": " ",
+          "date": "",
+          "place": ""
+        },
+        "partidaDefuncion": {
+          "person": " ",
+          "bdayDate": "",
+          "dni": "",
+          "bdayPlace": "",
+          "deathDate": "",
+          "deathPlace": ""
+        }
+      },
+      "id": 1
+    }
+  ]
+}

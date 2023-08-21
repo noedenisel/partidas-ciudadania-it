@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Partidas</title>
+</head>
+<body>
+    <h1>Control Partidas para Ciudadania</h1>
+    <p>Modo de uso: carga las partidas desde tu AVO hasta vos de la siguiente manera: Nacimiento, matrimonio y defuncion</p>
+    <form data-avo-form>
+        <h3>Partida de nacimiento</h3>
+            <label for="avo-name">Nombre</label>
+                <input type="text" name="avo-name"  id="avo-name" data-avo-name>
+            <label for="avo-lastname">Apellido</label>
+                <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname>
+            <label for="avo-bday-date">Fecha de Nacimiento</label>
+                <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date>
+            <label for="avo-place">Lugar de nacimiento</label>
+                <input type="text" name="avo-place" id="avo-place" data-avo-place>
+        
+        <br>
+
+        <h3>Hijo de</h3>
+            <h4>Madre</h4>
+                <label for="avo-mother-name">Nombre</label>
+                    <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name>
+                <label for="avo-mother-lastname">Apellido</label>
+                    <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname>
+            <h4>Padre</h4>
+                <label for="avo-father-name">Nombre</label>
+                    <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name>
+                <label for="avo-father-lastname">Apellido</label>
+                    <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname>
+        <br>
+        <br>
+        
+    </form>
+    
+    <br>
+    
+    <form data-marriage-form> 
+        <h3>Insertar Datos de partida de matrimonio</h3>
+            <label for="name">Nombre</label>
+                <input type="text" name="name" data-name>
+            <label for="lastname">Apellido</label>
+                <input type="text" name="lastname" data-lastname>
+            <label for="age" > Edad </label>
+                <input type="number" name="age" data-age>
+            <label for="nacionalidad" > Nacionalidad </label>
+                <input type="text" name="nacionalidad" data-nacionalidad>
+            <label for="bday-place" > Nacidx en: </label>
+                <input type="text" name="bday-place" data-bday-place>
+        <br>
+    
+        <h3>Hijo de</h3>
+            <h4>Madre</h4>
+                <label for="mother-name">Nombre</label>
+                    <input type="text" name="mother-name" data-mother-name>
+                <label for="mother-lastname">Apellido</label>
+                    <input type="text" name="mother-lastname" data-mother-lastname>
+                <h4>Padre</h4>
+                    <label for="father-name">Nombre</label>
+                        <input type="text" name="father-name" data-father-name>
+                    <label for="father-lastname">Apellido</label>
+                        <input type="text" name="father-lastname" data-father-lastname>
+    
+        <h3>Conyuge</h3>
+            <label for="conyuge-name">Nombre</label>
+                <input type="text" name="conyuge-name" data-conyuge-name>
+            <label for="conyuge-lastname">Apellido</label>
+                <input type="text" name="conyuge-lastname" data-conyuge-lastname>
+        <br>
+        <br>
+        <label for="marriage-date">Celebrado el</label>
+            <input type="date" name="marriage-date" data-marriage-date>
+        <br>
+        <br>
+        <label for="marriage-place">en</label>
+            <input type="text" name="marriage-place" data-marriage-place>
+        <br>
+    </form>
+    <br>
+
+    <form data-death-form>
+        <h3>Insertar Datos de partida de defuncion</h3>
+            <label for="name">Nombre</label>
+                <input type="text" name="name" data-name>
+            <label for="lastname">Apellido</label>
+                <input type="text" name="lastname" data-lastname>
+            <label for="dni">DNI</label>
+                <input type="number" name="dni" data-dni>
+            <label for="bday-date">Fecha de Nacimiento</label>
+                <input type="date" name="bday-date"  id="bday-date" data-bday-date>
+            <label for="bday-place">Lugar de nacimiento</label>
+                <input type="text" name="bday-place" id="place" data-bday-place>
+        <br>
+        <label for="death-date">Fecha de Defuncion</label>
+            <input type="date" name="death-date"  id="death-date" data-death-date>
+        <label for="death-place">Lugar de defuncion</label>
+            <input type="text" name="death-place" id="death-place" data-death-place>
+        
+    
+        <br>
+        </form>
+   
+    <!-- <button id="add-marriage-button">Agregar Matrimonio</button>
+        <br>
+
+    <div id="marriage-form-container"></div> -->
+
+    <!-- <button id="add-death-button">Agregar Defuncion</button>
+    <br>
+
+    <div id="death-form-container"></div> -->
+
+    <button type="submit">Guardar </button>
+
+    <script type="module" src="script.js"></script>
+    <script type="module" src="partida.js"></script>
+    <script type="module" src="matrimonio.js"></script>
+    <!-- <script type="module" src="defuncion.js"></script> -->
+
+
+</body>
+</html>
+
+
+ <!-- Matrimonio -->
+
+ <!-- <button id="add-marriage-button">Agregar Matrimonio</button>
+ <br>
+ 
+ <div id="marriage-form-container"></div>
+ <br> -->
+ 
+ <!-- Progenitor -->
+ <!-- <button id="add-progenitor-button">Agregar Progenitor</button>
+ <br>
+ 
+ <div id="progenitor-form-container"></div>
+ <br>
+
+ <a href="show_data.html">Mostrar Partidas</a> -->
