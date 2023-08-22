@@ -1,24 +1,24 @@
 {
   "partidas": [
     {
-      "": {
+      "gabriel": {
         "partidaNacimiento": {
-          "persona": " ",
+          "persona": "gabriel lombardo",
           "bday": "",
           "lugarNacimiento": "",
-          "madre": " ",
-          "padre": " "
+          "madre": "emilia vailoretti",
+          "padre": "joaquin lombardo"
         },
         "partidaMatrimonio": {
-          "persona": " ",
+          "persona": "gabriel lombardo",
           "hijoDe": {
-            "madre": " ",
-            "padre": ""
+            "madre": "emilia vailoreti",
+            "padre": "joaquinlombardo"
           },
           "age": "",
           "nacionalidad": "",
           "bdayPlace": "",
-          "conyuge": " ",
+          "conyuge": "lydia fernandez",
           "date": "",
           "place": ""
         },

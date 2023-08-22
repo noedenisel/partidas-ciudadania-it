@@ -11,6 +11,8 @@ saveButton.addEventListener("click", async function () {
     const datosMatrimonio = obtenerDatosPartidaMatrimonio()
     const datosDefuncion = obtenerPartidaDefuncion()
 
+    
+
     const partida = {
         [datosPartida.name]: {
             partidaNacimiento: {
@@ -47,4 +49,5 @@ function limpiarFormulario() {
     // Limpia el formulario
     // Resto del código para limpiar el formulario
 }
+
 
