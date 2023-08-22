@@ -17,8 +17,14 @@ async function savePartida(dbData) {
     }
 }
 
+const listaPartidas = () => 
+    fetch("http://localhost:3000/partidas")
+    .then( respuesta => respuesta.json()
+  )
+
 
 export const partidaServices = {
-    savePartida
+    savePartida,
+    listaPartidas
 }
 

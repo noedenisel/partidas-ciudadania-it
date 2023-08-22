@@ -1,37 +1,70 @@
 {
   "partidas": [
     {
-      "gabriel": {
+      "Antonino": {
         "partidaNacimiento": {
-          "persona": "gabriel lombardo",
-          "bday": "",
-          "lugarNacimiento": "",
-          "madre": "emilia vailoretti",
-          "padre": "joaquin lombardo"
+          "persona": "Antonino Lombardo",
+          "bday": "1896-08-12",
+          "lugarNacimiento": "Leonforte",
+          "madre": "Antonina Catalfo",
+          "padre": "Salvatore Lombardo"
         },
         "partidaMatrimonio": {
-          "persona": "gabriel lombardo",
+          "persona": "Antonio Lombardo",
           "hijoDe": {
-            "madre": "emilia vailoreti",
-            "padre": "joaquinlombardo"
+            "madre": "antonia catalfo",
+            "padre": "salvadorlombardo"
           },
-          "age": "",
-          "nacionalidad": "",
-          "bdayPlace": "",
-          "conyuge": "lydia fernandez",
-          "date": "",
+          "age": "24",
+          "nacionalidad": "Italiano",
+          "bdayPlace": "leonforte",
+          "conyuge": "angela valenti",
+          "date": "1920-07-24",
           "place": ""
         },
         "partidaDefuncion": {
-          "person": " ",
-          "bdayDate": "",
-          "dni": "",
-          "bdayPlace": "",
-          "deathDate": "",
-          "deathPlace": ""
+          "person": "antonio  lombardo",
+          "bdayDate": "1896-08-12",
+          "dni": "1574607",
+          "bdayPlace": "italia",
+          "deathDate": "1975-12-06",
+          "deathPlace": "buenos aires"
         }
       },
       "id": 1
+    },
+    {
+      "joaquin jose": {
+        "partidaNacimiento": {
+          "persona": "joaquin jose lombardo",
+          "bday": "1925-04-28",
+          "lugarNacimiento": "9 de julio",
+          "madre": "angela valenti",
+          "padre": "antonio lombardo"
+        },
+        "partidaMatrimonio": {
+          "persona": "joaquin jose lombardo",
+          "hijoDe": {
+            "madre": "angela valenti",
+            "padre": "antoniolombardo"
+          },
+          "age": "26",
+          "nacionalidad": "argentino",
+          "bdayPlace": "9 de julio",
+          "conyuge": "emilia angela vailoretti",
+          "date": "1951-11-15",
+          "place": "villa mitre"
+        },
+        "partidaDefuncion": {
+          "person": "joaquin jose lombardo",
+          "bdayDate": "1925-04-28",
+          "dni": "14903339",
+          "bdayPlace": "buenos aires",
+          "deathDate": "2013-07-30",
+          "deathPlace": "caba"
+        }
+      },
+      "id": 2
     }
   ]
 }
