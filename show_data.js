@@ -7,6 +7,8 @@ import {  validarPartNacimiento,
 
 console.log(partidaServices);
 
+//TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
+
 let partidasData
 
 document.addEventListener("DOMContentLoaded", async () => {

@@ -1,4 +1,3 @@
-import { validarPartidaNacimiento } from './validaciones.js';
 
 const form = document.querySelector("[data-avo-form]");
 // console.log(form);

@@ -12,7 +12,6 @@ function obtenerNombreApellido(persona) {
 
 // Validacion de partida de Nacimiento
 
-
 function validarPartNacimiento(partidasData) {
 
     console.log("validaciones de partida de nacimiento");
@@ -86,11 +85,10 @@ function validarPartidaMatrimonio(partidasData){
 
     }
 }
-    //TODO: Validar si el nombre de los padres en la partida de nacimiento y partida de matrimonio son iguales
 
+//TODO: Validar si el nombre de los padres en la partida de nacimiento y partida de matrimonio son iguales
 
-    
-    // Valida si la edadque figura en la partida de matrimonio es correcta
+// Valida si la edadque figura en la partida de matrimonio es correcta
 function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
     const nacimiento = new Date(fechaNacimiento);
     const matrimonio = new Date(fechaMatrimonio);
@@ -141,7 +139,7 @@ function validarNacionalidad(partidasData) {
 
 
 //Validar nacionalidad en partida de defuncion sin api: 
-  function validarNacionalidadDefuncion(partidasData) {
+function validarNacionalidadDefuncion(partidasData) {
     console.log("validar lugar de nacimiento/nacionalidad de la partida de defuncion");
     for (let i = 0; i < partidasData.length; i++) {
         const nacionalidadDefuncion = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
@@ -160,5 +158,9 @@ export  {
     validarPartidaMatrimonio,
     validarEdadMatrimonio,
     validarNacionalidad,
-     validarNacionalidadDefuncion,
+    validarNacionalidadDefuncion,
 }
+
+//TODO: 
+//QUE SE PUEDAN INGRESAR MAYUSCULAS/MINUSCULAS O UNA COMBINACION
+//NO ESTA NORMALIZANDO BIEN LOS DATOS: LUGAR DE NAC DE GABRIEL Caba, lugar de nac en partida de matrimonio CABA y lo toma como error

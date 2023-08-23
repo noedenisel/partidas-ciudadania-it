@@ -65,6 +65,39 @@
         }
       },
       "id": 2
+    },
+    {
+      "Gabriel Armando": {
+        "partidaNacimiento": {
+          "persona": "Gabriel Armando Lombardo",
+          "bday": "1956-05-25",
+          "lugarNacimiento": "Caba",
+          "madre": "Emilia Angela Vailoretti",
+          "padre": "Joaquin jose Lombardo"
+        },
+        "partidaMatrimonio": {
+          "persona": "Gabriel Armando Lombardo",
+          "hijoDe": {
+            "madre": "Emilia Angela Vailoretti",
+            "padre": "Joaquin Jose Lombardo"
+          },
+          "age": "28",
+          "nacionalidad": "Argentino",
+          "bdayPlace": "CABA",
+          "conyuge": "Lydia Miriam Fernandez",
+          "date": "1984-08-02",
+          "place": "CABA"
+        },
+        "partidaDefuncion": {
+          "person": " ",
+          "bdayDate": "",
+          "dni": "",
+          "bdayPlace": "",
+          "deathDate": "",
+          "deathPlace": ""
+        }
+      },
+      "id": 3
     }
   ]
 }
