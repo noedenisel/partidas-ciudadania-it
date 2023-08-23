@@ -67,9 +67,14 @@ validarPartidasButton.addEventListener("click", () => {
         return [normalizarTexto(nombre), normalizarTexto(apellido)];
     }
 
-
+   
     // Validacion de partida de Nacimiento
+
+
     function validarPartNacimiento(partidasData) {
+
+        console.log("validaciones de partida de nacimiento");
+
         for (let i = 1; i < partidasData.length; i++) {
             const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
             // console.log("Persona anterior:", personaAnterior);
@@ -101,7 +106,12 @@ validarPartidasButton.addEventListener("click", () => {
     }
 
     // Validacion de partida de Matrimonio
-    function validarPartidaMatrimonio(partidasData){
+
+  
+    function validarPartidaMatrimonio(partidasData){  
+        console.log("Validaciones partida de matrimonio");
+
+        //Validacion nombre padres
         for (let i = 1; i < partidasData.length; i++) {
             
             const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
@@ -109,20 +119,13 @@ validarPartidasButton.addEventListener("click", () => {
     
             const personaActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.persona;
             const madreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre);
-            console.log("Madre actual:", madreActual);
             const padreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre);
-            console.log("Padre actual:", padreActual);
-
 
             const hijoDe = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe;
-            console.log("Hijo de:", hijoDe);
             
-            const madreHijoDe = obtenerNombreApellido(hijoDe.madre);
-            console.log("Hijo de madre:", madreHijoDe);
-
-            
-            const padreHijoDe = obtenerNombreApellido(hijoDe.padre);
-            console.log("Hijo de madre:", padreHijoDe);
+            const hijoDeMadre = obtenerNombreApellido(hijoDe.madre);
+      
+            const hijoDePadre = obtenerNombreApellido(hijoDe.padre);
 
             let mensajeCoincidencia = "";
 
@@ -141,8 +144,43 @@ validarPartidasButton.addEventListener("click", () => {
     
         }
     }
+
+    function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
+        const nacimiento = new Date(fechaNacimiento);
+        console.log(nacimiento);
+        const matrimonio = new Date(fechaMatrimonio);
+        console.log(matrimonio);
+        const edadEnMilisegundos = matrimonio - nacimiento;
+    
+        const edad = Math.floor(edadEnMilisegundos / (1000 * 60 * 60 * 24 * 365.25));
+        console.log(edad);
+    
+        return edad;
+    }
+    
+    function validarEdadMatrimonio(partidasData) {
+        for (let i = 0; i < partidasData.length; i++) {
+            const fechaNacimiento = new Date(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.bday).toISOString();
+            console.log(fechaNacimiento);
+            const fechaMatrimonio = new Date(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.date).toISOString();
+            console.log(fechaMatrimonio);
+            const edadMatrimonioRegistrada = parseInt(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.age);
+            console.log(edadMatrimonioRegistrada);
+    
+            const edadCalculada = calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio);
+            console.log(edadCalculada);
+    
+            if (edadMatrimonioRegistrada !== edadCalculada) {
+                console.log(`La edad registrada en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con la edad calculada.`);
+            } else {
+                console.log(`La edad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} es correcta.`);
+            }
+        }
+    }
+    
     validarPartNacimiento(partidasData);
     validarPartidaMatrimonio(partidasData)
+    validarEdadMatrimonio(partidasData);
 });
 
 
