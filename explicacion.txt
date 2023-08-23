@@ -1,0 +1,92 @@
+{
+  "partidas": [
+    {
+      "Antonino": { // Accediendo a los datos de la primera persona (Antonino)
+                    //const primeraPersona = personas[0];
+                    //accediendo al primer objeto en el array personas y asignándolo a la constante primeraPersona.
+                    //const nombrePrimeraPersona = Object.keys(primeraPersona)[0];
+                    // Object.keys() es una función que devuelve un array de las claves (propiedades) de un objeto. En este caso, estamos obteniendo las claves del objeto primeraPersona, que es "Antonino". El resultado es un array con una única clave.
+        "partidaNacimiento": {  //const datosNacimientoPrimeraPersona = primeraPersona[nombrePrimeraPersona].        partidaNacimiento;
+                                // primeraPersona[nombrePrimeraPersona]: Aquí estamos accediendo a las propiedades del objeto primeraPersona utilizando la clave nombrePrimeraPersona (que en este caso es "Antonino").
+                                // .partidaNacimiento: Luego de acceder al objeto "Antonino", estamos yendo un nivel más adentro al objeto "partidaNacimiento".
+         "persona": "Antonino Lombardo", //const nombrePersonaNacimientoPrimeraPersona = datosNacimientoPrimeraPersona. persona;
+                                        // const lugarNacimientoPrimeraPersona = datosNacimientoPrimeraPersona.lugarNacimiento;
+                                        // datosNacimientoPrimeraPersona.persona: Aquí estamos accediendo a la propiedad "persona" dentro del objeto datosNacimientoPrimeraPersona, que contiene los detalles de la partida de nacimiento de "Antonino".
+          "bday": "1896-08-12",
+          "lugarNacimiento": "Leonforte", //datosNacimientoPrimeraPersona.lugarNacimiento: Similar al paso anterior, aquí estamos accediendo a la propiedad "lugarNacimiento" dentro del objeto datosNacimientoPrimeraPersona.
+          "madre": "Antonina Catalfo",
+          "padre": "Salvatore Lombardo"
+        },
+        "partidaMatrimonio": {
+          "persona": "Antonio Lombardo",
+          "hijoDe": {
+            "madre": "antonia catalfo",
+            "padre": "salvadorlombardo"
+          },
+          "age": "24",
+          "nacionalidad": "Italiano",
+          "bdayPlace": "leonforte",
+          "conyuge": "angela valenti",
+          "date": "1920-07-24",
+          "place": ""
+        },
+        "partidaDefuncion": {
+          "person": "antonio  lombardo",
+          "bdayDate": "1896-08-12",
+          "dni": "1574607",
+          "bdayPlace": "italia",
+          "deathDate": "1975-12-06",
+          "deathPlace": "buenos aires"
+        }
+      },
+      "id": 1
+    },
+    {
+      "joaquin jose": {
+        "partidaNacimiento": {
+          "persona": "joaquin jose lombardo",
+          "bday": "1925-04-28",
+          "lugarNacimiento": "9 de julio",
+          "madre": "angela valenti",
+          "padre": "antonio lombardo"
+        },
+        "partidaMatrimonio": {
+          "persona": "joaquin jose lombardo",
+          "hijoDe": {
+            "madre": "angela valenti",
+            "padre": "antoniolombardo"
+          },
+          "age": "26",
+          "nacionalidad": "argentino",
+          "bdayPlace": "9 de julio",
+          "conyuge": "emilia angela vailoretti",
+          "date": "1951-11-15",
+          "place": "villa mitre"
+        },
+        "partidaDefuncion": {
+          "person": "joaquin jose lombardo",
+          "bdayDate": "1925-04-28",
+          "dni": "14903339",
+          "bdayPlace": "buenos aires",
+          "deathDate": "2013-07-30",
+          "deathPlace": "caba"
+        }
+      },
+      "id": 2
+    }
+  ]
+}
+
+// Accediendo a los datos de la primera persona (Antonino)
+const primeraPersona = personas[0];
+const nombrePrimeraPersona = Object.keys(primeraPersona)[0]; // "Antonino"
+const datosNacimientoPrimeraPersona = primeraPersona[nombrePrimeraPersona].partidaNacimiento;
+const nombrePersonaNacimientoPrimeraPersona = datosNacimientoPrimeraPersona.persona; // "Antonino Lombardo"
+const lugarNacimientoPrimeraPersona = datosNacimientoPrimeraPersona.lugarNacimiento; // "Leonforte"
+
+// Accediendo a los datos de la segunda persona (joaquin jose)
+const segundaPersona = personas[1];
+const nombreSegundaPersona = Object.keys(segundaPersona)[0]; // "joaquin jose"
+const datosNacimientoSegundaPersona = segundaPersona[nombreSegundaPersona].partidaNacimiento;
+const nombrePersonaNacimientoSegundaPersona = datosNacimientoSegundaPersona.persona; // "joaquin jose lombardo"
+const lugarNacimientoSegundaPersona = datosNacimientoSegundaPersona.lugarNacimiento; // "9 de julio"

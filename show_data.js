@@ -103,6 +103,7 @@ validarPartidasButton.addEventListener("click", () => {
     // Validacion de partida de Matrimonio
     function validarPartidaMatrimonio(partidasData){
         for (let i = 1; i < partidasData.length; i++) {
+            
             const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
             const [nombreAnterior, apellidoAnterior] = obtenerNombreApellido(personaAnterior);
     
@@ -118,24 +119,27 @@ validarPartidasButton.addEventListener("click", () => {
             
             const madreHijoDe = obtenerNombreApellido(hijoDe.madre);
             console.log("Hijo de madre:", madreHijoDe);
-        
+
+            
             const padreHijoDe = obtenerNombreApellido(hijoDe.padre);
-            console.log("hijo de padre:", padreHijoDe);
+            console.log("Hijo de madre:", padreHijoDe);
+            
 
     
-            let mensajeCoincidencia = "";
+            // let mensajeCoincidencia = "";
 
-            const coincideNombreMadre = madreActual.includes(nombreAnterior) || madreActual.includes(apellidoAnterior);
-            const coincideNombrePadre = padreActual.includes(nombreAnterior) || padreActual.includes(apellidoAnterior);
+            // const coincideNombreMadre = madreActual.includes(nombreAnterior) || madreActual.includes(apellidoAnterior);
+            // const coincideNombrePadre = padreActual.includes(nombreAnterior) || padreActual.includes(apellidoAnterior);
             
     
-            if (coincideNombreMadre) {
-                mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual} pero los datos correctos serian  ${personaAnterior}.`;
-            } else if (coincideNombrePadre) {
-                mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual} pero los datos correctos serian ${personaAnterior} `;
-            } else {
-                mensajeCoincidencia = `La partida de matrimonio ${i + 1} no presenta errores en relacion a sus padres.`;
-            }
+            // if (coincideNombreMadre) {
+            //     mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual} pero los datos correctos serian  ${personaAnterior}.`;
+            // } else if (coincideNombrePadre) {
+            //     mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual} pero los datos correctos serian ${personaAnterior} `;
+            // } else {
+            //     mensajeCoincidencia = `La partida de matrimonio ${i + 1} no presenta errores en relacion a sus padres.`;
+            // }
+            // console.log(mensajeCoincidencia);
     
         }
     }

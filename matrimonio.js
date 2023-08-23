@@ -22,7 +22,7 @@ export function obtenerDatosPartidaMatrimonio () {
         persona : name + " " +lastname,
         hijoDe: {
             madre: motherName + " " + motherlastname ,
-            padre: fatherName + "" + fatherlastname
+            padre: fatherName + " " + fatherlastname
         },
         age: age,
         nacionalidad: nacionalidad,
