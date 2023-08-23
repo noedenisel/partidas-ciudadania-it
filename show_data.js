@@ -1,4 +1,6 @@
 import { partidaServices } from "./service/partidas-service.js";
+require('dotenv').config();
+
 //import validarPartNacimiento from "./validaciones.js"
 
 console.log(partidaServices);
@@ -147,11 +149,8 @@ validarPartidasButton.addEventListener("click", () => {
 
     function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
         const nacimiento = new Date(fechaNacimiento);
-        console.log(nacimiento);
         const matrimonio = new Date(fechaMatrimonio);
-        console.log(matrimonio);
         const edadEnMilisegundos = matrimonio - nacimiento;
-    
         const edad = Math.floor(edadEnMilisegundos / (1000 * 60 * 60 * 24 * 365.25));
         console.log(edad);
     
@@ -159,28 +158,76 @@ validarPartidasButton.addEventListener("click", () => {
     }
     
     function validarEdadMatrimonio(partidasData) {
+        console.log("Validacion edad en la partida de matrimonio");
         for (let i = 0; i < partidasData.length; i++) {
             const fechaNacimiento = new Date(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.bday).toISOString();
-            console.log(fechaNacimiento);
+    
             const fechaMatrimonio = new Date(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.date).toISOString();
-            console.log(fechaMatrimonio);
+        
             const edadMatrimonioRegistrada = parseInt(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.age);
-            console.log(edadMatrimonioRegistrada);
     
             const edadCalculada = calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio);
-            console.log(edadCalculada);
-    
+                
             if (edadMatrimonioRegistrada !== edadCalculada) {
-                console.log(`La edad registrada en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con la edad calculada.`);
+                console.log(`La edad registrada en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con la edad calculada. La edad registrada es ${edadMatrimonioRegistrada} y la edad calculada ${edadCalculada}`);
             } else {
                 console.log(`La edad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} es correcta.`);
             }
         }
     }
+
+    //Validacion de nacionalidad en partida de matrimonio sin api key
     
+    // function validarNacionalidad(partidasData) {
+    //     for (let i = 0; i < partidasData.length; i++) {
+    //         const nacionalidadMatrimonio = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
+    //         const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+    
+    //         if (nacionalidadMatrimonio !== lugarNacimiento) {
+    //             console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
+    //         } else {
+    //             console.log(`La nacionalidad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} coincide con el lugar de nacimiento.`);
+    //         }
+    //     }
+    // }
+
+
+    //lugar de nacimiento "localidad", busca con la API de google maps si esa localidad pertenece a la nacionalidad que figura en la partida de matrimonio y ahi realiza la comparacion. 
+
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
+    const lugarPartidaNacimiento = partidasData[0][Object.keys(partidasData[0])[0]].partidaNacimiento.lugar;
+    const nacionalidadMatrimonio = partidasData[0][Object.keys(partidasData[0])[0]].partidaMatrimonio.nacionalidad;
+    
+   
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(lugarPartidaNacimiento)}&key=${apiKey}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "OK" && data.results.length > 0) {
+                const countryCodePartidaNacimiento = data.results[0].address_components.find(component => component.types.includes("country")).short_name;
+    
+                if (countryCodePartidaNacimiento === 'AR' && nacionalidadMatrimonio === 'Argentino') {
+                    console.log(`La nacionalidad ${nacionalidadMatrimonio} en la partida de matrimonio coincide con el país de la partida de nacimiento ${lugarPartidaNacimiento}.`);
+                } else {
+                    console.log(`La nacionalidad ${nacionalidadMatrimonio} en la partida de matrimonio no coincide con el país de la partida de nacimiento ${lugarPartidaNacimiento}.`);
+                }
+            } else {
+                console.log(`No se pudo encontrar información para ${lugarPartidaNacimiento}.`);
+            }
+        })
+        .catch(error => {
+            console.error("Error al consultar la API:", error);
+        });
+    
+
+ 
+    
+
     validarPartNacimiento(partidasData);
     validarPartidaMatrimonio(partidasData)
     validarEdadMatrimonio(partidasData);
+    validarNacionalidad(partidasData);
 });
 
 
