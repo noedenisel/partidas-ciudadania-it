@@ -1,5 +1,5 @@
 import { partidaServices } from "./service/partidas-service.js";
-require('dotenv').config();
+
 
 //import validarPartNacimiento from "./validaciones.js"
 
@@ -108,7 +108,7 @@ validarPartidasButton.addEventListener("click", () => {
     }
 
     // Validacion de partida de Matrimonio
-
+        //Compara nombre de padres con el nombre del padre que le da la ciudadania
   
     function validarPartidaMatrimonio(partidasData){  
         console.log("Validaciones partida de matrimonio");
@@ -146,7 +146,11 @@ validarPartidasButton.addEventListener("click", () => {
     
         }
     }
+        //TODO: Validar si el nombre de los padres en la partida de nacimiento y partida de matrimonio son iguales
 
+
+        
+        // Valida si la edadque figura en la partida de matrimonio es correcta
     function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
         const nacimiento = new Date(fechaNacimiento);
         const matrimonio = new Date(fechaMatrimonio);
@@ -178,56 +182,44 @@ validarPartidasButton.addEventListener("click", () => {
 
     //Validacion de nacionalidad en partida de matrimonio sin api key
     
-    // function validarNacionalidad(partidasData) {
-    //     for (let i = 0; i < partidasData.length; i++) {
-    //         const nacionalidadMatrimonio = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
-    //         const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+    function validarNacionalidad(partidasData) {
+        for (let i = 0; i < partidasData.length; i++) {
+            const nacionalidadMatrimonio = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
+            const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
     
-    //         if (nacionalidadMatrimonio !== lugarNacimiento) {
-    //             console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
-    //         } else {
-    //             console.log(`La nacionalidad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} coincide con el lugar de nacimiento.`);
-    //         }
-    //     }
-    // }
-
-
-    //lugar de nacimiento "localidad", busca con la API de google maps si esa localidad pertenece a la nacionalidad que figura en la partida de matrimonio y ahi realiza la comparacion. 
-
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
-    const lugarPartidaNacimiento = partidasData[0][Object.keys(partidasData[0])[0]].partidaNacimiento.lugar;
-    const nacionalidadMatrimonio = partidasData[0][Object.keys(partidasData[0])[0]].partidaMatrimonio.nacionalidad;
-    
-   
-    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(lugarPartidaNacimiento)}&key=${apiKey}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "OK" && data.results.length > 0) {
-                const countryCodePartidaNacimiento = data.results[0].address_components.find(component => component.types.includes("country")).short_name;
-    
-                if (countryCodePartidaNacimiento === 'AR' && nacionalidadMatrimonio === 'Argentino') {
-                    console.log(`La nacionalidad ${nacionalidadMatrimonio} en la partida de matrimonio coincide con el país de la partida de nacimiento ${lugarPartidaNacimiento}.`);
-                } else {
-                    console.log(`La nacionalidad ${nacionalidadMatrimonio} en la partida de matrimonio no coincide con el país de la partida de nacimiento ${lugarPartidaNacimiento}.`);
-                }
+            if (nacionalidadMatrimonio !== lugarNacimiento) {
+                console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
             } else {
-                console.log(`No se pudo encontrar información para ${lugarPartidaNacimiento}.`);
+                console.log(`La nacionalidad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} coincide con el lugar de nacimiento.`);
             }
-        })
-        .catch(error => {
-            console.error("Error al consultar la API:", error);
-        });
-    
+        }
+    }
 
+
+    //TODO: lugar de nacimiento "localidad", busca con alguna API a que pais pertenece esa localidad y si ese pais pertenece a la nacionalidad que figura en la partida de matrimonio y ahi realiza la comparacion. 
+
+
+    
+    //Validar nacionalidad en partida de defuncion sin api: 
+      function validarNacionalidadDefuncion(partidasData) {
+        console.log("validar lugar de nacimiento/nacionalidad de la partida de defuncion");
+        for (let i = 0; i < partidasData.length; i++) {
+            const nacionalidadDefuncion = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
+            const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+    
+            if (nacionalidadDefuncion !== lugarNacimiento) {
+                console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
+            } else {
+                console.log(`La nacionalidad en la partida de matrimonio para ${Object.keys(partidasData[i])[0]} coincide con el lugar de nacimiento.`);
+            }
+        }
+    }
  
-    
-
     validarPartNacimiento(partidasData);
     validarPartidaMatrimonio(partidasData)
     validarEdadMatrimonio(partidasData);
     validarNacionalidad(partidasData);
+     validarNacionalidadDefuncion(partidasData)
 });
 
 
