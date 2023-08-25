@@ -27,8 +27,17 @@ saveButton.addEventListener("click", async function () {
     };
 
     partidas.push(partida);
-
+    
     // Limpia el formulario
+    function limpiarFormulario() {
+        const inputs = document.querySelectorAll("input[type='text'], input[type='number'], input[type='date']");
+        
+        inputs.forEach(input => {
+            input.value = ""; // Limpia el valor de cada campo
+        });
+    }
+
+
     limpiarFormulario();
 
     // Imprime las partidas
