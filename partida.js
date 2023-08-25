@@ -1,4 +1,3 @@
-
 const form = document.querySelector("[data-avo-form]");
 // console.log(form);
 
@@ -25,10 +24,6 @@ export function obtenerDatosPartidaAvo() {
 
     console.log("Datos a enviar:", datosPartida);
 
-
-
-
     return datosPartida;
     
 }
-

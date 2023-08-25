@@ -35,4 +35,3 @@ export function obtenerDatosPartidaMatrimonio () {
     console.log("Datos a enviar:", dataMatrimonio);
     return dataMatrimonio
 }
-
