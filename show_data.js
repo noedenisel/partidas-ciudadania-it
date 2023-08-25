@@ -1,24 +1,25 @@
 import { partidaServices } from "./service/partidas-service.js";
-import {
-    validarPartNacimiento,
+import {  validarPartNacimiento,
     validarPartidaMatrimonio,
     validarEdadMatrimonio,
     validarNacionalidad,
-    validarNacionalidadDefuncion
-} from "./validaciones.js";
+     validarNacionalidadDefuncion} from "./validaciones.js"
 
 console.log(partidaServices);
 
-let partidasData;
+//TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
 
-document.addEventListener("DOMContentLoaded", async () => {
-    partidasData = await partidaServices.listaPartidas();
-    console.log("Datos de partidas obtenidos:", partidasData);
+let partidasData
 
+// show_data.js
+// show_data.js
+document.addEventListener("DOMContentLoaded", () => {
     const partidasContainer = document.getElementById("partidas-container");
 
-    partidasData.forEach(partida => {
-        const personaName = Object.keys(partida)[0];
+    const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
+
+    partidasGuardadas.forEach((partida, index) => {
+        const personaName = Object.keys(partida)[0]; // Obtiene el nombre de la persona
         const partidaData = partida[personaName];
 
         const personaElement = document.createElement("div");
@@ -48,14 +49,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
+
 const validarPartidasButton = document.getElementById("validar-partidas");
 validarPartidasButton.addEventListener("click", () => {
     console.log("Hice click en validar partidas");
-    console.log("Listado de partidas guardadas:", partidasData);
-
-    validarPartNacimiento();
-    validarPartidaMatrimonio();
-    validarEdadMatrimonio();
-    validarNacionalidad();
-    validarNacionalidadDefuncion();
+    console.log("Listado de partidas guardadas:", partidasData); // Accedemos al listado de partidasData
+ 
+    validarPartNacimiento(partidasData);
+    validarPartidaMatrimonio(partidasData)
+    validarEdadMatrimonio(partidasData);
+    validarNacionalidad(partidasData);
+     validarNacionalidadDefuncion(partidasData)
 });
+
+
+export {partidasData}
+
+    
