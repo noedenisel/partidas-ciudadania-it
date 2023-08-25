@@ -33,17 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
         for (const tipoPartida in partidaData) {
             const tipoPartidaElement = document.createElement("h3");
             tipoPartidaElement.textContent = tipoPartida;
-
+        
             personaElement.appendChild(tipoPartidaElement);
-
+        
             const datosPartida = partidaData[tipoPartida];
             for (const campo in datosPartida) {
                 const campoElement = document.createElement("p");
-                campoElement.textContent = `${campo}: ${datosPartida[campo]}`;
-
+                
+                if (campo === "hijoDe") {
+                    const hijoDe = datosPartida[campo];
+                    const hijoDeTexto = `Hijo de: ${hijoDe.madre} y ${hijoDe.padre}`;
+                    campoElement.textContent = hijoDeTexto;
+                } else {
+                    campoElement.textContent = `${campo}: ${datosPartida[campo]}`;
+                }
+        
                 personaElement.appendChild(campoElement);
             }
         }
+        
 
         partidasContainer.appendChild(personaElement);
     });
