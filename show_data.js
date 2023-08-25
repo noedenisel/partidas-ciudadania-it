@@ -1,12 +1,5 @@
-import { partidaServices } from "./service/partidas-service.js";
-import { validarPartNacimiento, validarPartidaMatrimonio, validarEdadMatrimonio, validarNacionalidad, validarNacionalidadDefuncion } from "./validaciones.js";
-
-console.log(partidaServices);
-
-let partidasData = []; // Cambio aquí para inicializar el array
-
 document.addEventListener("DOMContentLoaded", async () => {
-    partidasData = await partidaServices.listaPartidas();
+    const partidasData = await partidaServices.listaPartidas();
     console.log("Datos de partidas obtenidos:", partidasData);
 
     // Aquí puedes llamar a una función que construya y muestre el contenido HTML de las partidas
@@ -28,9 +21,12 @@ function mostrarPartidasGuardadas(partidas) {
         partidaDiv.appendChild(nombreHeading);
 
         for (const tipoPartida in partidaDetails) {
+            const tipoPartidaDiv = document.createElement("div");
+            tipoPartidaDiv.classList.add("tipo-partida");
+
             const tipoPartidaHeading = document.createElement("h3");
             tipoPartidaHeading.textContent = tipoPartida;
-            partidaDiv.appendChild(tipoPartidaHeading);
+            tipoPartidaDiv.appendChild(tipoPartidaHeading);
 
             const datosPartida = partidaDetails[tipoPartida];
             for (const campo in datosPartida) {
@@ -42,24 +38,12 @@ function mostrarPartidasGuardadas(partidas) {
                 } else {
                     campoParrafo.textContent = `${campo}: ${datosPartida[campo]}`;
                 }
-                partidaDiv.appendChild(campoParrafo);
+                tipoPartidaDiv.appendChild(campoParrafo);
             }
+
+            partidaDiv.appendChild(tipoPartidaDiv);
         }
 
         partidasContainer.appendChild(partidaDiv);
     });
 }
-
-const validarPartidasButton = document.getElementById("validar-partidas");
-validarPartidasButton.addEventListener("click", () => {
-    console.log("Hice click en validar partidas");
-    console.log("Listado de partidas guardadas:", partidasData);
-
-    validarPartNacimiento(partidasData);
-    validarPartidaMatrimonio(partidasData);
-    validarEdadMatrimonio(partidasData);
-    validarNacionalidad(partidasData);
-    validarNacionalidadDefuncion(partidasData);
-});
-
-export { partidasData };
