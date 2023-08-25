@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-export { partidasGuardadas };
 
 
     
