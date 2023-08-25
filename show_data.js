@@ -12,11 +12,12 @@ console.log(partidaServices);
 let partidasData
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const partidasData = await partidaServices.listaPartidas();
+     partidasData = await partidaServices.listaPartidas();
     console.log("Datos de partidas obtenidos:", partidasData);
 
     // Aquí puedes llamar a una función que construya y muestre el contenido HTML de las partidas
     mostrarPartidasGuardadas(partidasData);
+   
 });
 
 function mostrarPartidasGuardadas(partidas) {
@@ -25,7 +26,7 @@ function mostrarPartidasGuardadas(partidas) {
     partidas.forEach(partida => {
         const persona = Object.keys(partida)[0];
         const partidaDetails = partida[persona];
-
+        
         const partidaDiv = document.createElement("div");
         partidaDiv.classList.add("partida");
 
@@ -34,13 +35,10 @@ function mostrarPartidasGuardadas(partidas) {
         partidaDiv.appendChild(nombreHeading);
 
         for (const tipoPartida in partidaDetails) {
-            const tipoPartidaDiv = document.createElement("div");
-            tipoPartidaDiv.classList.add("tipo-partida");
-
             const tipoPartidaHeading = document.createElement("h3");
             tipoPartidaHeading.textContent = tipoPartida;
-            tipoPartidaDiv.appendChild(tipoPartidaHeading);
-
+            partidaDiv.appendChild(tipoPartidaHeading);
+        
             const datosPartida = partidaDetails[tipoPartida];
             for (const campo in datosPartida) {
                 const campoParrafo = document.createElement("p");
@@ -51,16 +49,13 @@ function mostrarPartidasGuardadas(partidas) {
                 } else {
                     campoParrafo.textContent = `${campo}: ${datosPartida[campo]}`;
                 }
-                tipoPartidaDiv.appendChild(campoParrafo);
+                partidaDiv.appendChild(campoParrafo);
             }
-
-            partidaDiv.appendChild(tipoPartidaDiv);
         }
 
         partidasContainer.appendChild(partidaDiv);
     });
 }
-
 
 const validarPartidasButton = document.getElementById("validar-partidas");
 validarPartidasButton.addEventListener("click", () => {

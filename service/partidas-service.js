@@ -18,7 +18,7 @@ async function savePartida(dbData) {
 }
 
 const listaPartidas = () => 
-    fetch("https://partidas-ciudadania-it.vercel.app/partidas")
+    fetch('https://partidas-ciudadania-it.vercel.app/partidas')
     .then( respuesta => respuesta.json()
   )
 

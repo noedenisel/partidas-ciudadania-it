@@ -25,6 +25,9 @@ export function obtenerDatosPartidaAvo() {
 
     console.log("Datos a enviar:", datosPartida);
 
+
+
+
     return datosPartida;
     
 }

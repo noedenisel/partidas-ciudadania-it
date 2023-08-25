@@ -8,8 +8,10 @@ const partidas = []; // Crear un arreglo de partidas
 const saveButton = document.querySelector("[type='submit']");
 saveButton.addEventListener("click", async function () {
     const datosPartida = obtenerDatosPartidaAvo();
-    const datosMatrimonio = obtenerDatosPartidaMatrimonio();
-    const datosDefuncion = obtenerPartidaDefuncion();
+    const datosMatrimonio = obtenerDatosPartidaMatrimonio()
+    const datosDefuncion = obtenerPartidaDefuncion()
+
+    
 
     const partida = {
         [datosPartida.name]: {
@@ -19,7 +21,7 @@ saveButton.addEventListener("click", async function () {
                 lugarNacimiento: datosPartida.lugarNacimiento,
                 madre: datosPartida.madre,
                 padre: datosPartida.padre,
-            },
+            }, 
             partidaMatrimonio: datosMatrimonio,
             partidaDefuncion: datosDefuncion
         },
@@ -34,24 +36,18 @@ saveButton.addEventListener("click", async function () {
     // Imprime las partidas
     console.log("Partidas:", partidas);
 
-    // Guarda las partidas en el almacenamiento local
-    guardarPartidaEnAlmacenamientoLocal(partida);
+    // Guarda las partidas en el servicio
+    await savePartidas(partida);
 });
 
+async function savePartidas(partida) {
+    const response = await partidaServices.savePartida(partida);
+    console.log("Partida guardada:", response);
+}
+
 function limpiarFormulario() {
+    // Limpia el formulario
     // Resto del código para limpiar el formulario
 }
 
-function guardarPartidaEnAlmacenamientoLocal(partida) {
-    // Obtiene las partidas previamente guardadas en el almacenamiento local (si existen)
-    const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
 
-    // Agrega la nueva partida a la lista
-    partidasGuardadas.push(partida);
-
-    // Guarda la lista actualizada en el almacenamiento local
-    localStorage.setItem("partidasGuardadas", JSON.stringify(partidasGuardadas));
-
-    // Opcional: Puedes mostrar un mensaje al usuario confirmando que los datos se han guardado en el almacenamiento local.
-    alert("Partida guardada en el almacenamiento local");
-}
