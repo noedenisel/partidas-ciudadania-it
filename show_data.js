@@ -1,23 +1,16 @@
 import { partidaServices } from "./service/partidas-service.js";
-import {  validarPartNacimiento,
-    validarPartidaMatrimonio,
-    validarEdadMatrimonio,
-    validarNacionalidad,
-     validarNacionalidadDefuncion} from "./validaciones.js"
+import { validarPartNacimiento, validarPartidaMatrimonio, validarEdadMatrimonio, validarNacionalidad, validarNacionalidadDefuncion } from "./validaciones.js";
 
 console.log(partidaServices);
 
-//TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
-
-let partidasData
+let partidasData = []; // Cambio aquí para inicializar el array
 
 document.addEventListener("DOMContentLoaded", async () => {
-     partidasData = await partidaServices.listaPartidas();
+    partidasData = await partidaServices.listaPartidas();
     console.log("Datos de partidas obtenidos:", partidasData);
 
     // Aquí puedes llamar a una función que construya y muestre el contenido HTML de las partidas
     mostrarPartidasGuardadas(partidasData);
-   
 });
 
 function mostrarPartidasGuardadas(partidas) {
@@ -26,7 +19,7 @@ function mostrarPartidasGuardadas(partidas) {
     partidas.forEach(partida => {
         const persona = Object.keys(partida)[0];
         const partidaDetails = partida[persona];
-        
+
         const partidaDiv = document.createElement("div");
         partidaDiv.classList.add("partida");
 
@@ -38,7 +31,7 @@ function mostrarPartidasGuardadas(partidas) {
             const tipoPartidaHeading = document.createElement("h3");
             tipoPartidaHeading.textContent = tipoPartida;
             partidaDiv.appendChild(tipoPartidaHeading);
-        
+
             const datosPartida = partidaDetails[tipoPartida];
             for (const campo in datosPartida) {
                 const campoParrafo = document.createElement("p");
@@ -60,16 +53,13 @@ function mostrarPartidasGuardadas(partidas) {
 const validarPartidasButton = document.getElementById("validar-partidas");
 validarPartidasButton.addEventListener("click", () => {
     console.log("Hice click en validar partidas");
-    console.log("Listado de partidas guardadas:", partidasData); // Accedemos al listado de partidasData
- 
+    console.log("Listado de partidas guardadas:", partidasData);
+
     validarPartNacimiento(partidasData);
-    validarPartidaMatrimonio(partidasData)
+    validarPartidaMatrimonio(partidasData);
     validarEdadMatrimonio(partidasData);
     validarNacionalidad(partidasData);
-     validarNacionalidadDefuncion(partidasData)
+    validarNacionalidadDefuncion(partidasData);
 });
 
-
-export {partidasData}
-
-    
+export { partidasData };
