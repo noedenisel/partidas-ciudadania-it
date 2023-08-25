@@ -13,38 +13,33 @@ function obtenerNombreApellido(persona) {
 // Validacion de partida de Nacimiento
 
 function validarPartNacimiento(partidasData) {
-
     console.log("validaciones de partida de nacimiento");
 
     for (let i = 1; i < partidasData.length; i++) {
         const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
-        // console.log("Persona anterior:", personaAnterior);
         const [nombreAnterior, apellidoAnterior] = obtenerNombreApellido(personaAnterior);
-        // console.log("Nombre y apellido de persona anterior:", nombreAnterior, apellidoAnterior);
 
         const personaActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.persona;
-        // console.log("Persona actual:" , personaActual);
         const madreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre);
-        // console.log("Madre actual:", madreActual);
         const padreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre);
-        // console.log("Padre actual:", padreActual);
 
         let mensajeCoincidencia = "";
 
         const coincideNombreMadre = madreActual.includes(nombreAnterior) || madreActual.includes(apellidoAnterior);
         const coincideNombrePadre = padreActual.includes(nombreAnterior) || padreActual.includes(apellidoAnterior);
 
-    if (coincideNombreMadre) {
-        mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual} pero los datos correctos serian  ${personaAnterior}.`;
-    } else if (coincideNombrePadre) {
-        mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual} pero los datos correctos serian ${personaAnterior} `;
-    } else {
-        mensajeCoincidencia = `La partida de nacimiento ${i + 1} no presenta errores en relacion a sus padres.`;
-    }
+        if (coincideNombreMadre) {
+            mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual.join(' ')} pero los datos correctos serian ${nombreAnterior} ${apellidoAnterior}.`;
+        } else if (coincideNombrePadre) {
+            mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual.join(' ')} pero los datos correctos serian ${nombreAnterior} ${apellidoAnterior}.`;
+        } else {
+            mensajeCoincidencia = `La partida de nacimiento ${i + 1} no presenta errores en relacion a sus padres.`;
+        }
 
-    console.log(mensajeCoincidencia);
+        console.log(mensajeCoincidencia);
     }
 }
+
 
 // Validacion de partida de Matrimonio
     //Compara nombre de padres con el nombre del padre que le da la ciudadania
