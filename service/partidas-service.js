@@ -4,7 +4,7 @@ async function savePartida(dbData) {
      console.log("Datos a enviar al servidor:", dbData);
  
     try {
-        const response = await fetch('https://partidas-ciudadania-it.vercel.app/partidas".', {
+        const response = await fetch('https://partidas-ciudadania-it.vercel.app/partidas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
