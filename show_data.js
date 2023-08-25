@@ -1,15 +1,15 @@
 import { partidaServices } from "./service/partidas-service.js";
-// import {  validarPartNacimiento,
-//     validarPartidaMatrimonio,
-//     validarEdadMatrimonio,
-//     validarNacionalidad,
-//      validarNacionalidadDefuncion} from "./validaciones.js"
+import {  validarPartNacimiento,
+    validarPartidaMatrimonio,
+    validarEdadMatrimonio,
+    validarNacionalidad,
+     validarNacionalidadDefuncion} from "./validaciones.js"
 
 console.log(partidaServices);
 
 //TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
 
-//let partidasData
+let partidasData
 
 // show_data.js
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,19 +48,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// const validarPartidasButton = document.getElementById("validar-partidas");
-// validarPartidasButton.addEventListener("click", () => {
-//     console.log("Hice click en validar partidas");
-//     console.log("Listado de partidas guardadas:", partidasData); // Accedemos al listado de partidasData
+const validarPartidasButton = document.getElementById("validar-partidas");
+validarPartidasButton.addEventListener("click", () => {
+    console.log("Hice click en validar partidas");
+    console.log("Listado de partidas guardadas:", partidasData); // Accedemos al listado de partidasData
  
-//     validarPartNacimiento(partidasData);
-//     validarPartidaMatrimonio(partidasData)
-//     validarEdadMatrimonio(partidasData);
-//     validarNacionalidad(partidasData);
-//      validarNacionalidadDefuncion(partidasData)
-// });
+    validarPartNacimiento(partidasData);
+    validarPartidaMatrimonio(partidasData)
+    validarEdadMatrimonio(partidasData);
+    validarNacionalidad(partidasData);
+     validarNacionalidadDefuncion(partidasData)
+});
 
 
-// export {partidasData}
+export {partidasData}
 
     
