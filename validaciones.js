@@ -12,7 +12,7 @@ function obtenerNombreApellido(persona) {
 
 // Validacion de partida de Nacimiento
 
-function validarPartNacimiento(partidasData) {
+function validarPartNacimiento() {
 
     console.log("validaciones de partida de nacimiento");
 
@@ -49,7 +49,7 @@ function validarPartNacimiento(partidasData) {
 // Validacion de partida de Matrimonio
     //Compara nombre de padres con el nombre del padre que le da la ciudadania
 
-function validarPartidaMatrimonio(partidasData){  
+function validarPartidaMatrimonio(){  
     console.log("Validaciones partida de matrimonio");
 
     //Validacion nombre padres
@@ -99,7 +99,7 @@ function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
     return edad;
 }
 
-function validarEdadMatrimonio(partidasData) {
+function validarEdadMatrimonio() {
     console.log("Validacion edad en la partida de matrimonio");
     for (let i = 0; i < partidasData.length; i++) {
         const fechaNacimiento = new Date(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.bday).toISOString();
@@ -120,7 +120,7 @@ function validarEdadMatrimonio(partidasData) {
 
 //Validacion de nacionalidad en partida de matrimonio sin api key
 
-function validarNacionalidad(partidasData) {
+function validarNacionalidad() {
     for (let i = 0; i < partidasData.length; i++) {
         const nacionalidadMatrimonio = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
         const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
@@ -139,7 +139,7 @@ function validarNacionalidad(partidasData) {
 
 
 //Validar nacionalidad en partida de defuncion sin api: 
-function validarNacionalidadDefuncion(partidasData) {
+function validarNacionalidadDefuncion() {
     console.log("validar lugar de nacimiento/nacionalidad de la partida de defuncion");
     for (let i = 0; i < partidasData.length; i++) {
         const nacionalidadDefuncion = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
