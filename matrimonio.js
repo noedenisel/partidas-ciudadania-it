@@ -32,6 +32,6 @@ export function obtenerDatosPartidaMatrimonio () {
         place: marriagePlace
     }
 
-    console.log("Datos a enviar:", dataMatrimonio);
+    console.log("Datos a enviar partida de matrimonio:", dataMatrimonio);
     return dataMatrimonio
 }

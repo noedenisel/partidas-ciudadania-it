@@ -22,8 +22,7 @@ export function obtenerDatosPartidaAvo() {
         padre: fatherName + " " + fatherLastname,
     };
 
-    console.log("Datos a enviar:", datosPartida);
+    console.log("Datos a enviar partida de nacimiento:", datosPartida);
 
     return datosPartida;
-    
 }

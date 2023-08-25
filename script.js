@@ -36,6 +36,14 @@ saveButton.addEventListener("click", async function () {
 
     // Guarda las partidas en el almacenamiento local
     guardarPartidaEnAlmacenamientoLocal(partida);
+
+    // Mostrar todas las partidas guardadas de manera más legible en la consola
+    const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas"));
+
+    partidasGuardadas.forEach((partida, index) => {
+        console.log(`Partida ${index + 1}:`);
+        console.log(partida);
+    });
 });
 
 function limpiarFormulario() {

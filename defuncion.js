@@ -20,7 +20,7 @@ export function obtenerPartidaDefuncion() {
         deathPlace: deathPlace
     }
 
-    console.log("Datos a enviar:", dataDeath);
+    console.log("Datos a enviar partida defuncion:", dataDeath);
     return dataDeath
 }
 
