@@ -1,9 +1,9 @@
 import { partidaServices } from "./service/partidas-service.js";
-import {  validarPartNacimiento,
-    validarPartidaMatrimonio,
-    validarEdadMatrimonio,
-    validarNacionalidad,
-     validarNacionalidadDefuncion} from "./validaciones.js"
+// import {  validarPartNacimiento,
+//     validarPartidaMatrimonio,
+//     validarEdadMatrimonio,
+//     validarNacionalidad,
+//      validarNacionalidadDefuncion} from "./validaciones.js"
 
 console.log(partidaServices);
 
@@ -30,14 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
         for (const tipoPartida in partidaData) {
             const tipoPartidaElement = document.createElement("h3");
             tipoPartidaElement.textContent = tipoPartida;
-
+        
             personaElement.appendChild(tipoPartidaElement);
-
+        
             const datosPartida = partidaData[tipoPartida];
             for (const campo in datosPartida) {
                 const campoElement = document.createElement("p");
-                campoElement.textContent = `${campo}: ${datosPartida[campo]}`;
-
+                
+                if (campo === "hijoDe") {
+                    const madre = datosPartida[campo].madre;
+                    const padre = datosPartida[campo].padre;
+                    campoElement.textContent = `Hijo de: ${padre} y ${madre} `;
+                } else {
+                    campoElement.textContent = `${campo}: ${datosPartida[campo]}`;
+                }
+        
                 personaElement.appendChild(campoElement);
             }
         }
@@ -57,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         validarNacionalidadDefuncion(partidasGuardadas);
     });
 });
+
 
 
 
