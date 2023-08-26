@@ -71,7 +71,8 @@ function validarPartidaMatrimonio(partidasData) {
         if (partidaMatrimonio) {
             //Valida si tengo partida de matrimonio cargada
             const partidaMatrimonioDe = partidaMatrimonio.persona;
-            console.log("Partida de nacimiento de:", personaActual, "Partida de matrimonio de:", partidaMatrimonioDe);
+
+            console.log("Validando partida de matrimonio de:", partidaMatrimonioDe);
 
             const nombresPersonaNacimiento = personaActual.split(" ").filter(nombre => nombre.trim() !== "");
             const nombresPersonaMatrimonio = partidaMatrimonioDe.split(" ").filter(nombre => nombre.trim() !== "");
@@ -92,12 +93,98 @@ function validarPartidaMatrimonio(partidasData) {
             if (coincidenciaPersona === "total") {
                 console.log(`Los datos de ${personaActual} en su partida de matrimonio están correctos respecto a su partida de nacimiento.`);
             } else if (coincidenciaPersona === "parcial") {
-                console.log(`El nombre de ${personaActual} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento.En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de matrimonio figura ${nombresPersonaMatrimonio}`);
+                console.log(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de matrimonio figura ${nombresPersonaMatrimonio}`);
             } else {
-                console.log(`El nombre de ${personaActual} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+                console.log(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
             }
 
+                //Valida los nombres de los padres de su partida de matrimonio con los de los padres en su partida de nacimiento
+
+                    //Datos de padres en la partida de matrimonio
+                    const hijoDeMadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.madre      
+                    const hijoDePadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.padre
+            
+                    const madrePartidaMat = hijoDeMadre.split(" ").filter(nombre => nombre.trim() !== "");
+                    const padrePartidaMat = hijoDePadre.split(" ").filter(nombre => nombre.trim() !== "");
+
+                    //Datos de los padres en la partida de nacimiento
+                    const madre = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre;
+                        console.log("Nombre de la madre en la partida de nacimiento:", madre);
+                    const padre = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre;
+                        console.log("Nombre del padre en la partida de nacimiento:", padre);
+                    
+                    const madrePartNac = madre.split(" ").filter(nombre => nombre.trim() !== "");
+                    const padrePartNac = padre.split(" ").filter(nombre => nombre.trim() !== "");
+
+                    let partida = partidasData[i][Object.keys(partidasData[i])[0]];
+                    partida.coicidenciaMadre = "";
+                    partida.coicidenciaPadre = "";
+            
+                   
+                    if (madrePartNac.join(" ") === madrePartidaMat.join(" ")) {
+                        partida.coicidenciaMadre = "total";
+                        console.log(`Los datos de la madre de ${partidaMatrimonioDe} en su partida de matrimonio y partida de nacimiento coinciden `);
+                        } else {
+                            partida.coicidenciaMadre = madrePartidaMat.some(nombreMatrimonio =>
+                                madrePartNac.some(nombreNacimiento =>
+                                    nombreMatrimonio.includes(nombreNacimiento) || nombreNacimiento.includes(nombreMatrimonio)
+                                )
+                            ) ? "parcial" : "ninguna";
+
+                        // Mostrar mensaje para coincidencia parcial
+                        if (partida.coicidenciaMadre === "parcial") {
+                            console.log(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de matrimonio figura ${hijoDeMadre}.`);
+                            } else {
+                                console.log(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+                            }
+                        }
+
+                        if (padrePartNac.join(" ") === padrePartidaMat.join(" ")) {
+                            partida.coicidenciaMadre = "total";
+                            console.log(`Los datos del padre de ${partidaMatrimonioDe} en su partida de matrimonio y partida de nacimiento coinciden `);
+                            } else {
+                                partida.coicidenciaMadre = padrePartidaMat.some(nombreMatrimonio =>
+                                    padrePartNac.some(nombreNacimiento =>
+                                        nombreMatrimonio.includes(nombreNacimiento) || nombreNacimiento.includes(nombreMatrimonio)
+                                    )
+                                ) ? "parcial" : "ninguna";
+    
+                            // Mostrar mensaje para coincidencia parcial
+                            if (partida.coicidenciaMadre === "parcial") {
+                                console.log(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de matrimonio figura ${hijoDePadre}.`);
+                                } else {
+                                    console.log(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+                                }
+                            }
+            
+                    // if (nombresPersonaAnterior.join(" ") === nombresPadreActual.join(" ")) {
+                    //     partida.coicidenciaPadre = "total";
+                    // }
+            
+                    // if (!partida.coicidenciaMadre) {
+                    //     partida.coicidenciaMadre = nombresMadreActual.some(nombreMadreActual =>
+                    //         nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                    //             nombreMadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombreMadreActual)
+                    //         )
+                    //     ) ? "parcial" : "ninguna";
+                    // }
+            
+                    // if (!partida.coicidenciaPadre) {
+                    //     partida.coicidenciaPadre = nombresPadreActual.some(nombrePadreActual =>
+                    //         nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                    //             nombrePadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombrePadreActual)
+                    //         )
+                    //     ) ? "parcial" : "ninguna";
+                    // }
+            
+
+
+
+
             // Continúa con las demás validaciones y mensajes necesarios.
+            //TODO validar el nombre de los padres en la partida de matrimonio con el de persona anterior
+
+
         } else {
             console.log("La persona actual no tiene partida de matrimonio registrada.");
         }
