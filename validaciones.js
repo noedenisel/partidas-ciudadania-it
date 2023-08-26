@@ -45,19 +45,16 @@ function validarPartNacimiento(partidasData) {
         }
 
         // Mostrar mensajes
-        if (partida.coicidenciaMadre === "parcial") {
-            partida.mensajesPartidaNacimiento = partida.mensajesPartidaNacimiento || [];
-            partida.mensajesPartidaNacimiento.push(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+       if (partida.coicidenciaMadre === "parcial") {
+            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
         }
-        
+
         if (partida.coicidenciaPadre === "parcial") {
-            partida.mensajesPartidaNacimiento = partida.mensajesPartidaNacimiento || [];
-            partida.mensajesPartidaNacimiento.push(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
         }
         
-        if (partida.coicidenciaMadre === "total" || partida.coicidenciaPadre === "total") {
-            partida.mensajesPartidaNacimiento = partida.mensajesPartidaNacimiento || [];
-            partida.mensajesPartidaNacimiento.push(`La partida de nacimiento de ${personaActual} no tiene errores.`);
+        if (partida.coicidenciaMadre === "total" || partida.coicidenciaPadre === "total"){
+            console.log(`La partida de nacimiento de ${personaActual} no tiene errores`)
         }
     }
 }

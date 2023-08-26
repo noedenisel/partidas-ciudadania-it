@@ -1,15 +1,16 @@
-import { partidaServices } from "./service/partidas-service.js";
-// import {  validarPartNacimiento,
-//     validarPartidaMatrimonio,
-//     validarEdadMatrimonio,
-//     validarNacionalidad,
-//      validarNacionalidadDefuncion} from "./validaciones.js"
-
-console.log(partidaServices);
-
 //TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
 
 
+import {  validarPartNacimiento,
+    // validarPartidaMatrimonio,
+    // validarEdadMatrimonio,
+    // validarNacionalidad,
+    //  validarNacionalidadDefuncion
+    } 
+     from "./validaciones.js"
+
+
+     
 document.addEventListener("DOMContentLoaded", () => {
     const partidasContainer = document.getElementById("partidas-container");
 
@@ -52,16 +53,22 @@ document.addEventListener("DOMContentLoaded", () => {
         partidasContainer.appendChild(personaElement);
     });
 
+
+
+
     const validarPartidasButton = document.getElementById("validar-partidas");
     validarPartidasButton.addEventListener("click", () => {
         console.log("Hice click en validar partidas");
         console.log("Listado de partidas guardadas:", partidasGuardadas); // Accedemos al listado de partidasGuardadas
 
         validarPartNacimiento(partidasGuardadas);
-        validarPartidaMatrimonio(partidasGuardadas);
-        validarEdadMatrimonio(partidasGuardadas);
-        validarNacionalidad(partidasGuardadas);
-        validarNacionalidadDefuncion(partidasGuardadas);
+        // validarPartidaMatrimonio(partidasGuardadas);
+        // validarEdadMatrimonio(partidasGuardadas);
+        // validarNacionalidad(partidasGuardadas);
+        // validarNacionalidadDefuncion(partidasGuardadas);
+
+
+
     });
 });
 

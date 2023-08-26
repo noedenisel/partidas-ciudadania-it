@@ -25,13 +25,31 @@ export function obtenerDatosPartidaMatrimonio() {
     const marriageDate = marriageForm.querySelector("[data-marriage-date]").value;
     const marriagePlace = marriageForm.querySelector("[data-marriage-place]").value;
 
-  
+  // Verificar si algún campo obligatorio está vacío
+  if (
+    name === "" ||
+    lastname === "" ||
+    age === "" ||
+    nacionalidad === "" ||
+    bdayPlace === "" ||
+    motherName === "" ||
+    motherLastname === "" ||
+    fatherName === "" ||
+    fatherLastname === "" ||
+    conyugeName === "" ||
+    conyugeLastname === "" ||
+    marriageDate === "" ||
+    marriagePlace === ""
+) {
+    console.log("No se han completado todos los campos obligatorios para crear la partida de matrimonio.");
+    return null; 
+}
 
     const dataMatrimonio = {
         persona: normalizeName(name) + " " + normalizeName(lastname),
         hijoDe: {
             madre: normalizeName(motherName) + " " + normalizeName(motherLastname),
-            padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname)
+            padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname),
         },
         age: age,
         nacionalidad: normalizeName(nacionalidad),

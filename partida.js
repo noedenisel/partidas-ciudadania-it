@@ -26,6 +26,7 @@ export function obtenerDatosPartidaAvo() {
         lugarNacimiento: normalizeName(birthPlace),
         madre: normalizeName(motherName) + " " + normalizeName(motherLastname),
         padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname),
+        
     };
 
     console.log("Datos a enviar partida de nacimiento:", datosPartida);
