@@ -16,8 +16,6 @@ export function obtenerDatosPartidaAvo() {
     const fatherName = document.querySelector("[data-avo-father-name]").value;
     const fatherLastname = document.querySelector("[data-avo-father-lastname]").value;
 
- 
-
     const persona = normalizeName(name) + " " + normalizeName(lastname)
 
     const datosPartida = {

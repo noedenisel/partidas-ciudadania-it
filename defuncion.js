@@ -1,4 +1,5 @@
 // <!----Partida Defuncion----!>
+
 const deathForm = document.querySelector("[data-death-form]");
 
 // Función para normalizar nombres y apellidos
@@ -16,8 +17,6 @@ export function obtenerPartidaDefuncion() {
     const bdayPlace = deathForm.querySelector("[data-bday-place]").value;
     const deathDate = deathForm.querySelector("[data-death-date]").value;
     const deathPlace = deathForm.querySelector("[data-death-place]").value;
-
-
 
     const dataDeath = {
         person: normalizeName(name) + " " + normalizeName(lastname),

@@ -1,6 +1,5 @@
 // <!----Agregar Matrimonio----!>
 
-
 const marriageForm = document.querySelector("[data-marriage-form]");
 
 // Función para normalizar nombres y apellidos
