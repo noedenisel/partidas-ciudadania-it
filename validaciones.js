@@ -1,87 +1,213 @@
- // Función para normalizar un nombre o apellido
- function normalizarTexto(texto) {
-    return texto.toLowerCase();
-}
-
-// Función para obtener el nombre y apellido a partir de partidanacimiento.persona
-function obtenerNombreApellido(persona) {
-    const [nombre, apellido] = persona.split(" ");
-    return [normalizarTexto(nombre), normalizarTexto(apellido)];
-}
-
-
 // Validacion de partida de Nacimiento
 
 function validarPartNacimiento(partidasData) {
-    console.log("validaciones de partida de nacimiento");
 
     for (let i = 1; i < partidasData.length; i++) {
         const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
-        const [nombreAnterior, apellidoAnterior] = obtenerNombreApellido(personaAnterior);
-
         const personaActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.persona;
-        const madreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre);
-        const padreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre);
+        const madreActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre;
+        const padreActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre;
+        
+        const nombresPersonaAnterior = personaAnterior.split(" ").filter(nombre => nombre.trim() !== "");
+        const nombresMadreActual = madreActual.split(" ").filter(nombre => nombre.trim() !== "");   
+        const nombresPadreActual = padreActual.split(" ").filter(nombre => nombre.trim() !== "");
+    
+        let partida = partidasData[i][Object.keys(partidasData[i])[0]];
+        partida.coicidenciaMadre = "";
+        partida.coicidenciaPadre = "";
 
-        let mensajeCoincidencia = "";
-
-        const coincideNombreMadre = madreActual.includes(nombreAnterior) || madreActual.includes(apellidoAnterior);
-        const coincideNombrePadre = padreActual.includes(nombreAnterior) || padreActual.includes(apellidoAnterior);
-
-        if (coincideNombreMadre) {
-            mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual.join(' ')} pero los datos correctos serian ${nombreAnterior} ${apellidoAnterior}.`;
-        } else if (coincideNombrePadre) {
-            mensajeCoincidencia = `La partida de nacimiento de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual.join(' ')} pero los datos correctos serian ${nombreAnterior} ${apellidoAnterior}.`;
-        } else {
-            mensajeCoincidencia = `La partida de nacimiento ${i + 1} no presenta errores en relacion a sus padres.`;
+        if (nombresPersonaAnterior.join(" ") === nombresMadreActual.join(" ")) {
+            partida.coicidenciaMadre = "total";
         }
 
-        console.log(mensajeCoincidencia);
+        if (nombresPersonaAnterior.join(" ") === nombresPadreActual.join(" ")) {
+            partida.coicidenciaPadre = "total";
+        }
+
+        if (!partida.coicidenciaMadre) {
+            partida.coicidenciaMadre = nombresMadreActual.some(nombreMadreActual =>
+                nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                    nombreMadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombreMadreActual)
+                )
+            ) ? "parcial" : "ninguna";
+        }
+
+        if (!partida.coicidenciaPadre) {
+            partida.coicidenciaPadre = nombresPadreActual.some(nombrePadreActual =>
+                nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                    nombrePadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombrePadreActual)
+                )
+            ) ? "parcial" : "ninguna";
+        }
+
+        // Mostrar mensajes
+       if (partida.coicidenciaMadre === "parcial") {
+            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+        }
+
+        if (partida.coicidenciaPadre === "parcial") {
+            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+        }
+        
     }
 }
-
 
 // Validacion de partida de Matrimonio
-    //Compara nombre de padres con el nombre del padre que le da la ciudadania
+function validarPartidaMatrimonio(partidasData) {
 
-function validarPartidaMatrimonio(partidasData){  
-    console.log("Validaciones partida de matrimonio");
-
-    //Validacion nombre padres
-    for (let i = 1; i < partidasData.length; i++) {
-        
-        const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
-        const [nombreAnterior, apellidoAnterior] = obtenerNombreApellido(personaAnterior);
-
+    //Validaciones entre partida de matrimonio y partida de nacimiento
+    for (let i = 0; i < partidasData.length; i++) {
         const personaActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.persona;
-        const madreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre);
-        const padreActual = obtenerNombreApellido(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre);
 
-        const hijoDe = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe;
+        const partidaMatrimonio = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio;
         
-        const hijoDeMadre = obtenerNombreApellido(hijoDe.madre);
-  
-        const hijoDePadre = obtenerNombreApellido(hijoDe.padre);
+        //si tengo partida de matrimonio cargada
+        if (partidaMatrimonio) {
+           
+            const partidaMatrimonioDe = partidaMatrimonio.persona;
 
-        let mensajeCoincidencia = "";
+            const nombresPersonaNacimiento = personaActual.split(" ").filter(nombre => nombre.trim() !== "");
+            const nombresPersonaMatrimonio = partidaMatrimonioDe.split(" ").filter(nombre => nombre.trim() !== "");
 
-        const coincideNombreMadre = madreActual.includes(nombreAnterior) || madreActual.includes(apellidoAnterior);
-        const coincideNombrePadre = padreActual.includes(nombreAnterior) || padreActual.includes(apellidoAnterior);
+            let coincidenciaPersona = "";
+
+            if (nombresPersonaNacimiento.join(" ") === nombresPersonaMatrimonio.join(" ")) {
+                coincidenciaPersona = "total";
+            } else {
+                coincidenciaPersona = nombresPersonaMatrimonio.some(nombreMatrimonio =>
+                    nombresPersonaNacimiento.some(nombreNacimiento =>
+                        nombreMatrimonio.includes(nombreNacimiento) || nombreNacimiento.includes(nombreMatrimonio)
+                    )
+                ) ? "parcial" : "ninguna";
+            }
+
+            // Mostrar mensajes
+            if (coincidenciaPersona === "parcial") {
+                console.log(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de matrimonio figura ${nombresPersonaMatrimonio}`);
+            } else {
+                console.log(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+            }
+
+                //Valida los nombres de los padres de su partida de matrimonio con los de los padres en su partida de nacimiento
+
+                    //Datos de padres en la partida de matrimonio
+                    const hijoDeMadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.madre      
+                    const hijoDePadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.padre
+            
+                    const madrePartidaMat = hijoDeMadre.split(" ").filter(nombre => nombre.trim() !== "");
+                    const padrePartidaMat = hijoDePadre.split(" ").filter(nombre => nombre.trim() !== "");
+
+                    //Datos de los padres en la partida de nacimiento
+                    const madre = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.madre;
+                    const padre = partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.padre;
+                    
+                    const madrePartNac = madre.split(" ").filter(nombre => nombre.trim() !== "");
+                    const padrePartNac = padre.split(" ").filter(nombre => nombre.trim() !== "");
+
+                    let partida = partidasData[i][Object.keys(partidasData[i])[0]];
+                    partida.coicidenciaMadre = "";
+                    partida.coicidenciaPadre = "";
+            
+                   
+                    if (madrePartNac.join(" ") === madrePartidaMat.join(" ")) {
+                        partida.coicidenciaMadre = "total";
+                        } else {
+                            partida.coicidenciaMadre = madrePartidaMat.some(nombreMatrimonio =>
+                                madrePartNac.some(nombreNacimiento =>
+                                    nombreMatrimonio.includes(nombreNacimiento) || nombreNacimiento.includes(nombreMatrimonio)
+                                )
+                            ) ? "parcial" : "ninguna";
+
+                        // Mostrar mensaje para coincidencia parcial
+                        if (partida.coicidenciaMadre === "parcial") {
+                            console.log(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de matrimonio figura ${hijoDeMadre}.`);
+                            } else {
+                                console.log(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+                            }
+                        }
+
+                        if (padrePartNac.join(" ") === padrePartidaMat.join(" ")) {
+                            partida.coicidenciaMadre = "total";
+                            } else {
+                                partida.coicidenciaMadre = padrePartidaMat.some(nombreMatrimonio =>
+                                    padrePartNac.some(nombreNacimiento =>
+                                        nombreMatrimonio.includes(nombreNacimiento) || nombreNacimiento.includes(nombreMatrimonio)
+                                    )
+                                ) ? "parcial" : "ninguna";
+    
+                            // Mostrar mensaje para coincidencia parcial
+                            if (partida.coicidenciaMadre === "parcial") {
+                                console.log(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de matrimonio figura ${hijoDePadre}.`);
+                                } else {
+                                    console.log(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`);
+                                }
+                            }  
+                        } else {
+                            console.log("La persona actual no tiene partida de matrimonio registrada.");
+                        }
+                    }
+
+    //Validaciones partida de matrimonio con nombre de partida de nacimiento del padre/madre
+    for (let i = 1; i < partidasData.length; i++) {
+        const partidaMatrimonio = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio;
         
+        //si tengo partida de matrimonio cargada
+        if (partidaMatrimonio){
+            const personaAnterior = partidasData[i - 1][Object.keys(partidasData[i - 1])[0]].partidaNacimiento.persona;
+            const personaActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.persona;
+            const madreActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.madre;
+            const padreActual = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.hijoDe.padre;
+                
 
-        if (coincideNombreMadre) {
-            mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido de la madre, en su partida figura ${madreActual} pero los datos correctos serian  ${personaAnterior}.`;
-        } else if (coincideNombrePadre) {
-            mensajeCoincidencia = `La partida de matrimonio de ${personaActual} podría contener un error en relación al nombre o apellido del padre, en su partida figura ${padreActual} pero los datos correctos serian ${personaAnterior} `;
+            const nombresPersonaAnterior = personaAnterior.split(" ").filter(nombre => nombre.trim() !== "");
+            const nombresMadreActual = madreActual.split(" ").filter(nombre => nombre.trim() !== "");   
+            const nombresPadreActual = padreActual.split(" ").filter(nombre => nombre.trim() !== "");
+        
+            let partida = partidasData[i][Object.keys(partidasData[i])[0]];
+            partida.coicidenciaMadre = "";
+            partida.coicidenciaPadre = "";
+    
+            if (nombresPersonaAnterior.join(" ") === nombresMadreActual.join(" ")) {
+                partida.coicidenciaMadre = "total";
+            }
+    
+            if (nombresPersonaAnterior.join(" ") === nombresPadreActual.join(" ")) {
+                partida.coicidenciaPadre = "total";
+            }
+    
+            if (!partida.coicidenciaMadre) {
+                partida.coicidenciaMadre = nombresMadreActual.some(nombreMadreActual =>
+                    nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                        nombreMadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombreMadreActual)
+                    )
+                ) ? "parcial" : "ninguna";
+            }
+    
+            if (!partida.coicidenciaPadre) {
+                partida.coicidenciaPadre = nombresPadreActual.some(nombrePadreActual =>
+                    nombresPersonaAnterior.some(nombrePersonaAnterior =>
+                        nombrePadreActual.includes(nombrePersonaAnterior) || nombrePersonaAnterior.includes(nombrePadreActual)
+                    )
+                ) ? "parcial" : "ninguna";
+            }
+    
+            // Mostrar mensajes
+           if (partida.coicidenciaMadre === "parcial") {
+                 console.log(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su madre. En su partida de matrimonio figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+            }
+    
+            if (partida.coicidenciaPadre === "parcial") {
+                console.log(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su padre. En su partida de matrimonio figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+            }
         } else {
-            mensajeCoincidencia = `La partida de matrimonio ${i + 1} no presenta errores en relacion a sus padres.`;
+            console.log("La persona actual no tiene partida de matrimonio registrada.");
         }
-        console.log(mensajeCoincidencia);
-
+        
     }
 }
 
-//TODO: Validar si el nombre de los padres en la partida de nacimiento y partida de matrimonio son iguales
+
+    
 
 // Valida si la edadque figura en la partida de matrimonio es correcta
 function calcularEdadEnMatrimonio(fechaNacimiento, fechaMatrimonio) {
@@ -117,8 +243,8 @@ function validarEdadMatrimonio(partidasData) {
 
 function validarNacionalidad(partidasData) {
     for (let i = 0; i < partidasData.length; i++) {
-        const nacionalidadMatrimonio = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
-        const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+        const nacionalidadMatrimonio = (partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.bdayPlace);
+        const lugarNacimiento = (partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
 
         if (nacionalidadMatrimonio !== lugarNacimiento) {
             console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
@@ -137,8 +263,8 @@ function validarNacionalidad(partidasData) {
 function validarNacionalidadDefuncion(partidasData) {
     console.log("validar lugar de nacimiento/nacionalidad de la partida de defuncion");
     for (let i = 0; i < partidasData.length; i++) {
-        const nacionalidadDefuncion = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
-        const lugarNacimiento = normalizarTexto(partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+        const nacionalidadDefuncion = (partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
+        const lugarNacimiento = (partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
 
         if (nacionalidadDefuncion !== lugarNacimiento) {
             console.log(`El lugar de nacimieto de la partida de matrimonio para ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`);
@@ -156,6 +282,3 @@ export  {
     validarNacionalidadDefuncion,
 }
 
-//TODO: 
-//QUE SE PUEDAN INGRESAR MAYUSCULAS/MINUSCULAS O UNA COMBINACION
-//NO ESTA NORMALIZANDO BIEN LOS DATOS: LUGAR DE NAC DE GABRIEL Caba, lugar de nac en partida de matrimonio CABA y lo toma como error

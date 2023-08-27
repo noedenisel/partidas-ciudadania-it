@@ -65,5 +65,5 @@ function guardarPartidaEnAlmacenamientoLocal(partida) {
     localStorage.setItem("partidasGuardadas", JSON.stringify(partidasGuardadas));
 
     // Opcional: Puedes mostrar un mensaje al usuario confirmando que los datos se han guardado en el almacenamiento local.
-    alert("Partida guardada en el almacenamiento local");
+    alert("Partida guardada correctamente. Puede agregar más partidas o hacer click en visualizar partidas para ver todas las partidas guardadas");
 }
