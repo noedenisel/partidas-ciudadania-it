@@ -1,3 +1,12 @@
+function mostrarError(mensaje) {
+    const errorElement = document.createElement("h3");
+    errorElement.classList.add("error-message");
+    errorElement.textContent = mensaje;
+
+    document.getElementById("errores-container").appendChild(errorElement);
+}
+
+
 // Validacion de partida de Nacimiento
 
 function validarPartNacimiento(partidasData) {
@@ -41,12 +50,12 @@ function validarPartNacimiento(partidasData) {
         }
 
         // Mostrar mensajes
-       if (partida.coicidenciaMadre === "parcial") {
-            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+        if (partida.coicidenciaMadre === "parcial") {
+            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`);
         }
 
         if (partida.coicidenciaPadre === "parcial") {
-            console.log(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
+            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`);
         }
         
     }
@@ -253,11 +262,6 @@ function validarNacionalidad(partidasData) {
         }
     }
 }
-
-
-//TODO: lugar de nacimiento "localidad", busca con alguna API a que pais pertenece esa localidad y si ese pais pertenece a la nacionalidad que figura en la partida de matrimonio y ahi realiza la comparacion. 
-
-
 
 //Validar nacionalidad en partida de defuncion sin api: 
 function validarNacionalidadDefuncion(partidasData) {

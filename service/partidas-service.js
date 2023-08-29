@@ -29,7 +29,6 @@ const listaPartidas = () =>
     .then( respuesta => respuesta.json()
   )
 
-
 export const partidaServices = {
     // normalizeName,
     savePartida,
