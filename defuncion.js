@@ -1,5 +1,5 @@
 // <!----Partida Defuncion----!>
-
+//todo: guardar datos de los padres
 const deathForm = document.querySelector("[data-death-form]");
 
 // Función para normalizar nombres y apellidos

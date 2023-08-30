@@ -3,6 +3,27 @@ import { obtenerDatosPartidaAvo } from "./partida.js";
 import { obtenerDatosPartidaMatrimonio } from "./matrimonio.js";
 import { obtenerPartidaDefuncion } from "./defuncion.js";
 
+const btnMatrimonio = document.getElementById("btn-matrimonio");
+const btnDefuncion = document.getElementById("btn-defuncion");
+
+const partidaMatrimonioForm = document.querySelector(".partida-matrimonio");
+const partidaDefuncionForm = document.querySelector(".partida-defuncion");
+
+
+btnMatrimonio.addEventListener("click", () => {
+    partidaMatrimonioForm.style.display = "block";
+    btnMatrimonio.style.display = "none"
+   
+});
+
+btnDefuncion.addEventListener("click", () => {
+    partidaDefuncionForm.style.display = "block";
+    btnDefuncion.style.display = "none"
+  
+});
+
+
+
 const partidas = []; // Crear un arreglo de partidas
 
 const saveButton = document.querySelector("[type='submit']");

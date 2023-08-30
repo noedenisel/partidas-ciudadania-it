@@ -1,3 +1,6 @@
+//todo: validar en partida de matrimonio nacionalidad con lugar de nacimiento de partida de nacimiento
+//todo: validar padres de partida de defuncion = que en la partida de matrimonio
+
 function mostrarError(mensaje, indice) {
     if (!mostrarError.errors) {
         mostrarError.errors = {}; // Crear objeto para almacenar los errores
@@ -27,7 +30,6 @@ function mostrarErroresEnDOM() {
         });
     }
 }
-
 
 
 // Validacion de partida de Nacimiento

@@ -1,4 +1,6 @@
 //TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
+//Todo: agregar que renderice sexo en la partida de nacimiento
+//todo: agregar padres en partida de defuncion
 
 
 import {  validarPartNacimiento,
