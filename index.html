@@ -11,17 +11,19 @@
         <h1>Control Partidas para Ciudadania</h1>
         <p>Modo de uso: carga las partidas desde tu AVO hasta vos de la siguiente manera: Nacimiento, matrimonio y defuncion</p>
         
-        <div class="partida-nacimiento">
+        <div class=" partida-container partida-nacimiento">
             <form data-avo-form>
                 <h2>Partida de nacimiento</h2>
                     <label for="avo-name">Nombre</label>
                         <input type="text" name="avo-name"  id="avo-name" data-avo-name>
                     <label for="avo-lastname">Apellido</label>
                         <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname>
+                        <br>
                     <label for="avo-bday-date">Fecha de Nacimiento</label>
                         <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date>
                     <label for="avo-place">Lugar de nacimiento </label>
                         <input type="text" name="avo-place" id="avo-place" data-avo-place>
+                        <br>
                     <label for="avo-sex">Sexo</label>
                         <input type="text" name="avo-sex" id="avo-sex" data-avo-sex>
                 <br>
@@ -42,8 +44,8 @@
             </form>
         </div>
         
-        <button id="btn-matrimonio" style="display: block;">Agregar Partida de Matrimonio</button>
-        <div class="partida-matrimonio" style="display: none;">
+        <button id="btn-matrimonio" style="display: block; " class="centered-button">Agregar Partida de Matrimonio</button>
+        <div class="partida-container partida-matrimonio" style="display: none;">
             
             <form data-marriage-form> 
                 <h2>Insertar Datos de partida de matrimonio</h2>
@@ -51,8 +53,10 @@
                         <input type="text" name="name" data-name>
                     <label for="lastname">Apellido</label>
                         <input type="text" name="lastname" data-lastname>
+                        <br>
                     <label for="age" > Edad </label>
                         <input type="number" name="age" data-age>
+                        <br>
                     <label for="nacionalidad" > Nacionalidad </label>
                         <input type="text" name="nacionalidad" data-nacionalidad> - Por favor, ingresar solo nombre de ciudad/provincia o país para un correcto funcionamiento-
                         <br>
@@ -89,10 +93,10 @@
         </div>
         
 
-        <button id="btn-defuncion">Agregar Partida de Defuncion</button>
-        <div class="partida-defuncion" style="display: none;">
+        <button id="btn-defuncion" style="display: block; " class="centered-button">Agregar Partida de Defuncion</button>
+        <div class="partida-defuncion partida-container" style="display: none;">
             
-            <form data-marriage-form id="form-defuncion" >
+            <form data-defuncion-form id="form-defuncion" >
            
             <form data-death-form>
                 <h2>Insertar Datos de partida de defuncion</h2>
@@ -100,6 +104,7 @@
                         <input type="text" name="name" data-name>
                     <label for="lastname">Apellido</label>
                         <input type="text" name="lastname" data-lastname>
+                        <br>
                     <label for="dni">DNI</label>
                         <input type="number" name="dni" data-dni> 
                         <br>
@@ -136,10 +141,17 @@
         </div>
         
         <div class="buttons">
-            <button type="submit">Guardar </button>
+            <button type="submit" class="bookmarkBtn"> <span class="IconContainer"> 
+                <svg viewBox="0 0 384 512" height="0.9em" class="icon"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path></svg>
+              </span>
+              <p class="text">Guardar</p></button>
             <br>
             <a href="show_data.html">
-                <button>Ver Partidas Guardadas</button>
+                <button class="cssbuttons-io-button"> Ver partidas guardadas
+                    <div class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path></svg>
+                    </div>
+                  </button>
             </a>
        </div>
        
