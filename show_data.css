@@ -1,3 +1,7 @@
 .error-message {
     color: red;
 }
+
+.ok-message {
+    color: green
+}

@@ -43,14 +43,15 @@ import {  validarPartNacimiento,
     
                     personaElement.appendChild(campoElement);
                 }
+                  const erroresContainer = document.createElement("div");
+            erroresContainer.classList.add("errores-partida");
+            personaElement.appendChild(erroresContainer); // Aquí se agrega el contenedor de errores al final de cada personaElement
+
             }
     
             partidasContainer.appendChild(personaElement); // Moví esto aquí para que los datos de la partida se agreguen antes de los mensajes de error
     
-            const erroresContainer = document.createElement("div");
-            erroresContainer.classList.add("errores-partida");
-            personaElement.appendChild(erroresContainer); // Aquí se agrega el contenedor de errores al final de cada personaElement
-        });
+                  });
     
         const validarPartidasButton = document.getElementById("validar-partidas");
         validarPartidasButton.addEventListener("click", () => {
