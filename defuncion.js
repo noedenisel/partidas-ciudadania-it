@@ -17,12 +17,10 @@ export function obtenerPartidaDefuncion() {
     const bdayPlace = deathForm.querySelector("[data-bday-place]").value;
     const deathDate = deathForm.querySelector("[data-death-date]").value;
     const deathPlace = deathForm.querySelector("[data-death-place]").value;
-    const motherName = document.querySelector("[data-death-mother-name]").value;
-    const motherLastname = document.querySelector("[data-death-mother-lastname]").value;
-    const fatherName = document.querySelector("[data-death-father-name]").value;
-    const fatherLastname = document.querySelector("[data-death-father-lastname]").value;
-
-
+    const motherName = deathForm.querySelector("[data-mother-name]").value;
+    const motherLastname = deathForm.querySelector("[data-mother-lastname]").value;
+    const fatherName = deathForm.querySelector("[data-father-name]").value;
+    const fatherLastname = deathForm.querySelector("[data-father-lastname]").value;
 
     if (
         name === "" ||
@@ -31,19 +29,22 @@ export function obtenerPartidaDefuncion() {
         bdayPlace === "" ||
         deathDate === "" 
     ) {
-        alert("Faltan datos necesarios en la partida de defuncion. La partida no se creara")
         return null; 
     }
+
     const dataDeath = {
         person: normalizeName(name) + " " + normalizeName(lastname),
         bdayDate: bdayDate,
         dni: dni,
         bdayPlace: normalizeName(bdayPlace),
+        hijoDe: {
+            madre: normalizeName(motherName) + " " + normalizeName(motherLastname),
+            padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname),
+        },
         deathDate: deathDate,
         deathPlace: normalizeName(deathPlace),
-        madre: normalizeName(motherName) + " " + normalizeName(motherLastname),
-        padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname),
-    };
+      
+     };
 
     return dataDeath;
 }
