@@ -38,10 +38,8 @@ export function obtenerDatosPartidaMatrimonio() {
     fatherLastname === "" ||
     conyugeName === "" ||
     conyugeLastname === "" ||
-    marriageDate === "" ||
-    marriagePlace === ""
+    marriageDate === "" 
 ) {
-    console.log("No se han completado todos los campos obligatorios para crear la partida de matrimonio.");
     return null; 
 }
 

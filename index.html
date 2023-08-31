@@ -1,3 +1,5 @@
+<!-- ToDo: agregar validaciones -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,45 +11,46 @@
 <body>
     <main>
         <h1>Control Partidas para Ciudadania</h1>
-        <p>Modo de uso: carga las partidas desde tu AVO hasta vos de la siguiente manera: Nacimiento, matrimonio y defuncion</p>
+        <p>Esta web esta pensada para el control de los datos de las partidas de tu árbol. De ningún modo reemplaza el control realizado por un profesional.</p>
+        <p>Modo de uso: carga las partidas desde tu AVO hasta llegar a vos. Si no se cargan los datos obligatorios en la partida de matrimonio y/o defunción, esas partidas no se crearán.</p>
         
         <div class=" partida-container partida-nacimiento">
             <form data-avo-form>
                 <h2>Partida de nacimiento</h2>
                     <label for="avo-name">Nombre</label>
-                        <input type="text" name="avo-name"  id="avo-name" data-avo-name required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="avo-name"  id="avo-name" data-avo-name >
    
                     <label for="avo-lastname">Apellido</label>
-                        <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname >
+                        <br>
                         <br>
                     <label for="avo-bday-date">Fecha de Nacimiento</label>
-                        <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date >
+         
                     <label for="avo-place">Lugar de nacimiento </label>
-                        <input type="text" name="avo-place" id="avo-place" data-avo-place required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="avo-place" id="avo-place" data-avo-place >
+                        <br>
                         <br>
                     <label for="avo-sex">Sexo</label>
                         <input type="text" name="avo-sex" id="avo-sex" data-avo-sex>
-                <br>
+                        <br>
+                        
         
                 <h3>Hijo de</h3>
                     <h4>Padre</h4>
                         <label for="avo-father-name">Nombre</label>
-                            <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name required>
-                            <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                            <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name >
+                     
                         <label for="avo-father-lastname">Apellido</label>
-                            <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname required>
-                            <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                            <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname >
+                  
                     <h4>Madre</h4>
                         <label for="avo-mother-name">Nombre</label>
-                            <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name required>
-                            <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                            <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name >
+                  
                         <label for="avo-mother-lastname">Apellido</label>
-                            <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname required>
-                            <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                            <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname >
+            
                 <br>
                 <br>
             </form>
@@ -59,57 +62,57 @@
             <form data-marriage-form> 
                 <h2>Insertar Datos de partida de matrimonio</h2>
                     <label for="name">Nombre</label>
-                        <input type="text" name="name" data-name required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="name" data-name >
+          
                     <label for="lastname">Apellido</label>
-                        <input type="text" name="lastname" data-lastname required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="lastname" data-lastname >
+                        <br>
                         <br>
                     <label for="age" > Edad </label>
-                        <input type="number" name="age" data-age required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="number" name="age" data-age >
+                        <br>
                         <br>
                     <label for="nacionalidad" > Nacionalidad </label>
-                        <input type="text" name="nacionalidad" data-nacionalidad required> - Por favor, ingresar solo nombre de ciudad/provincia o país para un correcto funcionamiento-
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="nacionalidad" data-nacionalidad > - Por favor, ingresar solo nombre de ciudad/provincia o país para un correcto funcionamiento-
+            
                         <br>
                         <br>
                     <label for="bday-place" > Lugar de Nacimiento </label>
-                        <input type="text" name="bday-place" data-bday-place required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="bday-place" data-bday-place >
+   
                 <br>
             
                 <h3>Hijo de</h3>
                         <h4>Padre</h4>
                             <label for="father-name">Nombre</label>
-                                <input type="text" name="father-name" data-father-name required>
-                                <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                                <input type="text" name="father-name" data-father-name >
+              
                             <label for="father-lastname">Apellido</label>
-                                <input type="text" name="father-lastname" data-father-lastname required>
-                                <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                                <input type="text" name="father-lastname" data-father-lastname >
+                
                         <h4>Madre</h4>
                             <label for="mother-name">Nombre</label>
-                                <input type="text" name="mother-name" data-mother-name required>
-                                <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                                <input type="text" name="mother-name" data-mother-name >
+                
                             <label for="mother-lastname">Apellido</label>
-                                <input type="text" name="mother-lastname" data-mother-lastname required>
-                                <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                                <input type="text" name="mother-lastname" data-mother-lastname >
+                
                                 
                 <h3>Conyuge</h3>
                     <label for="conyuge-name">Nombre</label>
-                        <input type="text" name="conyuge-name" data-conyuge-name required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="conyuge-name" data-conyuge-name >
+        
                     <label for="conyuge-lastname">Apellido</label>
-                        <input type="text" name="conyuge-lastname" data-conyuge-lastname required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="conyuge-lastname" data-conyuge-lastname >
+        
                 <br>
                 <br>
                 <label for="marriage-date">Celebrado el</label>
-                    <input type="date" name="marriage-date" data-marriage-date required>
-                    <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                    <input type="date" name="marriage-date" data-marriage-date >
+    
                 <label for="marriage-place">en</label>
                     <input type="text" name="marriage-place" data-marriage-place>
-                    <span class="error-required" data-error-for="name">Este campo es requerido</span>
+    
                 <br>
             </form>
         </div>
@@ -118,43 +121,46 @@
         <button id="btn-defuncion" style="display: block; " class="centered-button">Agregar Partida de Defuncion</button>
         <div class="partida-defuncion partida-container" style="display: none;">
             
-            <form data-defuncion-form id="form-defuncion" >
+
            
             <form data-death-form>
                 <h2>Insertar Datos de partida de defuncion</h2>
                     <label for="name">Nombre</label>
-                        <input type="text" name="name" data-name required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="name" data-name >
+        
                     <label for="lastname">Apellido</label>
-                        <input type="text" name="lastname" data-lastname required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="lastname" data-lastname >
+                        <br>
                         <br>
                     <label for="dni">DNI</label>
                         <input type="number" name="dni" data-dni> 
                         <br>
                         <br>
                     <label for="bday-date">Fecha de Nacimiento</label>
-                        <input type="date" name="bday-date"  id="bday-date" data-bday-date required>
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="date" name="bday-date"  id="bday-date" data-bday-date >
+        
                         <br>
                         <br>
                     <label for="bday-place">Lugar de nacimiento  </label>
-                        <input type="text" name="bday-place" id="place" data-bday-place required>-Algunas partidas pueden decir "nacionalidad" Por favor, ingresar solo nombre de ciudad/provincia o país para un correcto funcionamiento-
-                        <span class="error-required" data-error-for="name">Este campo es requerido</span>
+                        <input type="text" name="bday-place" id="place" data-bday-place >-Algunas partidas pueden decir "nacionalidad" Por favor, ingresar solo nombre de ciudad/provincia o país para un correcto funcionamiento-
+        
                 <br>
                 <br>
                 <h3>Hijo de</h3>
-                    <h4>Padre</h4>
-                        <label for="avo-father-name">Nombre</label>
-                            <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name>
-                            
-                        <label for="avo-father-lastname">Apellido</label>
-                            <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname>
-                    <h4>Madre</h4>
-                        <label for="avo-mother-name">Nombre</label>
-                            <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name>
-                        <label for="avo-mother-lastname">Apellido</label>
-                            <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname>
+                        <h4>Padre</h4>
+                            <label for="father-name">Nombre</label>
+                                <input type="text" name="father-name" data-father-name >
+              
+                            <label for="father-lastname">Apellido</label>
+                                <input type="text" name="father-lastname" data-father-lastname >
+                
+                        <h4>Madre</h4>
+                            <label for="mother-name">Nombre</label>
+                                <input type="text" name="mother-name" data-mother-name >
+                
+                            <label for="mother-lastname">Apellido</label>
+                                <input type="text" name="mother-lastname" data-mother-lastname >
+                
                     <br>
                     <br>
                     <label for="death-date">Fecha de Defuncion</label>
