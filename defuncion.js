@@ -1,5 +1,5 @@
 // <!----Partida Defuncion----!>
-//todo: guardar datos de los padres
+
 const deathForm = document.querySelector("[data-death-form]");
 
 // Función para normalizar nombres y apellidos
@@ -17,17 +17,34 @@ export function obtenerPartidaDefuncion() {
     const bdayPlace = deathForm.querySelector("[data-bday-place]").value;
     const deathDate = deathForm.querySelector("[data-death-date]").value;
     const deathPlace = deathForm.querySelector("[data-death-place]").value;
+    const motherName = document.querySelector("[data-death-mother-name]").value;
+    const motherLastname = document.querySelector("[data-death-mother-lastname]").value;
+    const fatherName = document.querySelector("[data-death-father-name]").value;
+    const fatherLastname = document.querySelector("[data-death-father-lastname]").value;
 
+
+
+    if (
+        name === "" ||
+        lastname === "" ||
+        bdayDate === "" ||
+        bdayPlace === "" ||
+        deathDate === "" 
+    ) {
+        alert("Faltan datos necesarios en la partida de defuncion. La partida no se creara")
+        return null; 
+    }
     const dataDeath = {
         person: normalizeName(name) + " " + normalizeName(lastname),
         bdayDate: bdayDate,
         dni: dni,
         bdayPlace: normalizeName(bdayPlace),
         deathDate: deathDate,
-        deathPlace: normalizeName(deathPlace)
+        deathPlace: normalizeName(deathPlace),
+        madre: normalizeName(motherName) + " " + normalizeName(motherLastname),
+        padre: normalizeName(fatherName) + " " + normalizeName(fatherLastname),
     };
 
-    console.log("Datos a enviar partida defuncion:", dataDeath);
     return dataDeath;
 }
 

@@ -33,6 +33,13 @@ h1 {
     background-color: rgba(255, 255, 255, 0.779);
 }
 
+
+.error-required {
+  display: none;
+  color: red;
+  font-size: 12px;
+}
+
 .centered-button {
     appearance: button;
     background-color: #390a0e;

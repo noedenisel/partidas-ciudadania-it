@@ -3,6 +3,7 @@ import { obtenerDatosPartidaAvo } from "./partida.js";
 import { obtenerDatosPartidaMatrimonio } from "./matrimonio.js";
 import { obtenerPartidaDefuncion } from "./defuncion.js";
 
+
 const btnMatrimonio = document.getElementById("btn-matrimonio");
 const btnDefuncion = document.getElementById("btn-defuncion");
 
