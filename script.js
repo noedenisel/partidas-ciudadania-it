@@ -166,3 +166,5 @@ function guardarPartidaEnAlmacenamientoLocal(partida) {
   // Guarda la lista actualizada en el almacenamiento local
   localStorage.setItem("partidasGuardadas", JSON.stringify(partidasGuardadas));
 }
+
+

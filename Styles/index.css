@@ -65,11 +65,13 @@ footer{
     background-color: rgba(255, 255, 255, 0.779);
 }
 
-.error-required {
-  display: none;
+.error-message {
+
   color: red;
   font-size: 12px;
 }
+
+
 
 .centered-button {
     appearance: button;

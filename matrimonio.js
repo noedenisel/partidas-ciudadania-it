@@ -10,20 +10,20 @@ function normalizeName(name) {
 }
 
 export function obtenerDatosPartidaMatrimonio() {
-    const name = marriageForm.querySelector("[data-name]").value;
-    const lastname = marriageForm.querySelector("[data-lastname]").value;
-    const age = marriageForm.querySelector("[data-age]").value;
-    const nacionalidad = marriageForm.querySelector("[data-nacionalidad]").value;
-    const bdayPlace = marriageForm.querySelector("[data-bday-place]").value;
-    const motherName = marriageForm.querySelector("[data-mother-name]").value;
-    const motherLastname = marriageForm.querySelector("[data-mother-lastname]").value;
-    const fatherName = marriageForm.querySelector("[data-father-name]").value;
-    const fatherLastname = marriageForm.querySelector("[data-father-lastname]").value;
-    const conyugeName = marriageForm.querySelector("[data-conyuge-name]").value;
-    const conyugeLastname = marriageForm.querySelector("[data-conyuge-lastname]").value;
+    const name = marriageForm.querySelector("[data-marriage-name]").value;
+    const lastname = marriageForm.querySelector("[data-marriage-lastname]").value;
+    const age = marriageForm.querySelector("[data-marriage-age]").value;
+    const nacionalidad = marriageForm.querySelector("[data-marriage-nacionalidad]").value;
+    const bdayPlace = marriageForm.querySelector("[data-marriage-bday-place]").value;
+    const motherName = marriageForm.querySelector("[data-marriage-mother-name]").value;
+    const motherLastname = marriageForm.querySelector("[data-marriage-mother-lastname]").value;
+    const fatherName = marriageForm.querySelector("[data-marriage-father-name]").value;
+    const fatherLastname = marriageForm.querySelector("[data-marriage-father-lastname]").value;
+    const conyugeName = marriageForm.querySelector("[data-marriage-conyuge-name]").value;
+    const conyugeLastname = marriageForm.querySelector("[data-marriage-conyuge-lastname]").value;
 
-    const marriageDate = marriageForm.querySelector("[data-marriage-date]").value;
-    const marriagePlace = marriageForm.querySelector("[data-marriage-place]").value;
+    const marriageDate = marriageForm.querySelector("[data-marriage-marriage-date]").value;
+    const marriagePlace = marriageForm.querySelector("[data-marriage-marriage-place]").value;
 
   // Verificar si algún campo obligatorio está vacío
   if (
@@ -57,6 +57,5 @@ export function obtenerDatosPartidaMatrimonio() {
         place: normalizeName(marriagePlace)
     };
 
-    console.log("Datos a enviar partida de matrimonio:", dataMatrimonio);
     return dataMatrimonio;
 }

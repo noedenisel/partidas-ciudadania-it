@@ -26,7 +26,7 @@ import {  validarPartNacimiento,
     
             // Agregar el título de la partida de nacimiento
             const partidaNacimientoTitle = document.createElement("h3");
-            partidaNacimientoTitle.textContent = `Partida de: ${partida[personaName].partidaNacimiento.persona}`;
+            partidaNacimientoTitle.textContent = `Partidas cargadas de ${partida[personaName].partidaNacimiento.persona}`;
             partidaDiv.appendChild(partidaNacimientoTitle);
     
             // Agregar la información de la partida de nacimiento
