@@ -1,6 +1,5 @@
 
-//Todo: agregar que renderice sexo en la partida de nacimiento
-//todo: agregar padres en partida de defuncion
+
 // ToDo: agregar algun titulo o algo q diga partidas de:
 //toDo: if !partidaMatrimonio || !partidaDefuncion: return
 
@@ -36,7 +35,7 @@ import {  validarPartNacimiento,
                 <p>Nombre: ${partida[personaName].partidaNacimiento.persona}</p>
                 <p>Fecha de nacimiento: ${partida[personaName].partidaNacimiento.bday}</p>
                 <p>Lugar de nacimiento: ${partida[personaName].partidaNacimiento.lugarNacimiento}</p>
-                <p>Sexo: $${partida[personaName].partidaNacimiento.sexo}</p>
+                <p>Sexo: ${partida[personaName].partidaNacimiento.sexo}</p>
                 <p>Hijo de: ${partida[personaName].partidaNacimiento.padre} y ${partida[personaName].partidaNacimiento.madre}</p>
             `;
             partidaDiv.appendChild(partidaNacimientoInfo);
@@ -72,6 +71,8 @@ import {  validarPartNacimiento,
                     <p>Fecha de Nacimiento: ${partidaData.partidaDefuncion.bdayDate}</p>
                     <p>Lugar de nacimiento: ${partidaData.partidaDefuncion.bdayPlace}</p>
                     <p>DNI: ${partidaData.partidaDefuncion.dni}</p>
+                    <p>Hijo de: ${partidaData.partidaDefuncion.hijoDe.padre} y ${partidaData.partidaDefuncion.hijoDe.madre}</p>
+                   
                     <p>Fecha de defunción: ${partidaData.partidaDefuncion.deathDate}</p>
                     <p>Lugar de defunción: ${partidaData.partidaDefuncion.deathPlace}</p>
                 `;
