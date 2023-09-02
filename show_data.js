@@ -1,8 +1,3 @@
-
-
-// ToDo: agregar algun titulo o algo q diga partidas de:
-//toDo: if !partidaMatrimonio || !partidaDefuncion: return
-
 import {  validarPartNacimiento,
     validarPartidaMatrimonio,
     validarEdadMatrimonio,
