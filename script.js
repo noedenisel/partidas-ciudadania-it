@@ -5,18 +5,24 @@ import { obtenerPartidaDefuncion } from "./defuncion.js";
 
 const btnMatrimonio = document.getElementById("btn-matrimonio");
 const btnDefuncion = document.getElementById("btn-defuncion");
-
 const partidaMatrimonioForm = document.querySelector(".partida-matrimonio");
 const partidaDefuncionForm = document.querySelector(".partida-defuncion");
 
+let isMatrimonioFormActive = false;
+let isDefuncionFormActive = false;
+
 btnMatrimonio.addEventListener("click", () => {
+  console.log("Botón Matrimonio clicado");
   partidaMatrimonioForm.style.display = "block";
   btnMatrimonio.style.display = "none";
+  isMatrimonioFormActive = true;
 });
 
 btnDefuncion.addEventListener("click", () => {
+  console.log("Botón Defunción clicado");
   partidaDefuncionForm.style.display = "block";
   btnDefuncion.style.display = "none";
+  isDefuncionFormActive = true;
 });
 
 const partidas = []; // Crear un arreglo de partidas
@@ -25,35 +31,69 @@ const saveButton = document.querySelector("[type='submit']");
 
 // Escucha el evento "click" en el botón de guardar
 saveButton.addEventListener("click", async function (event) {
+  event.preventDefault();
+
   let isValid = true; // Variable para rastrear la validez de los formularios
 
   // Valida los campos requeridos en la partida de nacimiento
   const partidaNacimientoForm = document.querySelector("[data-avo-form]");
   const requiredInputsNacimiento = partidaNacimientoForm.querySelectorAll("[required]");
+  console.log("isValid antes de la validación:", isValid);
+  console.log("requiredInputsNacimiento:", requiredInputsNacimiento);
+
   requiredInputsNacimiento.forEach((input) => {
     if (!input.value.trim()) {
       isValid = false;
+      const errorMessage = input.getAttribute("data-error-message");
+      const errorElement = document.getElementById(`${input.id}-error`);
+      console.log(`${input.id}-error:`, errorMessage);
+      if (errorElement) {
+        errorElement.textContent = errorMessage;
+      }
     }
   });
 
-  // Valida los campos requeridos en la partida de matrimonio si está activa
-  if (partidaMatrimonioForm.style.display === "block") {
+  // Valida los campos requeridos en el formulario de matrimonio si está activo
+  if (isMatrimonioFormActive) {
     const partidaMatrimonio = document.querySelector("[data-marriage-form]");
     const requiredInputsMatrimonio = partidaMatrimonio.querySelectorAll("[required]");
+    console.log("Mensajes de error configurados en Matrimonio:");
+    requiredInputsMatrimonio.forEach((input) => {
+      const errorMessage = input.getAttribute("data-error-message");
+      const errorElement = document.getElementById(`${input.id}-error`);
+      console.log(`${input.id}-error:`, errorMessage);
+    });
     requiredInputsMatrimonio.forEach((input) => {
       if (!input.value.trim()) {
         isValid = false;
+        const errorMessage = input.getAttribute("data-error-message");
+        const errorElement = document.getElementById(`${input.id}-error`);
+        if (errorElement) {
+          errorElement.textContent = errorMessage;
+        }
       }
     });
   }
 
   // Valida los campos requeridos en la partida de defunción si está activa
-  if (partidaDefuncionForm.style.display === "block") {
+  if (isDefuncionFormActive) {
     const partidaDefuncion = document.querySelector("[data-death-form]");
     const requiredInputsDefuncion = partidaDefuncion.querySelectorAll("[required]");
+    console.log("Mensajes de error configurados en Defunción:");
+    requiredInputsDefuncion.forEach((input) => {
+      const errorMessage = input.getAttribute("data-error-message");
+      const errorElement = document.getElementById(`${input.id}-error`);
+      console.log(`${input.id}-error:`, errorMessage);
+    });
+
     requiredInputsDefuncion.forEach((input) => {
       if (!input.value.trim()) {
         isValid = false;
+        const errorMessage = input.getAttribute("data-error-message");
+        const errorElement = document.getElementById(`${input.id}-error`);
+        if (errorElement) {
+          errorElement.textContent = errorMessage;
+        }
       }
     });
   }
