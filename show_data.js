@@ -1,17 +1,19 @@
 //TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
 //Todo: agregar que renderice sexo en la partida de nacimiento
 //todo: agregar padres en partida de defuncion
-
+// ToDo: agregar algun titulo o algo q diga partidas de:
+//toDo: if !partidaMatrimonio || !partidaDefuncion: return
 
 import {  validarPartNacimiento,
     validarPartidaMatrimonio,
     validarEdadMatrimonio,
     validarNacionalidad,
      validarNacionalidadDefuncion
-    } 
-     from "./validaciones.js"
-     document.addEventListener("DOMContentLoaded", () => {
-        const partidasContainer = document.getElementById("partidas-container");
+    } from "./validaciones.js"
+     
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const partidasContainer = document.getElementById("info-partidas");
     
         const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
     
@@ -19,47 +21,72 @@ import {  validarPartNacimiento,
             const personaName = Object.keys(partida)[0];
             const partidaData = partida[personaName];
     
-            const personaElement = document.createElement("div");
-            personaElement.classList.add("persona");
+            const partidaDiv = document.createElement("div");
+            partidaDiv.classList.add("partida-container");
     
-            const nombreElement = document.createElement("h2");
-            nombreElement.textContent = personaName;
-            personaElement.appendChild(nombreElement);
+            // Agregar el título de la partida de nacimiento
+            const partidaNacimientoTitle = document.createElement("h3");
+            partidaNacimientoTitle.textContent = `Partida de: ${partida[personaName].partidaNacimiento.persona}`;
+            partidaDiv.appendChild(partidaNacimientoTitle);
     
-            for (const tipoPartida in partidaData) {
-                const tipoPartidaElement = document.createElement("h3");
-                tipoPartidaElement.textContent = tipoPartida;
-                personaElement.appendChild(tipoPartidaElement);
+            // Agregar la información de la partida de nacimiento
+            const partidaNacimientoInfo = document.createElement("div");
+            partidaNacimientoInfo.innerHTML = `
+                <h2>Partida de nacimiento</h2>
+                <p>Nombre: ${partida[personaName].partidaNacimiento.persona}</p>
+                <p>Fecha de nacimiento: ${partida[personaName].partidaNacimiento.bday}</p>
+                <p>Lugar de nacimiento: ${partida[personaName].partidaNacimiento.lugarNacimiento}</p>
+                <p>Hijo de: ${partida[personaName].partidaNacimiento.padre} y ${partida[personaName].partidaNacimiento.madre}</p>
+            `;
+            partidaDiv.appendChild(partidaNacimientoInfo);
     
-                const datosPartida = partidaData[tipoPartida];
-                for (const campo in datosPartida) {
-                    const campoElement = document.createElement("p");
-    
-                    if (campo === "hijoDe") {
-                        const madre = datosPartida[campo].madre;
-                        const padre = datosPartida[campo].padre;
-                        campoElement.textContent = `Hijo de: ${padre} y ${madre}`;
-                    } else {
-                        campoElement.textContent = `${campo}: ${datosPartida[campo]}`;
-                    }
-    
-                    personaElement.appendChild(campoElement);
-                }
-                  const erroresContainer = document.createElement("div");
-            erroresContainer.classList.add("errores-partida");
-            personaElement.appendChild(erroresContainer); // Aquí se agrega el contenedor de errores al final de cada personaElement
-
+            // Si hay partida de matrimonio, agregar la información
+            if (partidaData.partidaMatrimonio) {
+                const partidaMatrimonioInfo = document.createElement("div");
+                partidaMatrimonioInfo.innerHTML = `
+                    <h2>Partida de matrimonio</h2>
+                    <p>Nombre: ${partidaData.partidaMatrimonio.persona}</p>
+                    <p>Edad: ${partidaData.partidaMatrimonio.age}</p>
+                    <p>Nacionalidad: ${partidaData.partidaMatrimonio.nacionalidad}</p>
+                    <p>Lugar de nacimiento: ${partidaData.partidaMatrimonio.bdayPlace}</p>
+                    <p>Hijo de: ${partidaData.partidaMatrimonio.hijoDe.padre} y ${partidaData.partidaMatrimonio.hijoDe.madre}</p>
+                    <p>Conyuge</p>
+                    <p>Celebrado el: ${partidaData.partidaMatrimonio.date}</p>
+                    <p>en: ${partidaData.partidaMatrimonio.place}</p>
+                `;
+                partidaDiv.appendChild(partidaMatrimonioInfo);
+            } else {
+                // Si no hay partida de matrimonio, mostrar un mensaje
+                const noMatrimonioInfo = document.createElement("p");
+                noMatrimonioInfo.textContent = `${partida[personaName].partidaNacimiento.persona} no tiene cargada partida de matrimonio`;
+                partidaDiv.appendChild(noMatrimonioInfo);
             }
     
-            partidasContainer.appendChild(personaElement); // Moví esto aquí para que los datos de la partida se agreguen antes de los mensajes de error
+            // Si hay partida de defunción, agregar la información
+            if (partidaData.partidaDefuncion) {
+                const partidaDefuncionInfo = document.createElement("div");
+                partidaDefuncionInfo.innerHTML = `
+                    <h2>Partida de defunción</h2>
+                    <p>Nombre: ${partidaData.partidaDefuncion.persona}</p>
+                    <p>Fecha de Nacimiento: ${partidaData.partidaDefuncion.bdayDate}</p>
+                    <p>Lugar de nacimiento: ${partidaData.partidaDefuncion.bdayPlace}</p>
+                    <p>DNI: ${partidaData.partidaDefuncion.dni}</p>
+                    <p>Fecha de defunción: ${partidaData.partidaDefuncion.deathDate}</p>
+                    <p>Lugar de defunción: ${partidaData.partidaDefuncion.deathPlace}</p>
+                `;
+                partidaDiv.appendChild(partidaDefuncionInfo);
+            } else {
+                // Si no hay partida de defunción, mostrar un mensaje
+                const noDefuncionInfo = document.createElement("p");
+                noDefuncionInfo.textContent = `${partida[personaName].partidaNacimiento.persona} no tiene cargada partida de defunción`;
+                partidaDiv.appendChild(noDefuncionInfo);
+            }
     
-                  });
+            partidasContainer.appendChild(partidaDiv);
+        });
     
         const validarPartidasButton = document.getElementById("validar-partidas");
         validarPartidasButton.addEventListener("click", () => {
-            console.log("Hice click en validar partidas");
-            console.log("Listado de partidas guardadas:", partidasGuardadas);
-    
             validarPartNacimiento(partidasGuardadas);
             validarPartidaMatrimonio(partidasGuardadas);
             validarEdadMatrimonio(partidasGuardadas);
@@ -67,4 +94,5 @@ import {  validarPartNacimiento,
             validarNacionalidadDefuncion(partidasGuardadas);
         });
     });
+    
     
