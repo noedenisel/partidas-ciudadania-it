@@ -112,6 +112,7 @@ saveButton.addEventListener("click", async function (event) {
       [datosPartida.name]: {
         partidaNacimiento: {
           persona: datosPartida.persona,
+          sexo: datosPartida.sexo,
           bday: datosPartida.bday,
           lugarNacimiento: datosPartida.lugarNacimiento,
           madre: datosPartida.madre,
