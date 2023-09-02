@@ -23,7 +23,7 @@ export function obtenerDatosPartidaMatrimonio() {
     const conyugeLastname = marriageForm.querySelector("[data-marriage-conyuge-lastname]").value;
 
     const marriageDate = marriageForm.querySelector("[data-marriage-marriage-date]").value;
-    const marriagePlace = marriageForm.querySelector("[data-marriage-marriage-place]").value;
+   
 
   // Verificar si algún campo obligatorio está vacío
   if (
@@ -54,7 +54,7 @@ export function obtenerDatosPartidaMatrimonio() {
         bdayPlace: normalizeName(bdayPlace),
         conyuge: normalizeName(conyugeName) + " " + normalizeName(conyugeLastname),
         date: marriageDate,
-        place: normalizeName(marriagePlace)
+     
     };
 
     return dataMatrimonio;

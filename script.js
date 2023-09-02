@@ -121,7 +121,7 @@ saveButton.addEventListener("click", async function (event) {
         partidaMatrimonio: datosMatrimonio,
         partidaDefuncion: datosDefuncion,
       },
-      id: partidas.length + 1, // Genera el ID según tu lógica
+      id: partidas.length + 1, 
     };
 
     partidas.push(partida);

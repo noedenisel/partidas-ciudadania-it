@@ -47,7 +47,7 @@ import {  validarPartNacimiento,
                     <p>Hijo de: ${partidaData.partidaMatrimonio.hijoDe.padre} y ${partidaData.partidaMatrimonio.hijoDe.madre}</p>
                     <p>Conyuge</p>
                     <p>Celebrado el: ${partidaData.partidaMatrimonio.date}</p>
-                    <p>en: ${partidaData.partidaMatrimonio.place}</p>
+           
                 `;
                 partidaDiv.appendChild(partidaMatrimonioInfo);
             } else {
