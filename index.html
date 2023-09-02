@@ -27,19 +27,19 @@
             <form data-avo-form data-form-type="avo">
                 <h2>Partida de Nacimiento</h2>
                     <label for="avo-name">Nombre</label>
-                        <input type="text" name="avo-name"  id="avo-name" data-avo-name required>
+                        <input type="text" name="avo-name"  id="avo-name" data-avo-name required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="avo-name-error"></p>
-                    <label for="avo-lastname">Apellido</label>
-                        <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname required>
+                        <label for="avo-lastname">Apellido</label>
+                        <input type="text" name="avo-lastname"  id="avo-lastname" data-avo-lastname required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="avo-lastname-error"></p>
                     <br>
                     <br>
                     <label for="avo-bday-date">Fecha de Nacimiento</label>
-                        <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date required>
-                            <p class="error-message" id="avo-bady-date-error"></p>
+                        <input type="date" name="avo-bday-date"  id="avo-bday-date" data-avo-bday-date required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="avo-bday-date-error"></p>
          
                     <label for="avo-place">Lugar de nacimiento </label>
-                        <input type="text" name="avo-place" id="avo-place" data-avo-place required>
+                        <input type="text" name="avo-place" id="avo-place" data-avo-place required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="avo-place-error"></p>
                     <br>
                     <br>
@@ -51,83 +51,81 @@
                     <h3>Hijo de</h3>
                         <h4>Padre</h4>
                             <label for="avo-father-name">Nombre</label>
-                                <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name required>
+                                <input type="text" name="avo-father-name"  id="avo-father-name" data-avo-father-name required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="avo-father-name-error"></p>
                      
                             <label for="avo-father-lastname">Apellido</label>
-                                <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname required>
+                                <input type="text" name="avo-father-lastname" id="avo-father-lastname"  data-avo-father-lastname required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="avo-father-lastname-error"></p>
                         <h4>Madre</h4>
                             <label for="avo-mother-name">Nombre</label>
-                                <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name required>
+                                <input type="text" name="avo-mother-name" id="avo-mother-name"  data-avo-mother-name required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="avo-mother-name-error"></p>
                             <label for="avo-mother-lastname">Apellido</label>
-                                <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname required>
+                                <input type="text" name="avo-mother-lastname"  id="avo-mother-lastname" data-avo-mother-lastname required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="avo-mother-lastname-error"></p>
                             <br>
                             <br>
             </form>
         </div>
         
-        <button id="btn-matrimonio" style="display: block; " class="centered-button" data-target-form="matrimonio">Agregar Partida de Matrimonio</button>
+        <button id="btn-matrimonio" style="display: block; "class="centered-button" data-target-form="matrimonio">Agregar Partida de Matrimonio</button>
         <div class="partida-container partida-matrimonio" style="display: none;">
             
             <form data-marriage-form data-form-type="matrimonio" data-form-active="false"> 
                 <h2>Partida de Matrimonio</h2>
                     <label for="name">Nombre</label>
-                        <input 
-                            type="text" 
-                            name="name" 
-                            data-name 
-                            required>
+                        <input type="text" name="name" id="name" required data-error-message="Este campo es obligatorio">
+                        <p class="error-message" id="name-error"></p>
                             
                     <label for="lastname">Apellido</label>
-                        <input type="text" name="lastname" data-lastname required>
+                        <input type="text" name="lastname" id="lastname" required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="lastname-error"></p>
                     <br>
                     <br>
                     <label for="age" > Edad </label>
-                        <input type="number" name="age" data-age required>
+                        <input type="number" name="age" id="age" required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="age-error"></p>
                     <br>
                     <br>
                     <label for="nacionalidad" > Nacionalidad </label>
-                        <input type="text" name="nacionalidad" data-nacionalidad required> 
+                        <input type="text" name="nacionalidad" id="nacionalidad"  required data-error-message="Este campo es obligatorio"> 
                             <p class="error-message" id="nacionalidad-error"></p> 
                     <br>
                     <br>
-                    <label for="bday-place" > Lugar de Nacimiento </label>
-                        <input type="text" name="bday-place" data-bday-place  required>
+                    <label for="bday-place"  id="bday-place"> Lugar de Nacimiento </label>
+                        <input type="text" name="bday-place" id="bday-place"  required data-error-message="Este campo es obligatorio">
                             <p class="error-message" id="bday-place-error"></p> 
                     <br>
             
                     <h3>Hijo de</h3>
                         <h4>Padre</h4>
                             <label for="father-name">Nombre</label>
-                                <input type="text" name="father-name" data-father-name  required>
+                                <input type="text" name="father-name" id="father-name"  required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="father-name-error"></p> 
                             <label for="father-lastname">Apellido</label>
-                                <input type="text" name="father-lastname" data-father-lastname  required>
-                                    <p class="error-message" id="father-lastname"></p> 
+                                <input type="text" name="father-lastname" id="father-lastname"  required data-error-message="Este campo es obligatorio">
+                                    <p class="error-message" id="father-lastname-error"></p> 
                         <h4>Madre</h4>
                             <label for="mother-name">Nombre</label>
-                                <input type="text" name="mother-name" data-mother-name  required>
+                                <input type="text" name="mother-name" id="mother-name"  required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="mother-name-error"></p> 
                             <label for="mother-lastname">Apellido</label>
-                                <input type="text" name="mother-lastname" data-mother-lastname  required>
+                                <input type="text" name="mother-lastname" id="mother-lastname"  required data-error-message="Este campo es obligatorio">
                                     <p class="error-message" id="mother-lastname-error"></p> 
                                 
                     <h3>Conyuge</h3>
                         <label for="conyuge-name">Nombre</label>
-                            <input type="text" name="conyuge-name" data-conyuge-name  required>
+                            <input type="text" name="conyuge-name" id="conyuge-name"  required data-error-message="Este campo es obligatorio">
                                 <p class="error-message" id="conyuge-name-error"></p> 
                         <label for="conyuge-lastname">Apellido</label>
-                            <input type="text" name="conyuge-lastname" data-conyuge-lastname  required>
+                            <input type="text" name="conyuge-lastname" id="conyuge-lastname"  required data-error-message="Este campo es obligatorio">
                                 <p class="error-message" id="conyuge-lastname-error"></p> 
                     <br>
                     <br>
                     <label for="marriage-date">Celebrado el</label>
-                        <input type="date" name="marriage-date" data-marriage-date > 
+                        <input type="date" name="marriage-date" id="marriage-date" required data-error-message="Este campo es obligatorio">
+                        <p class="error-message" id="marriage-date-error"></p> 
                     <label for="marriage-place">en</label>
                         <input type="text" name="marriage-place" data-marriage-place>
                     <br>
@@ -135,57 +133,59 @@
         </div>
         
 
-        <button id="btn-defuncion" style="display: block; " class="centered-button" data-target-form="defuncion">Agregar Partida de Defuncion</button>
-        <div class="partida-defuncion partida-container" style="display: none;">
+        <button id="btn-defuncion" style="display: block; "class="centered-button" data-target-form="defuncion">Agregar Partida de Defuncion</button>
+        <div class="partida-container partida-defuncion " style="display: none;">
             
-
-           
             <form data-death-form data-form-type="defuncion" data-form-active="false">
                 <h2>Partida de Defuncion</h2>
-                    <label for="name">Nombre</label>
-                        <input type="text" name="name" data-name  required>
-                            <p class="error-message" id="name-error"></p> 
-                    <label for="lastname">Apellido</label>
-                        <input type="text" name="lastname" data-lastname  required>
-                            <p class="error-message" id="lastname-error"></p>  <br>
+                <label for="name">Nombre</label>
+                <input type="text" name="death-name" id="death-name" required data-error-message="Este campo es obligatorio">
+                <p class="error-message" id="death-name-error"></p>
+                    
+            <label for="lastname">Apellido</label>
+                <input type="text" name="death-lastname" id="death-lastname" required data-error-message="Este campo es obligatorio">
+                    <p class="error-message" id="death-lastname-error"></p>
+            <br>
+            <br>
+                        <br>
                     <br>
                     <label for="dni">DNI</label>
-                        <input type="number" name="dni" data-dni> 
+                        <input type="number" name="death-dni" id="death-dni" data-dni> 
                     <br>
                     <br>
                     <label for="bday-date">Fecha de Nacimiento</label>
-                        <input type="date" name="bday-date"  id="bday-date" data-bday-date  required>
-                            <p class="error-message" id="bday-date-error"></p> 
+                        <input type="date" name="death-bday-date"  id="death-bday-date"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-bday-date-error"></p> 
                     <br>
                     <br>
-                    <label for="bday-place">Lugar de nacimiento  </label>
-                        <input type="text" name="bday-place" id="place" data-bday-place  required>
-                            <p class="error-message" id="bday-place-error"></p> 
+                    <label for="bday-place"  id="death-bday-place"> Lugar de Nacimiento </label>
+                        <input type="text" name="death-bday-place" id="death-bday-place"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-bday-place-error"></p> 
                     <br>
                     <br>
                     <h3>Hijo de</h3>
-                        <h4>Padre</h4>
-                            <label for="father-name">Nombre</label>
-                                <input type="text" name="father-name" data-father-name  required>
-                                    <p class="error-message" id="father-name-error"></p> 
-                            <label for="father-lastname">Apellido</label>
-                                <input type="text" name="father-lastname" data-father-lastname  required>
-                                    <p class="error-message" id="father-lastname"></p> 
-                        <h4>Madre</h4>
-                            <label for="mother-name">Nombre</label>
-                                <input type="text" name="mother-name" data-mother-name  required>
-                                    <p class="error-message" id="mother-name-error"></p> 
-                            <label for="mother-lastname">Apellido</label>
-                                <input type="text" name="mother-lastname" data-mother-lastname  required>
-                                    <p class="error-message" id="mother-lastname-error"></p> 
+                    <h4>Padre</h4>
+                    <label for="father-name">Nombre</label>
+                        <input type="text" name="death-father-name" id="death-father-name"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-father-name-error"></p> 
+                    <label for="father-lastname">Apellido</label>
+                        <input type="text" name="death-father-lastname" id="death-father-lastname"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-father-lastname-error"></p> 
+                <h4>Madre</h4>
+                    <label for="mother-name">Nombre</label>
+                        <input type="text" name="death-mother-name" id="death-mother-name"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-mother-name-error"></p> 
+                    <label for="mother-lastname">Apellido</label>
+                        <input type="text" name="death-mother-lastname" id="death-mother-lastname"  required data-error-message="Este campo es obligatorio">
+                            <p class="error-message" id="death-mother-lastname-error"></p> 
                     <br>
                     <br>
                     <label for="death-date">Fecha de Defuncion</label>
-                        <input type="date" name="death-date"  id="death-date" data-death-date>
+                        <input type="date" name="death-date"  id="death-date" >
                     <br>
                     <br>
                     <label for="death-place">Lugar de defuncion</label>
-                        <input type="text" name="death-place" id="death-place" data-death-place>
+                        <input type="text" name="death-place" id="death-place" >
                     <br>
             </form>
         </div>
