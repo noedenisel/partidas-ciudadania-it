@@ -1,4 +1,4 @@
-//TODO: Ver como se muestan los datos: bday/place/Age.. ponerlo en español
+
 //Todo: agregar que renderice sexo en la partida de nacimiento
 //todo: agregar padres en partida de defuncion
 // ToDo: agregar algun titulo o algo q diga partidas de:
@@ -36,6 +36,7 @@ import {  validarPartNacimiento,
                 <p>Nombre: ${partida[personaName].partidaNacimiento.persona}</p>
                 <p>Fecha de nacimiento: ${partida[personaName].partidaNacimiento.bday}</p>
                 <p>Lugar de nacimiento: ${partida[personaName].partidaNacimiento.lugarNacimiento}</p>
+                <p>Sexo: $${partida[personaName].partidaNacimiento.sexo}</p>
                 <p>Hijo de: ${partida[personaName].partidaNacimiento.padre} y ${partida[personaName].partidaNacimiento.madre}</p>
             `;
             partidaDiv.appendChild(partidaNacimientoInfo);
