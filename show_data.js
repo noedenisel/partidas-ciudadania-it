@@ -64,6 +64,7 @@ import {  validarPartNacimiento,
                     <h2>Partida de defunción</h2>
                     <p>Nombre: ${partidaData.partidaDefuncion.persona}</p>
                     <p>Fecha de Nacimiento: ${partidaData.partidaDefuncion.bdayDate}</p>
+                    <p>Nacionalidad: ${partidaData.partidaDefuncion.nacionalidad}</p>
                     <p>Lugar de nacimiento: ${partidaData.partidaDefuncion.bdayPlace}</p>
                     <p>DNI: ${partidaData.partidaDefuncion.dni}</p>
                     <p>Hijo de: ${partidaData.partidaDefuncion.hijoDe.padre} y ${partidaData.partidaDefuncion.hijoDe.madre}</p>

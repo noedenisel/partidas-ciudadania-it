@@ -14,6 +14,7 @@ export function obtenerPartidaDefuncion() {
     const lastname = deathForm.querySelector("[data-death-lastname]").value;
     const dni = deathForm.querySelector("[data-death-dni]").value;
     const bdayDate = deathForm.querySelector("[data-death-bday-date]").value;
+    const nacionalidad = deathForm.querySelector("[data-death-nacionalidad]").value;
     const bdayPlace = deathForm.querySelector("[data-death-bday-place]").value;
     const deathDate = deathForm.querySelector("[data-death-date]").value;
     const deathPlace = deathForm.querySelector("[data-death-place]").value;
@@ -26,6 +27,7 @@ export function obtenerPartidaDefuncion() {
         name === "" ||
         lastname === "" ||
         bdayDate === "" ||
+        nacionalidad === "" ||
         bdayPlace === "" ||
         deathDate === "" 
     ) {
