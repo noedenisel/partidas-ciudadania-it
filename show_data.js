@@ -1,15 +1,15 @@
 import {  validarPartNacimiento,
     validarPartidaMatrimonio,
-    validarEdadMatrimonio,
-    validarNacionalidad,
-     validarNacionalidadDefuncion
+
+
+    validarNacionalidadDefuncion
     } from "./validaciones.js"
      
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const partidasContainer = document.getElementById("info-partidas");
+document.addEventListener("DOMContentLoaded", () => {
+    const partidasContainer = document.getElementById("info-partidas");
     
-        const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
+    const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
     
         partidasGuardadas.forEach((partida, index) => {
             const personaName = Object.keys(partida)[0];
@@ -87,8 +87,8 @@ import {  validarPartNacimiento,
         validarPartidasButton.addEventListener("click", () => {
             validarPartNacimiento(partidasGuardadas);
             validarPartidaMatrimonio(partidasGuardadas);
-            validarEdadMatrimonio(partidasGuardadas);
-            validarNacionalidad(partidasGuardadas);
+      
+       
             validarNacionalidadDefuncion(partidasGuardadas);
         });
     });
