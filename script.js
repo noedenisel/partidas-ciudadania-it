@@ -29,37 +29,13 @@ const partidas = []; // Crear un arreglo de partidas
 
 const saveButton = document.querySelector("[type='submit']");
 
-// Agrega un event listener para el evento beforeunload
-window.addEventListener('beforeunload', function () {
-  // Verifica si hay datos en los formularios activos y guárdalos en localStorage
-  if (isMatrimonioFormActive || isDefuncionFormActive) {
-    const datosPartida = obtenerDatosPartidaAvo();
-    const datosMatrimonio = obtenerDatosPartidaMatrimonio();
-    const datosDefuncion = obtenerPartidaDefuncion();
+// Verificar si los datos deben eliminarse del localStorage
+const eliminarDatosLocalStorage = localStorage.getItem("eliminarDatos");
 
-    const partida = {
-      [datosPartida.name]: {
-        partidaNacimiento: {
-          persona: datosPartida.persona,
-          sexo: datosPartida.sexo,
-          bday: datosPartida.bday,
-          lugarNacimiento: datosPartida.lugarNacimiento,
-          madre: datosPartida.madre,
-          padre: datosPartida.padre,
-        },
-        partidaMatrimonio: datosMatrimonio,
-        partidaDefuncion: datosDefuncion,
-      },
-      id: partidas.length + 1, 
-    };
-
-    guardarPartidaEnAlmacenamientoLocal(partida);
-  } else {
-    // Si no hay datos en los formularios activos, elimina los datos de localStorage
-    localStorage.removeItem("partidasGuardadas");
-  }
-});
-
+if (eliminarDatosLocalStorage === "true") {
+  localStorage.removeItem("partidasGuardadas");
+  localStorage.removeItem("eliminarDatos");
+}
 // Escucha el evento "click" en el botón de guardar
 saveButton.addEventListener("click", async function (event) {
   event.preventDefault();
