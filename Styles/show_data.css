@@ -85,11 +85,10 @@ h3{
 }
 
 
-.error-message {
-  display: flex;
+.error-group {
   justify-content: center;
   align-content: center;
-  color: rgb(198, 198, 198);
+  color: rgb(243, 242, 242);
   background-color: #cf263498;;
   width: 50%;
   height: 50%;
@@ -100,9 +99,17 @@ h3{
   
 }
 
-.ok-message {
-    color: green
+.error-group h3{
+  color: white
 }
+
+.error-message {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: rgb(225, 225, 225)
+}
+
 
 
 .buttons {

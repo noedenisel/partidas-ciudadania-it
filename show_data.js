@@ -1,7 +1,6 @@
 import {  validarPartNacimiento,
     validarPartidaMatrimonio,
-
-
+    validarPartidaDefuncion,
     validarNacionalidadDefuncion
     } from "./validaciones.js"
      
@@ -87,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         validarPartidasButton.addEventListener("click", () => {
             validarPartNacimiento(partidasGuardadas);
             validarPartidaMatrimonio(partidasGuardadas);
-      
+            validarPartidaDefuncion(partidasGuardadas);
        
             validarNacionalidadDefuncion(partidasGuardadas);
         });

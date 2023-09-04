@@ -1,30 +1,42 @@
-function mostrarError(mensaje, indice) {
+function mostrarError(mensaje, indice, nombrePersonaActual) {
     if (!mostrarError.errors) {
-        mostrarError.errors = {}; //  objeto para almacenar los errores
+        mostrarError.errors = {}; // objeto para almacenar los errores
     }
 
     if (!mostrarError.errors[indice]) {
         mostrarError.errors[indice] = [];
     }
 
-    mostrarError.errors[indice].push(mensaje);
+    mostrarError.errors[indice].push({ mensaje, nombrePersonaActual });
     mostrarErroresEnDOM();
 }
 
+
 function mostrarErroresEnDOM() {
     const erroresContainer = document.getElementById("errores-container");
-    erroresContainer.innerHTML = ""; 
-
-    let index = 0; 
+    erroresContainer.innerHTML = "";
 
     for (const indice in mostrarError.errors) {
-        mostrarError.errors[indice].forEach(mensaje => {
-            const errorElement = document.createElement("h3");
-            errorElement.classList.add("error-message");
-            errorElement.textContent = mensaje; // Mostrar solo el mensaje
-            erroresContainer.appendChild(errorElement);
-            index++;
-        });
+        const erroresDeIndice = mostrarError.errors[indice];
+
+        if (erroresDeIndice.length > 0) {
+            const divError = document.createElement("div");
+            divError.classList.add("error-group");
+
+            const headerElement = document.createElement("h3");
+            headerElement.textContent = `Errores encontrados para ${erroresDeIndice[0].nombrePersonaActual}`; // Mostrar el nombre de la persona actual
+
+            divError.appendChild(headerElement);
+
+            erroresDeIndice.forEach(errorData => {
+                const errorElement = document.createElement("h3");
+                errorElement.classList.add("error-message");
+                errorElement.textContent = errorData.mensaje;
+                divError.appendChild(errorElement);
+            });
+
+            erroresContainer.appendChild(divError);
+        }
     }
 }
 
@@ -72,11 +84,11 @@ function validarPartNacimiento(partidasData) {
 
         // Mostrar mensajes
         if (partida.coicidenciaMadre === "parcial") {
-            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su madre. En su partida de nacimiento figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i, personaActual);
         }
 
         if (partida.coicidenciaPadre === "parcial") {
-            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+            mostrarError(`La partida de nacimiento de ${personaActual} podría contener errores en los datos de su padre. En su partida de nacimiento figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i, personaActual);
         }        
     }
 }
@@ -112,10 +124,11 @@ function validarPartidaMatrimonio(partidasData) {
 
             // Mostrar mensajes
             if (coincidenciaPersona === "parcial") {
-                mostrarError(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de matrimonio figura ${nombresPersonaMatrimonio}`,i);
-            } else {
-                mostrarError(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`,i);
-            }
+                mostrarError(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de matrimonio figura ${nombresPersonaMatrimonio}`,i, personaActual);
+            } 
+            // else {
+            //     mostrarError(`El nombre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento. En su partida de matrimonio figura ${partidaMatrimonioDe} y en su partida de nacimeinto ${personaActual}`,i, personaActual);
+            // } //! esta dando bug, hace falta este else?
 
                 //Valida los nombres de los padres de su partida de matrimonio con los de los padres en su partida de nacimiento
 
@@ -149,9 +162,9 @@ function validarPartidaMatrimonio(partidasData) {
 
                         // Mostrar mensaje para coincidencia parcial
                         if (partida.coicidenciaMadre === "parcial") {
-                            mostrarError(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de matrimonio figura ${hijoDeMadre}.`,i);
+                            mostrarError(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de matrimonio figura ${hijoDeMadre}.`,i, personaActual);
                             } else {
-                                mostrarError(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`,i);
+                                mostrarError(`El nombre de la madre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`,i, personaActual);
                             }
                         }
 
@@ -166,9 +179,9 @@ function validarPartidaMatrimonio(partidasData) {
     
                             // Mostrar mensaje para coincidencia parcial
                             if (partida.coicidenciaMadre === "parcial") {
-                                mostrarError(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de matrimonio figura ${hijoDePadre}.`,i);
+                                mostrarError(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de matrimonio figura ${hijoDePadre}.`,i, personaActual);
                                 } else {
-                                    mostrarError(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`,i);
+                                    mostrarError(`El nombre del padre de ${partidaMatrimonioDe} en su partida de matrimonio no coincide con su partida de nacimiento.`,i), personaActual;
                                 }
                             }  
                         } 
@@ -220,11 +233,11 @@ function validarPartidaMatrimonio(partidasData) {
     
             // Mostrar mensajes
            if (partida.coicidenciaMadre === "parcial") {
-            mostrarError(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su madre. En su partida de matrimonio figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+            mostrarError(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su madre. En su partida de matrimonio figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i, personaActual);
             }
     
             if (partida.coicidenciaPadre === "parcial") {
-                mostrarError(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su padre. En su partida de matrimonio figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+                mostrarError(`La partida de matrimonio de ${personaActual} podría contener errores en los datos de su padre. En su partida de matrimonio figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i), personaActual;
             }
         } 
     }
@@ -262,11 +275,6 @@ for (let i = 0; i < partidasData.length; i++) {
 }
 
 
-
-
-
-//todo: validar padres de partida de defuncion = que en la partida de nacimiento
-
 function validarPartidaDefuncion(partidasData) {
 
     //Validaciones entre partida de defuncion y partida de nacimiento
@@ -297,9 +305,9 @@ function validarPartidaDefuncion(partidasData) {
 
             // Mostrar mensajes
             if (coincidenciaPersona === "parcial") {
-                mostrarError(`El nombre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de Defuncion figura ${nombresPersonaDefuncion}`,i);
+                mostrarError(`El nombre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En su partida de nacimiento el nombre que figura es ${nombresPersonaNacimiento} , y en su partida de Defuncion figura ${nombresPersonaDefuncion}`,i), personaActual;
             } else {
-                mostrarError(`El nombre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i);
+                mostrarError(`El nombre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i, personaActual);
             }
 
                 //Valida los nombres de los padres de su partida de Defuncion con los de los padres en su partida de nacimiento
@@ -334,9 +342,9 @@ function validarPartidaDefuncion(partidasData) {
 
                         // Mostrar mensaje para coincidencia parcial
                         if (partida.coicidenciaMadre === "parcial") {
-                            mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de Defuncion figura ${hijoDeMadre}.`,i);
+                            mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${madre}, y en la partida de Defuncion figura ${hijoDeMadre}.`,i, personaActual);
                             } else {
-                                mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i);
+                                mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i, personaActual);
                             }
                         }
 
@@ -351,14 +359,69 @@ function validarPartidaDefuncion(partidasData) {
     
                             // Mostrar mensaje para coincidencia parcial
                             if (partida.coicidenciaMadre === "parcial") {
-                                mostrarError(`El nombre del padre de ${partidaDefuncionoDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de Defuncion figura ${hijoDePadre}.`,i);
+                                mostrarError(`El nombre del padre de ${partidaDefuncionoDe} en su partida de Defuncion podría contener errores respecto a su partida de nacimiento. En la partida de nacimiento el nombre que figura es ${padre}, y en la partida de Defuncion figura ${hijoDePadre}.`,i, personaActual);
                                 } else {
-                                    mostrarError(`El nombre del padre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i);
+                                    mostrarError(`El nombre del padre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con su partida de nacimiento.`,i, personaActual);
                                 }
                             }  
                         } 
                     }
 
+                    //Valido nombre de los padres en la partida de defuncion con nombre de los padres en la partida de matrimonio
+
+                     //Datos de los padres en la partida de matrimonio
+                     const madre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.madre;
+                     const padre = partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.padre;
+                     
+                     const madrePartMat = madre.split(" ").filter(nombre => nombre.trim() !== "");
+                     const padrePartMat = padre.split(" ").filter(nombre => nombre.trim() !== "");
+
+                      //Datos de padres en la partida de Defuncion
+                    const hijoDeMadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.hijoDe.madre      
+                    const hijoDePadre = partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.hijoDe.padre
+            
+                    const madrePartidaDefuncion = hijoDeMadre.split(" ").filter(nombre => nombre.trim() !== "");
+                    const padrePartidaDefuncion = hijoDePadre.split(" ").filter(nombre => nombre.trim() !== "");
+ 
+                     let partida = partidasData[i][Object.keys(partidasData[i])[0]];
+                     partida.coicidenciaMadre = "";
+                     partida.coicidenciaPadre = "";
+
+                     if (madrePartMat.join(" ") === madrePartidaDefuncion.join(" ")) {
+                        partida.coicidenciaMadre = "total";
+                        } else {
+                            partida.coicidenciaMadre = madrePartidaDefuncion.some(nombreDefuncion =>
+                                madrePartMat.some(nombreNacimiento =>
+                                    nombreDefuncion.includes(nombreNacimiento) || nombreNacimiento.includes(nombreDefuncion)
+                                )
+                            ) ? "parcial" : "ninguna";
+
+                        // Mostrar mensaje para coincidencia parcial
+                        if (partida.coicidenciaMadre === "parcial") {
+                            mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a como figura en la partida de matrimonio de  ${partidaDefuncionDe}. En la partida de matrimonio el nombre que figura es ${madre}, y en la partida de Defuncion figura ${hijoDeMadre}.`,i, personaActual);
+                            } else {
+                                mostrarError(`El nombre de la madre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con el que figura en la partida de matrimonio de ${partidaDefuncionDe}.`,i, personaActual);
+                            }
+                        }
+
+                        if (padrePartMat.join(" ") === padrePartidaDefuncion.join(" ")) {
+                            partida.coicidenciaMadre = "total";
+                            } else {
+                                partida.coicidenciaMadre = padrePartidaDefuncion.some(nombreDefuncion =>
+                                    padrePartMat.some(nombreNacimiento =>
+                                        nombreDefuncion.includes(nombreNacimiento) || nombreNacimiento.includes(nombreDefuncion)
+                                    )
+                                ) ? "parcial" : "ninguna";
+    
+                            // Mostrar mensaje para coincidencia parcial
+                            if (partida.coicidenciaMadre === "parcial") {
+                                mostrarError(`El nombre del padre de ${partidaDefuncionDe} en su partida de Defuncion podría contener errores respecto a como figura en la partida de matrimonio de  ${partidaDefuncionDe}. En la partida de matrimonio el nombre que figura es ${padre}, y en la partida de Defuncion figura ${hijoDePadre}.`,i, personaActual);
+                                } else {
+                                    mostrarError(`El nombre del padre de ${partidaDefuncionDe} en su partida de Defuncion no coincide con el que figura en la partida de matrimonio de ${partidaDefuncionDe}.`,i, personaActual);
+                                }
+                            }
+
+                    
     //Validaciones partida de Defuncion con nombre de partida de nacimiento del padre/madre
     for (let i = 1; i < partidasData.length; i++) {
         const partidaDefuncion = partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion;
@@ -405,11 +468,11 @@ function validarPartidaDefuncion(partidasData) {
     
             // Mostrar mensajes
            if (partida.coicidenciaMadre === "parcial") {
-            mostrarError(`La partida de Defuncion de ${personaActual} podría contener errores en los datos de su madre. En su partida de Defuncion figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+            mostrarError(`La partida de Defuncion de ${personaActual} podría contener errores en los datos de su madre. En su partida de Defuncion figura: ${madreActual} y el nombre correcto debería ser ${personaAnterior}.`,i, personaActual);
             }
     
             if (partida.coicidenciaPadre === "parcial") {
-                mostrarError(`La partida de Defuncion de ${personaActual} podría contener errores en los datos de su padre. En su partida de Defuncion figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i);
+                mostrarError(`La partida de Defuncion de ${personaActual} podría contener errores en los datos de su padre. En su partida de Defuncion figura: ${padreActual} y el nombre correcto debería ser ${personaAnterior}.`,i, personaActual);
             }
         } 
     }
@@ -419,18 +482,20 @@ function validarPartidaDefuncion(partidasData) {
 //Validar nacionalidad en partida de defuncion: 
 function validarNacionalidadDefuncion(partidasData) {
     for (let i = 0; i < partidasData.length; i++) {
-       
-
-        //---- validacion de nacionalidad en partida de defuncion
-     
+            
         const nacionalidadDefuncion = (partidasData[i][Object.keys(partidasData[i])[0]].partidaDefuncion.bdayPlace);
         const lugarNacimiento = (partidasData[i][Object.keys(partidasData[i])[0]].partidaNacimiento.lugarNacimiento);
+        const nacionalidadMatrimonio = (partidasData[i][Object.keys(partidasData[i])[0]].partidaMatrimonio.nacionalidad);
 
         if (nacionalidadDefuncion !== lugarNacimiento) {
-            mostrarError(`El lugar de nacimieto de la partida de defuncion de ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. En su partida de defuncion figura: "Lugar de nacimiento ${lugarNacimiento}" y en su partida de defuncion figura ${nacionalidadDefuncion}ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`,i);
+            mostrarError(`El lugar de nacimieto de la partida de defuncion de ${Object.keys(partidasData[i])[0]} no coincide con el lugar de nacimiento que figura en su partida de nacimiento. En su partida de nacimiento figura: "Lugar de nacimiento ${lugarNacimiento}" y en su partida de defuncion figura ${nacionalidadDefuncion}ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`,i, personaActual);
         }
 
         //todo Validacion de nacionalidad en partida de defuncion con partida de matrimonio
+
+        if (nacionalidadDefuncion !== nacionalidadMatrimonio) {
+            mostrarError(`El lugar de nacimieto de la partida de defuncion de ${Object.keys(partidasData[i])[0]} no coincide con la nacionalidad que figura en su partida de matrimonio. En su partida de defuncion figura: "Lugar de nacimiento ${lugarNacimiento}" y en su partida de matrimonio figura ${nacionalidadMatrimonio}ATENCION: Esta web compara los campos ingresados. Si en la partida de nacimiento figura una localidad de la Provincia de Buenos Aires y en la partida de matrimonio figura Bueno Aires (por ejemplo), va a dar error, pero los datos seria correctos.`,i, personaActual);
+        }
     }
 }
 
@@ -439,6 +504,7 @@ function validarNacionalidadDefuncion(partidasData) {
 export  {
     validarPartNacimiento,
     validarPartidaMatrimonio,
+    validarPartidaDefuncion,
     validarNacionalidadDefuncion,
 }
 
