@@ -1,9 +1,13 @@
 // <!----Agregar Matrimonio----!>
 
-import {normalizeName} from "./service/partidas-service.js"
-
 const marriageForm = document.querySelector("[data-marriage-form]");
 
+// Función para normalizar nombres y apellidos
+function normalizeName(name) {
+    const words = name.toLowerCase().split(/[ /]/);
+    const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    return normalized;
+}
 
 export function obtenerDatosPartidaMatrimonio() {
     const name = marriageForm.querySelector("[data-marriage-name]").value;

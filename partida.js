@@ -1,5 +1,9 @@
-import {normalizeName} from "./service/partidas-service.js"
-
+// Función para normalizar nombres y apellidos
+function normalizeName(name) {
+    const words = name.toLowerCase().split(/[ /]/);
+    const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    return normalized;
+}
 
 // Obtener datos de la partida de nacimiento
 export function obtenerDatosPartidaAvo() {

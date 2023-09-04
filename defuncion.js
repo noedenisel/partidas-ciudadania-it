@@ -1,7 +1,13 @@
 // <!----Partida Defuncion----!>
-import {normalizeName} from "./service/partidas-service.js"
 
 const deathForm = document.querySelector("[data-death-form]");
+
+// Función para normalizar nombres y apellidos
+function normalizeName(name) {
+    const words = name.toLowerCase().split(/[ /]/);
+    const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    return normalized;
+}
 
 export function obtenerPartidaDefuncion() {
     const name = deathForm.querySelector("[data-death-name]").value;

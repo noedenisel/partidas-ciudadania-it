@@ -1,11 +1,11 @@
 // console.log("client service conectado");
 
 // Función para normalizar nombres y apellidos
-function normalizeName(name) {
-    const words = name.toLowerCase().split(/[ /]/);
-    const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-    return normalized;
-}
+// function normalizeName(name) {
+//     const words = name.toLowerCase().split(/[ /]/);
+//     const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+//     return normalized;
+// }
 
 async function savePartida(dbData) {
      console.log("Datos a enviar al servidor:", dbData);
@@ -32,7 +32,6 @@ const listaPartidas = () =>
 export const partidaServices = {
     // normalizeName,
     savePartida,
-    normalizeName,
     listaPartidas,
 }
 
