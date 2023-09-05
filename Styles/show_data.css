@@ -7,7 +7,6 @@ body {
   background: #2a9247;
 }
 
-
 header {
   display: flex;
   justify-content: center;
@@ -19,9 +18,9 @@ header {
 
 main {
   text-align: center;
-  max-width: 90%; 
-  margin: 0 auto; 
-  padding: 20px; 
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 
@@ -64,7 +63,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 900px;
+  width: 90%;
   padding: 15px;
   margin: 20px auto; 
   border: 3px solid white;
@@ -90,7 +89,7 @@ h3{
   align-content: center;
   color: rgb(243, 242, 242);
   background-color: #cf263498;;
-  width: 50%;
+  width: 90%;
   height: 50%;
   padding: 10px;
   border: 2px solid red;
@@ -105,6 +104,7 @@ h3{
 
 .error-message {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-content: center;
   color: rgb(225, 225, 225)
@@ -289,4 +289,4 @@ h3{
     border: 1px solid #b20000;
   }
   
-  
+ 
