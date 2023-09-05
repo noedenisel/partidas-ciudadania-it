@@ -32,10 +32,7 @@ export function obtenerDatosPartidaMatrimonio() {
     age === "" ||
     nacionalidad === "" ||
     bdayPlace === "" ||
-    motherName === "" ||
-    motherLastname === "" ||
-    fatherName === "" ||
-    fatherLastname === "" ||
+  
     conyugeName === "" ||
     conyugeLastname === "" ||
     marriageDate === "" 
