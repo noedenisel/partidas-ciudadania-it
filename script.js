@@ -1,4 +1,6 @@
-import { partidaServices } from "./service/partidas-service.js";
+//toDo hacer que cuando cierro la ventana se elimine lo guardado en el local storage
+
+
 import { obtenerDatosPartidaAvo } from "./partida.js";
 import { obtenerDatosPartidaMatrimonio } from "./matrimonio.js";
 import { obtenerPartidaDefuncion } from "./defuncion.js";
@@ -29,13 +31,6 @@ const partidas = []; // Crear un arreglo de partidas
 
 const saveButton = document.querySelector("[type='submit']");
 
-// Verificar si los datos deben eliminarse del localStorage
-const eliminarDatosLocalStorage = localStorage.getItem("eliminarDatos");
-
-if (eliminarDatosLocalStorage === "true") {
-  localStorage.removeItem("partidasGuardadas");
-  localStorage.removeItem("eliminarDatos");
-}
 // Escucha el evento "click" en el botón de guardar
 saveButton.addEventListener("click", async function (event) {
   event.preventDefault();

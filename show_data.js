@@ -10,6 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
     
+    const limpiarDatosContainer = document.getElementById("boton-limpiar-container");
+
+    
+    if (partidasGuardadas.length > 0) {
+      limpiarDatosContainer.style.display = "block"; // Mostrar el contenedor del botón "Limpiar datos"
+    
+    } else {
+      limpiarDatosContainer.style.display = "none"; // Ocultar el contenedor del botón "Limpiar datos"
+  
+    }
+    
         partidasGuardadas.forEach((partida, index) => {
             const personaName = Object.keys(partida)[0];
             const partidaData = partida[personaName];
@@ -90,6 +101,15 @@ document.addEventListener("DOMContentLoaded", () => {
        
             validarNacionalidadDefuncion(partidasGuardadas);
         });
-    });
+
+        // Agregar un botón "Limpiar datos"
+const limpiarDatosButton = document.getElementById("limpiar-datos");
+
+function limpiarDatosGuardados() {
+  localStorage.removeItem("partidasGuardadas");
+  window.location.href = "index.html"; 
+}
+
+limpiarDatosButton.addEventListener("click", limpiarDatosGuardados);
     
-    
+})

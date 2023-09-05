@@ -24,7 +24,9 @@ function mostrarErroresEnDOM() {
             divError.classList.add("error-group");
 
             const headerElement = document.createElement("h3");
-            headerElement.textContent = `Errores encontrados para ${erroresDeIndice[0].nombrePersonaActual}`; // Mostrar el nombre de la persona actual
+            headerElement.textContent = `Errores encontrados para ${erroresDeIndice[0].nombrePersonaActual}
+            
+            `; // Mostrar el nombre de la persona actual
 
             divError.appendChild(headerElement);
 

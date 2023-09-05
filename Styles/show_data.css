@@ -122,7 +122,6 @@ h3{
 }
 
 
-
 .button {
     position: relative;
     width: 220px;
@@ -225,3 +224,69 @@ h3{
     box-shadow: 0.1em 0.1em #228b22;
   }
 
+  #boton-limpiar-container {
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+    margin: 0 auto
+  }
+  
+  .buttonDelete {
+    position: relative;
+    width: 250px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #cc0000;
+    background-color: #e50000;
+    overflow: hidden;
+  }
+  
+  .buttonDelete, .buttonDelete__icon, .buttonDelete__text {
+    transition: all 0.3s;
+  }
+  
+  .buttonDelete .buttonDelete__text {
+    transform: translateX(10px);
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .buttonDelete .buttonDelete__icon {
+    position: absolute;
+    transform: translateX(200px);
+    height: 100%;
+    width: 39px;
+    background-color: #cc0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .buttonDelete .svg {
+    width: 20px;
+  }
+  
+  .buttonDelete:hover {
+    background: #cc0000;
+  }
+  
+  .buttonDelete:hover .buttonDelete__text {
+    color: transparent;
+  }
+  
+  .buttonDelete:hover .buttonDelete__icon {
+    width: 148px;
+    transform: translateX(0);
+  }
+  
+  .buttonDelete:active .buttonDelete__icon {
+    background-color: #b20000;
+  }
+  
+  .buttonDelete:active {
+    border: 1px solid #b20000;
+  }
+  
+  
