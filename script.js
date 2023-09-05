@@ -1,6 +1,3 @@
-//toDo hacer que cuando cierro la ventana se elimine lo guardado en el local storage
-
-
 import { obtenerDatosPartidaAvo } from "./partida.js";
 import { obtenerDatosPartidaMatrimonio } from "./matrimonio.js";
 import { obtenerPartidaDefuncion } from "./defuncion.js";
