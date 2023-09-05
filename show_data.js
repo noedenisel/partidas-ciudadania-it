@@ -9,17 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const partidasContainer = document.getElementById("info-partidas");
     
     const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
-    
-    const limpiarDatosContainer = document.getElementById("boton-limpiar-container");
+const limpiarDatosContainer = document.getElementById("boton-limpiar-container");
+const footerContainer = document.getElementById("footer");
 
-    
-    if (partidasGuardadas.length > 0) {
-      limpiarDatosContainer.style.display = "block"; // Mostrar el contenedor del botón "Limpiar datos"
-    
-    } else {
-      limpiarDatosContainer.style.display = "none"; // Ocultar el contenedor del botón "Limpiar datos"
-  
-    }
+if (partidasGuardadas.length > 0) {
+  limpiarDatosContainer.style.display = "block"; // Mostrar el contenedor del botón "Limpiar datos"
+  footerContainer.style.display = "block"; // Mostrar el footer
+} else {
+  limpiarDatosContainer.style.display = "none"; // Ocultar el contenedor del botón "Limpiar datos"
+  footerContainer.style.display = "none"; // Ocultar el footer
+}
     
         partidasGuardadas.forEach((partida, index) => {
             const personaName = Object.keys(partida)[0];
@@ -107,9 +106,11 @@ const limpiarDatosButton = document.getElementById("limpiar-datos");
 
 function limpiarDatosGuardados() {
   localStorage.removeItem("partidasGuardadas");
-  window.location.href = "https://partidas-ciudadania-it.vercel.app/"; 
+  window.location.href = "index.html"; 
 }
 
 limpiarDatosButton.addEventListener("click", limpiarDatosGuardados);
+    });
+    
     
 })

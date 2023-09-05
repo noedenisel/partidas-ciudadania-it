@@ -1,6 +1,6 @@
 // console.log("client service conectado");
 
-// // Función para normalizar nombres y apellidos
+// Función para normalizar nombres y apellidos
 // function normalizeName(name) {
 //     const words = name.toLowerCase().split(/[ /]/);
 //     const normalized = words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
