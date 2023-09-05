@@ -157,6 +157,7 @@ function limpiarFormulario() {
   inputs.forEach((input) => {
     input.value = ""; // Limpia el valor de cada campo
   });
+  window.location.href = "https://partidas-ciudadania-it.vercel.app/"; 
 }
 
 function guardarPartidaEnAlmacenamientoLocal(partida) {
