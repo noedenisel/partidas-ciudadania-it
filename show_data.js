@@ -107,7 +107,7 @@ const limpiarDatosButton = document.getElementById("limpiar-datos");
 
 function limpiarDatosGuardados() {
   localStorage.removeItem("partidasGuardadas");
-  window.location.href = "index.html"; 
+  window.location.href = "https://partidas-ciudadania-it.vercel.app/"; 
 }
 
 limpiarDatosButton.addEventListener("click", limpiarDatosGuardados);
