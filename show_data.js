@@ -9,16 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const partidasContainer = document.getElementById("info-partidas");
     
     const partidasGuardadas = JSON.parse(localStorage.getItem("partidasGuardadas")) || [];
-
     const limpiarDatosContainer = document.getElementById("boton-limpiar-container");
-    const footerContainer = document.getElementById("footer");
-  
+    
+    
     if (partidasGuardadas.length > 0) {
-      limpiarDatosContainer.style.display = "block"; // Mostrar el botón "Limpiar datos"
-      footerContainer.style.display = "block"; // Mostrar el footer
+      limpiarDatosContainer.style.display = "block"; // Mostrar el contenedor del botón "Limpiar datos"
+
     } else {
-      limpiarDatosContainer.style.display = "none"; // Ocultar el botón "Limpiar datos"
-      footerContainer.style.display = "none"; // Ocultar el footer
+      limpiarDatosContainer.style.display = "none"; // Ocultar el contenedor del botón "Limpiar datos"
+    
     }
     
         partidasGuardadas.forEach((partida, index) => {
@@ -107,7 +106,7 @@ const limpiarDatosButton = document.getElementById("limpiar-datos");
 
 function limpiarDatosGuardados() {
   localStorage.removeItem("partidasGuardadas");
-  window.location.href = "index.html"; 
+  window.location.href = "https://partidas-ciudadania-it.vercel.app/"; 
 }
 
 limpiarDatosButton.addEventListener("click", limpiarDatosGuardados);
