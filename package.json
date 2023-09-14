@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vercel/analytics": "^1.0.2",
     "dotenv": "^16.3.1",
     "json-server": "^0.17.3",
     "uuidv4": "^6.2.13",
