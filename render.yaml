@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: archivo-familiar
+    runtime: node
+    branch: expedientes-familiares
+    plan: starter
+    region: frankfurt
+    autoDeployTrigger: off
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: APP_ORIGIN="$RENDER_EXTERNAL_URL" npm start
+    healthCheckPath: /api/session
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: DATABASE_PATH
+        value: /var/data/families.sqlite
+    disk:
+      name: familias
+      mountPath: /var/data
+      sizeGB: 1
