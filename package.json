@@ -1,9 +1,23 @@
 {
+  "name": "partidas-ciudadania-it",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/app.mjs",
+    "build": "vite build",
+    "start": "node server/app.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
   "dependencies": {
-    "@vercel/analytics": "^1.0.2",
-    "dotenv": "^16.3.1",
-    "json-server": "^0.17.3",
-    "uuidv4": "^6.2.13",
-    "world-countries": "^4.0.0"
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1",
+    "@vitejs/plugin-react": "^5.1.2"
   }
 }
