@@ -102,8 +102,8 @@ export default function App() {
   return (
     <>
       <header>
-        <strong>Archivo familiar</strong>
-        <span>Control de partidas</span>
+        <strong>Control de partidas</strong>
+        <span>Ciudadanías</span>
         {session?.email && (
           <button
             disabled={busy}
@@ -130,13 +130,13 @@ export default function App() {
         )}
         {!session ? (
           <section>
-            <h1>Abriendo el archivo…</h1>
+            <h1>Cargando tus carpetas…</h1>
             <button onClick={() => run(init)}>Reintentar</button>
           </section>
         ) : !session.email ? (
           <section className="auth">
             <aside>
-              <small>Ciudadanías · Archivo documental</small>
+              <small>Documentación para ciudadanías</small>
               <h1>
                 Tu historia familiar,
                 <br />
@@ -151,7 +151,7 @@ export default function App() {
               </a>
             </aside>
             <article>
-              <h2>{register ? "Crear cuenta" : "Ingresá a tu archivo"}</h2>
+              <h2>{register ? "Crear cuenta" : "Ingresá a tu cuenta"}</h2>
               {session.google && (
                 <a className="google" href="/api/google">
                   Continuar con Google
@@ -201,11 +201,11 @@ export default function App() {
             </article>
           </section>
         ) : !dashboard ? (
-          <button onClick={() => run(refresh)}>Cargar mis familias</button>
+          <button onClick={() => run(refresh)}>Cargar mis carpetas</button>
         ) : !folder ? (
           <>
             <small>Mi espacio de trabajo</small>
-            <h1>Mis familias</h1>
+            <h1>Mis carpetas</h1>
             <p>
               {session.email} · Plan de{" "}
               {tierLabel(dashboard.tier).toLowerCase()}
@@ -250,7 +250,7 @@ export default function App() {
                 ))}
               </div>
             ) : (
-              <p>Todavía no tenés familias guardadas.</p>
+              <p>Todavía no tenés carpetas guardadas.</p>
             )}
             {dashboard.offers.length > 0 && (
               <article>
@@ -292,7 +292,7 @@ export default function App() {
                 })
               }
             >
-              ← Mis familias
+              ← Mis carpetas
             </button>
             <small>Carpeta familiar</small>
             <h1>{folder.surname}</h1>
