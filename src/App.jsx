@@ -14,7 +14,7 @@ async function api(path, data) {
         },
   );
   const result = await response.json();
-  if (!response.ok) throw Error(result.error);
+  if (!response.ok) throw Object.assign(Error(result.error), {status: response.status});
   return result;
 }
 const tierLabel = (t) =>
@@ -42,6 +42,7 @@ export default function App() {
     const s = await api("session");
     S(s);
     if (s.email) await refresh();
+    return s;
   }
   useEffect(() => {
     init().catch((e) => M(e.message));
@@ -123,7 +124,7 @@ export default function App() {
         )}
       </header>
       <main aria-busy={busy}>
-        {message && (
+        {message && (!session || session.email) && (
           <p role="status" className="notice">
             {message}
           </p>
@@ -136,19 +137,9 @@ export default function App() {
         ) : !session.email ? (
           <section className="auth">
             <aside>
-              <small>Documentación para ciudadanías</small>
-              <h1>
-                Tu historia familiar,
-                <br />
-                documentada.
-              </h1>
-              <p>
-                Reuní las partidas de cada generación y revisá las diferencias
-                antes de presentar la carpeta.
-              </p>
-              <a href="https://www.linkedin.com/in/noedenisel">
-                Noelia Denise Lombardo
-              </a>
+              <small>Para estudios jurídicos</small>
+              <h1>Control documental de ciudadanías</h1>
+              <p>Organizá los expedientes de ciudadanía italiana y española de tus clientes. Compará las partidas de cada generación y consultá en qué acta aparece cada diferencia.</p>
             </aside>
             <article>
               <h2>{register ? "Crear cuenta" : "Ingresá a tu cuenta"}</h2>
@@ -159,8 +150,21 @@ export default function App() {
               )}
               <form
                 onSubmit={submit(async (data) => {
-                  await api(register ? "register" : "login", data);
-                  await init();
+                  try {
+                    await api(register ? "register" : "login", data);
+                  } catch (error) {
+                    if (register && error.status === 409) {
+                      R(false);
+                      throw Error("Ya tenés una cuenta con ese correo. Ingresá con tu contraseña.");
+                    }
+                    throw error;
+                  }
+                  const signedIn = await init();
+                  if (!signedIn.email) {
+                    R(false);
+                    throw Error("No se pudo mantener la sesión. Ingresá con el correo y la contraseña de tu cuenta.");
+                  }
+                  M(register ? "Cuenta creada. Ya podés abrir tu primera carpeta." : "Sesión iniciada.");
                 })}
               >
                 <label>
@@ -185,8 +189,9 @@ export default function App() {
                   />
                 </label>
                 {register && <small>Usá al menos 10 caracteres.</small>}
+                {message && <p role="alert" className="notice">{message}</p>}
                 <button disabled={busy}>
-                  {register ? "Crear mi cuenta" : "Ingresar"}
+                  {busy ? "Un momento…" : register ? "Crear mi cuenta" : "Ingresar"}
                 </button>
               </form>
               <button
