@@ -309,13 +309,11 @@ export default function App() {
                 <h2>Revisión de partidas</h2>
                 {findings.length ? (
                   findings.map((v, i) => (
-                    <p key={i}>
-                      <b>
-                        {v.person} · {v.label}
-                      </b>
-                      <br />
-                      {v.detail}
-                    </p>
+                    <section key={i}>
+                      <h3>{v.person}</h3>
+                      <strong>{v.label}</strong>
+                      <ul>{v.lines.map(line => <li key={line}>{line}</li>)}</ul>
+                    </section>
                   ))
                 ) : (
                   <p>Sin diferencias entre los campos comparables cargados.</p>

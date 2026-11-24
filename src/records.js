@@ -40,6 +40,10 @@ export const types = {
   ],
 };
 const normalized = (s) => s.trim().replace(/\s+/g, " ").toLocaleLowerCase("es");
+function citation(type, owner) {
+  return "En la partida de " + type.toLowerCase() + " de " + owner;
+}
+
 export function discrepancies(people) {
   const findings = [];
   for (const person of people) {
@@ -53,9 +57,9 @@ export function discrepancies(people) {
         findings.push({
           person: person.name,
           label,
-          detail: entries
-            .map(([type, record]) => type + " · " + record[key])
-            .join(" / "),
+          lines: entries.map(([type, record]) =>
+            citation(type, person.name) + " figura «" + record[key] + "»."
+          ),
         });
       }
     }
@@ -70,12 +74,10 @@ export function discrepancies(people) {
         findings.push({
           person: person.name,
           label: "Edad al casarse",
-          detail:
-            "Según las fechas: " +
-            years +
-            " años / Matrimonio: " +
-            marriage.age +
-            " años",
+          lines: [
+            citation("Matrimonio", person.name) + " figuran " + marriage.age + " años al casarse el " + marriage.married + ".",
+            citation("Nacimiento", person.name) + " figura la fecha " + birth.born + ". A la fecha del matrimonio tenía " + years + " años.",
+          ],
         });
     }
     const parent = people.find((p) => p.id === person.parentId);
@@ -90,18 +92,12 @@ export function discrepancies(people) {
         normalized(child) !== normalized(adult)
       ) {
         findings.push({
-          person: person.name,
-          label: fields[key],
-          detail:
-            type +
-            " de " +
-            person.name +
-            " · " +
-            child +
-            " / Nacimiento de " +
-            parent.name +
-            " · " +
-            adult,
+          person: parent.name,
+          label: "Nombre y apellido",
+          lines: [
+            citation(type, person.name) + " figura como " + (key === "mother" ? "madre" : "padre") + " «" + child + "».",
+            citation("Nacimiento", parent.name) + " figura «" + adult + "».",
+          ],
         });
       }
     }
