@@ -529,7 +529,7 @@ export default function App() {
                   })
                 }
               >
-                Guardar carpeta
+                Guardar partida
               </button>
             </footer>
           </>
