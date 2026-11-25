@@ -79,8 +79,7 @@ label {
 }
 input,
 select,
-button,
-.google {
+button {
   font: inherit;
   border: 1px solid #aab8ae;
   border-radius: 6px;
@@ -92,8 +91,7 @@ select {
   color: inherit;
   background: white;
 }
-button,
-.google {
+button {
   background: #215444;
   color: white;
   cursor: pointer;
@@ -143,15 +141,11 @@ nav button,
 .quiet {
   margin: 1rem 0;
 }
-.member,
-.google {
+.member {
   display: block;
   width: 100%;
   margin-bottom: 0.6rem;
   text-align: left;
-}
-.google {
-  text-align: center;
 }
 .card {
   text-align: left;
@@ -165,9 +159,6 @@ nav button,
 .card span,
 a {
   color: #235444;
-}
-.google {
-  color: white;
 }
 nav {
   margin: 1rem 0;
@@ -215,3 +206,24 @@ footer {
 .workspace article {
   min-width: 0;
 }
+
+.google-login {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 40px;
+  background: #fff;
+  border: 1px solid #747775;
+  border-radius: 4px;
+  color: #1f1f1f;
+  font: 500 14px/20px "Google Sans", Roboto, Arial, sans-serif;
+  letter-spacing: .25px;
+  text-decoration: none;
+}
+.google-login svg { position: absolute; left: 12px; }
+.google-login:hover { background: #f2f5fa; }
+.google-login:focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; }
