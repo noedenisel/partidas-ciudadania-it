@@ -218,8 +218,9 @@ export default function App() {
             <small>Mi espacio de trabajo</small>
             <h1>Mis carpetas</h1>
             <p>
-              {session.email} · Plan de{" "}
-              {tierLabel(dashboard.tier).toLowerCase()}
+              {session.email} · {dashboard.families.length} {dashboard.tier === "unlimited"
+                ? "carpetas en uso · Plan ilimitado"
+                : "de " + dashboard.tier + " carpetas en uso"}
             </p>
             <article>
               <h2>Nueva carpeta familiar</h2>
