@@ -1,0 +1,23 @@
+{
+  "name": "partidas-ciudadania-it",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/app.mjs",
+    "build": "vite build",
+    "start": "node server/app.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1",
+    "@vitejs/plugin-react": "^5.1.2"
+  }
+}
