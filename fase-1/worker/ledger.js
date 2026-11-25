@@ -25,7 +25,8 @@ export function createCase(state, data) {
   const limit=capacity(state);
   if(limit!==null && state.uses.length>=limit) throw Object.assign(Error("Agotaste los cupos de creación de tu plan."),{status:403});
   const id=state.uses.reduce((max,u)=>Math.max(max,u.id),0)+1;
-  state.families.push({id,surname,people:[],revision:0});
+  const metadata={};for(const key of ["internal","applicant","country","notes"]){if(data[key]!==undefined){if(typeof data[key]!=="string"||data[key].length>1000)throw Object.assign(Error("Revisá los campos opcionales."),{status:400});metadata[key]=data[key];}}
+  state.families.push({id,surname,...metadata,updatedAt:new Date().toISOString(),people:[],revision:0});
   state.uses.push({id,requestId:data.requestId,at:new Date().toISOString()});
   return {id};
 }

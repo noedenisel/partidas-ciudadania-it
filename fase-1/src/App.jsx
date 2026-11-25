@@ -1,5 +1,9 @@
+import {Account,Recovery} from "./Account";
+import Document from "./Document";
+import Landing from "./Landing";
+import {Report} from "./Report";
 import { useEffect, useState, useRef } from "react";
-import { fields, types, discrepancies, importLegacy } from "./records";
+import { types, evaluate, importLegacy } from "./records";
 import "./App.css";
 
 const demo = new URLSearchParams(location.search).has("demo");
@@ -7,6 +11,7 @@ async function api(path, data) {
   if (demo) return (await import("./demo")).api(path, data);
   const headers = new Headers();
   if (data !== undefined) headers.set("Content-Type", "application/json");
+  if(!navigator.onLine)throw Error("Sin conexión. Tus cambios siguen en esta pestaña.");
   const response = await fetch(
     "/api/" + path,
     data === undefined
@@ -17,7 +22,7 @@ async function api(path, data) {
           body: JSON.stringify(data),
         },
   );
-  const result = await response.json();
+  const result = await response.json().catch(()=>({error:"La sesión o la conexión se interrumpió. Volvé a intentar."}));
   if (!response.ok) throw Object.assign(Error(result.error), {status: response.status});
   return result;
 }
@@ -34,11 +39,14 @@ export default function App() {
     [folder, F] = useState(null);
   const [busy, B] = useState(false),
     [message, M] = useState(""),
-    [register, R] = useState(false);
+    [register, R] = useState(new URLSearchParams(location.search).has("registro"));
   const [dirty, Q] = useState(false),
     [personId, P] = useState(""),
     [record, T] = useState("Nacimiento"),
     [tab, A] = useState("Partidas");
+  const [showPassword,show]=useState(false),[search,searchFor]=useState(""),[order,sortBy]=useState("name"),[filter,filterBy]=useState("");
+  const [online,setOnline]=useState(navigator.onLine);
+  useEffect(()=>{const update=()=>setOnline(navigator.onLine);window.addEventListener("online",update);window.addEventListener("offline",update);return()=>{window.removeEventListener("online",update);window.removeEventListener("offline",update);};},[]);
   const creation = useRef(null);
   async function refresh() {
     D(await api("families"));
@@ -113,7 +121,7 @@ export default function App() {
   function addGeneration() {
     const id = crypto.randomUUID();
     const first = people.length === 0;
-    update([...people, { id, name: "", ...(first ? {role:"avo"} : {}), records: { Nacimiento: {} } }]);
+    update([...people, { id, name: "", ...(first ? {role:"avo"} : {parentId:people.at(-1).id,side:"father"}), records: { Nacimiento: {} } }]);
     newPeople.current.add(id);
     focusNewName.current = true;
     P(id);
@@ -121,9 +129,17 @@ export default function App() {
   }
   const heads = people.filter(p => !p.parentId);
   const avo = people.find(p => p.role === "avo") || (heads.length === 1 ? heads[0] : null);
-  const findings = discrepancies(people);
+  const {findings,comparisons}=evaluate(people);
+  const list=(dashboard?.families||[]).filter(f=>f.surname.toLocaleLowerCase().includes(search.toLocaleLowerCase())&&(!filter||(f.archived?"Archivado":f.status||"En preparación")===filter)).sort((a,b)=>order==="date"?(b.updatedAt||"").localeCompare(a.updatedAt||""):order==="status"?(a.status||"").localeCompare(b.status||""):a.surname.localeCompare(b.surname,"es"));
+  function patchFolder(patch){F({...folder,...patch});Q(true);}
+  const focusField=useRef(null);
+  useEffect(()=>{if(focusField.current){document.getElementById("document-"+focusField.current)?.focus();focusField.current=null;}},[tab,record,personId]);
+
   const consumed = dashboard?.consumed ?? dashboard?.families.length ?? 0;
   const full = dashboard && (dashboard.available === 0 || (demo && consumed >= 5));
+  const query=new URLSearchParams(location.search);
+  if(query.has("recuperar")||new URLSearchParams(location.hash.slice(1)).has("purpose"))return <main><Recovery api={api}/></main>;
+  if(!demo&&!query.has("acceso")&&!query.has("registro")&&!query.has("trabajo")&&(!session?.email||query.has("portada")))return <Landing/>;
   return (
     <>
       <header>
@@ -144,11 +160,11 @@ export default function App() {
               })
             }
           >
-            {demo ? "Salir del ejemplo" : "Cerrar sesión"}
+            {demo ? "Salir de la demostración" : "Cerrar sesión"}
           </button>
         )}
       </header>
-      <main aria-busy={busy}>
+      <main aria-busy={busy}>{!online&&<p role="alert">Sin conexión. Conservá esta pestaña y reintentá el guardado al recuperar la conexión.</p>}
         {message && (!session || session.email) && (
           <p role="status" className="notice">
             {message}
@@ -164,9 +180,10 @@ export default function App() {
             <aside>
               <small>Para estudios jurídicos</small>
               <h1>Control documental de ciudadanías</h1>
-              <p>Organizá los expedientes de ciudadanía italiana y española de tus clientes. Compará las partidas de cada generación y consultá en qué acta aparece cada diferencia.</p>
+              <p>Organizá los expedientes de ciudadanía de tus clientes. Compará las partidas de cada generación y consultá en qué acta aparece cada diferencia.</p>
             </aside>
             <article>
+              {query.has("vincular")&&<p>Ingresá con tu contraseña. Desde «Cuenta y suscripción» podés vincular Google a tus expedientes.</p>}
               <h2>{register ? "Crear cuenta" : "Ingresá a tu cuenta"}</h2>
               {!session.google && <p><small>El acceso con Google está pendiente de configuración.</small></p>}
               <form
@@ -202,17 +219,18 @@ export default function App() {
                   <input
                     required
                     name="password"
-                    type="password"
+                    type={showPassword?"text":"password"}
                     minLength={register ? 10 : 1}
                     autoComplete={
                       register ? "new-password" : "current-password"
                     }
                   />
                 </label>
-                {register && <small>Usá al menos 10 caracteres.</small>}
+                <label className="inline"><input type="checkbox" checked={showPassword} onChange={e=>show(e.target.checked)}/>Mostrar contraseña</label>
+                {register && <small>Usá al menos 10 caracteres. Tu cuenta incluye un único cupo de creación. Eliminar o archivar el expediente no lo devuelve.</small>}
                 {message && <p role="alert" className="notice">{message}</p>}
                 <button disabled={busy}>
-                  {busy ? "Un momento…" : register ? "Crear mi cuenta" : "Ingresar"}
+                  {busy ? "Un momento…" : register ? "Crear cuenta gratis" : "Ingresar"}
                 </button>
               </form>
               <button
@@ -222,7 +240,7 @@ export default function App() {
                   M("");
                 }}
               >
-                {register ? "Ya tengo cuenta" : "Crear una cuenta con correo"}
+                {register ? "Ya tengo cuenta" : "Registrarme con correo electrónico"}
               </button>
               {session.google && (
                 <a className="google-login" href="/api/google">
@@ -235,7 +253,7 @@ export default function App() {
                   <span>Continuar con Google</span>
                 </a>
               )}
-              <p><a href="?demo">Recorrer el ejemplo Lombardo</a></p>
+              <p><a href="?recuperar">Recuperar contraseña</a></p><p><a href="?demo">Explorar demostración</a></p>
             </article>
           </section>
         ) : !dashboard ? (
@@ -243,7 +261,7 @@ export default function App() {
         ) : !folder ? (
           <>
             <small>Mi espacio de trabajo</small>
-            <h1>Mis expedientes</h1>
+            <h1>Mis expedientes</h1>{!demo&&<Account session={session} api={api} run={run} init={init}/>}
             <p>
               {session.email} · Expedientes existentes: {dashboard.families.length} · Cupos consumidos: {consumed} · Disponibles: {demo ? 5-consumed : dashboard.available ?? "ilimitados"}
             </p>
@@ -252,16 +270,17 @@ export default function App() {
               <p>{demo ? "La demostración no consume cupos de tu cuenta." : "Crear un expediente consume un cupo. Eliminarlo o archivarlo no devuelve ese cupo."}</p>
               <form
                 className="row"
-                onSubmit={submit(async ({ surname }) => {
+                onSubmit={submit(async (values) => {
+                  const surname=values.surname;
                   if(creation.current?.surname!==surname) creation.current={surname,requestId:crypto.randomUUID()};
-                  const f = await api("families", creation.current);
+                  const f = await api("families", {...values,...creation.current});
                   creation.current=null;
                   await refresh();
                   await open(f.id);
                 })}
               >
                 <label>
-                  Apellido de la familia
+                  Apellido de referencia
                   <input
                     name="surname"
                     required
@@ -269,22 +288,23 @@ export default function App() {
                     placeholder="Ej. Lombardo"
                   />
                 </label>
-                <button disabled={full || busy}>Crear expediente</button>
+                <details><summary>Datos opcionales</summary>{[["internal","Referencia interna"],["applicant","Solicitante principal"],["country","País de ciudadanía solicitada"],["notes","Observaciones generales"]].map(([k,label])=><label key={k}>{label}<input name={k} maxLength="1000"/></label>)}</details><button disabled={full || busy}>Crear expediente</button>
               </form>
               {full && <p>Alcanzaste el límite de tu plan.</p>}
             </article>
-            <h2>Carpetas guardadas</h2>
+            <section className="stats" aria-label="Resumen de expedientes"><p><strong>{dashboard.families.filter(f=>!f.archived).length}</strong> activos</p><p><strong>{dashboard.families.filter(f=>f.archived).length}</strong> archivados</p><p><strong>{dashboard.families.reduce((n,f)=>n+(f.pending??evaluate(f.people||[]).findings.length),0)}</strong> discrepancias pendientes</p></section><h2>Expedientes guardados</h2><div className="grid"><label>Buscar por apellido<input value={search} onChange={e=>searchFor(e.target.value)}/></label><label>Estado<select value={filter} onChange={e=>filterBy(e.target.value)}>{["","En preparación","Pendiente de documentación","En revisión","Revisión documental finalizada","Archivado"].map(v=><option value={v} key={v}>{v||"Todos"}</option>)}</select></label><label>Ordenar por<select value={order} onChange={e=>sortBy(e.target.value)}><option value="name">Apellido</option><option value="date">Última modificación</option><option value="status">Estado</option></select></label></div>
+            {!list.length&&dashboard.families.length>0&&<p>Sin coincidencias para esta búsqueda.</p>}
             {dashboard.families.length ? (
               <div className="cards">
-                {dashboard.families.map((f) => (
+                {list.map((f) => (
                   <div key={f.id}><button
                     className="card"
                     disabled={busy}
                     key={f.id}
                     onClick={() => run(() => open(f.id))}
                   >
-                    <small>Carpeta familiar</small>
-                    <b>{f.surname}</b>
+                    <small>Expediente</small>
+                    <b>{f.surname}</b><small>{f.peopleCount??f.people?.length??0} personas · {f.recordCount??0} partidas · {f.pending??0} pendientes</small>{f.updatedAt&&<small>Actualizado el {new Date(f.updatedAt).toLocaleDateString("es-AR")}</small>}<small>{f.archived?"Archivado":f.status||"En preparación"}</small>
                     <span>{f.archived ? "Archivado · Abrir" : "Abrir"}</span>
                   </button>
                   {!demo && <div>
@@ -294,7 +314,7 @@ export default function App() {
                 ))}
               </div>
             ) : (
-              <p>Todavía no tenés carpetas guardadas.</p>
+              <p>Todavía no tenés expedientes guardados.</p>
             )}
             {dashboard.offers.length > 0 && (
               <article>
@@ -338,35 +358,22 @@ export default function App() {
             >
               ← Mis expedientes
             </button>
-            <small>Carpeta familiar</small>
-            <h1>{folder.surname}</h1>
+            <small>Expediente</small>
+            <h1>{folder.surname}</h1><details className="controls"><summary>Editar datos del expediente</summary><div className="grid">{[["surname","Apellido de referencia"],["internal","Referencia interna"],["applicant","Solicitante principal"],["country","País de ciudadanía solicitada"],["notes","Observaciones generales"]].map(([k,l])=><label key={k}>{l}<input maxLength={k==="surname"?100:1000} value={folder[k]||""} onChange={e=>patchFolder({[k]:e.target.value})}/></label>)}<label>Estado<select value={folder.status||"En preparación"} onChange={e=>patchFolder({status:e.target.value})}>{["En preparación","Pendiente de documentación","En revisión","Revisión documental finalizada"].map(t=><option key={t}>{t}</option>)}</select></label></div></details>
             <nav>
-              {["Partidas", "Diferencias"].map((t) => (
+              {["Partidas", "Discrepancias"].map((t) => (
                 <button key={t} aria-pressed={t === tab} onClick={() => A(t)}>
                   {t}
-                  {t === "Diferencias" ? " (" + findings.length + ")" : ""}
+                  {t === "Discrepancias" ? " (" + findings.length + ")" : ""}
                 </button>
               ))}
             </nav>
-            {tab === "Diferencias" ? (
-              <article>
-                <h2>Revisión de partidas</h2>
-                {findings.length ? (
-                  findings.map((v, i) => (
-                    <section key={i}>
-                      <h3>{v.person}</h3>
-                      <strong>{v.label}</strong>
-                      <ul>{v.lines.map(line => <li key={line}>{line}</li>)}</ul>
-                    </section>
-                  ))
-                ) : (
-                  <p>Sin diferencias entre los campos comparables cargados.</p>
-                )}
-              </article>
+            {tab === "Discrepancias" ? (
+              <Report folder={folder} findings={findings} comparisons={comparisons} change={reviews=>patchFolder({reviews})} jump={s=>{focusField.current=s.key;P(s.personId);T(s.type);A("Partidas");}}/>
             ) : (
               <fieldset disabled={busy} className="workspace">
                 <article>
-                  <h2>Línea familiar</h2>
+                  <h2>Línea de descendencia</h2>{people.length>0&&<label className="mobile-person">Seleccionar generación<select value={personId} onChange={e=>{P(e.target.value);T("Nacimiento");}}>{people.map((p,i)=><option key={p.id} value={p.id}>{i+1} · {p.name||"Nueva persona"}</option>)}</select></label>}
                   {!people.length &&
                     localStorage.getItem("partidasGuardadas") && (
                       <button
@@ -416,12 +423,12 @@ export default function App() {
                       }}>Descartar carga sin nombre</button>}
                       {people.length > 1 && person.id !== avo?.id && (
                       <label>
-                        Ascendiente en esta línea
+                        Ascendiente directo
                         <select
                           value={person.parentId || ""}
                           onChange={(e) => edit({ parentId: e.target.value })}
                         >
-                          <option value="">Sin vincular</option>
+                          <option value="">Sin ascendiente vinculado</option>
                           {people
                             .filter((p) => {
                               let current = p;
@@ -437,7 +444,7 @@ export default function App() {
                                   (x) => x.id === current.parentId,
                                 );
                               }
-                              return true;
+                              return !people.some(other=>other.id!==person.id&&other.parentId===p.id);
                             })
                             .map((p) => (
                               <option key={p.id} value={p.id}>
@@ -470,36 +477,10 @@ export default function App() {
                           </button>
                         ))}
                       </nav>
-                      <div className="grid">
-                        {types[record].map((k) => (
-                          <label key={k}>
-                            {fields[k]}
-                            <input
-                              type={
-                                ["born", "died", "married"].includes(k)
-                                  ? "date"
-                                  : k === "age"
-                                    ? "number"
-                                    : "text"
-                              }
-                              ref={record === "Nacimiento" && k === "given" ? nameInput : undefined}
-                              value={person.records[record]?.[k] ?? (record === "Nacimiento" && k === "given" ? person.name : "")}
-                              onChange={(e) =>
-                                edit({
-                                  ...(record === "Nacimiento" && k === "given" ? {name: e.target.value} : {}),
-                                  records: {
-                                    ...person.records,
-                                    [record]: {
-                                      ...person.records[record],
-                                      [k]: e.target.value,
-                                    },
-                                  },
-                                })
-                              }
-                            />
-                          </label>
-                        ))}
-                      </div>
+                      <Document key={person.id+record} person={person} type={record} edit={edit} nameInput={nameInput}/>
+                      <details><summary>Administrar persona</summary><button onClick={()=>{if(!window.confirm("¿Eliminar esta persona y sus partidas? Las demás personas se conservarán y podrán volver a vincularse."))return;
+                        const next=people.filter(p=>p.id!==person.id).map(p=>p.parentId===person.id?{...p,parentId:""}:p);update(next);P(next[0]?.id||"");}}>Eliminar persona</button></details>
+
                     </>
                   ) : (
                     <p>Ingresá el AVO para comenzar con su partida de nacimiento.</p>
@@ -508,7 +489,7 @@ export default function App() {
               </fieldset>
             )}
             <footer>
-              <span>{dirty ? "Cambios sin guardar" : "Carpeta guardada"}</span>
+              <span>{busy ? "Guardando…" : dirty ? "Cambios sin guardar" : "Cambios guardados"}</span>
               <button
                 disabled={!dirty || busy}
                 onClick={() =>
@@ -519,13 +500,13 @@ export default function App() {
                       throw Error("Completá el nombre y apellido en la partida de nacimiento para guardar.");
                     }
                     const result = await api("families/" + folder.id, {
-                      people,
+                      people,reviews:folder.reviews||{},surname:folder.surname,internal:folder.internal||"",country:folder.country||"",applicant:folder.applicant||"",notes:folder.notes||"",status:folder.status||"En preparación",
                       revision: folder.revision,
                     });
                     newPeople.current.clear();
                     F((f) => ({ ...f, revision: result.revision }));
                     Q(false);
-                    M("Carpeta guardada.");
+                    M("Cambios guardados.");
                   })
                 }
               >

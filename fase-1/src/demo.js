@@ -24,6 +24,6 @@ export async function api(path,data){
   }
   const folder=families.find(f=>f.id===Number(path.split("/")[1]));
   if(!data)return structuredClone(folder);
-  folder.people=structuredClone(data.people);folder.revision++;
+  Object.assign(folder,structuredClone(data));folder.revision++;
   sessionStorage.setItem(key,JSON.stringify(families));return {revision:folder.revision};
 }

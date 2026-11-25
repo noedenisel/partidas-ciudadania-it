@@ -1,0 +1,14 @@
+import {useState} from "react";
+export function Account({session,api,run,init}){
+ const [billing,B]=useState(null);
+ return <details className="controls"><summary>Cuenta y suscripción</summary><p>{session.email}</p><form onSubmit={e=>{e.preventDefault();const name=e.currentTarget.elements.name.value;run(async()=>{await api("profile",{name});await init();});}}><label>Nombre del estudio<input name="name" maxLength="150" defaultValue={session.profile}/></label><button>Guardar perfil</button></form>
+ {session.google&&<form onSubmit={e=>{e.preventDefault();const password=e.currentTarget.elements.password.value;run(async()=>{const {url}=await api("google/link",{password});location.assign(url);});}}><label>Confirmá tu contraseña para vincular Google<input name="password" type="password" autoComplete="current-password" required/></label><button>Vincular mi cuenta de Google</button></form>}
+ {session.mailReady&&!session.verified&&<button onClick={()=>run(()=>api("verification",{}))}>Enviar correo de verificación</button>}
+ {session.sandbox&&<section><h3>PayPal · Entorno de pruebas</h3><button onClick={()=>run(async()=>B(await api("billing/status")))}>Consultar suscripción</button>{billing&&<><p>{billing.status}</p>{["5","10","unlimited"].map(t=><button key={t} onClick={()=>run(async()=>{const r=await api(billing.id?"billing/change":"billing/create",{tier:t});if(r.url)location.assign(r.url);})}>Probar plan {t}</button>)}{billing.id&&<button onClick={()=>run(async()=>{await api("billing/cancel",{});B(await api("billing/status"));})}>Cancelar suscripción de prueba</button>}</>}</section>}</details>;
+}
+export function Recovery({api}){
+ const params=new URLSearchParams(location.hash.slice(1)),purpose=params.get("purpose");
+ const [note,N]=useState(""),[busy,B]=useState(false);
+ return <article><h2>{purpose==="verify"?"Verificar correo":purpose==="reset"?"Elegí una contraseña nueva":"Recuperar contraseña"}</h2><form onSubmit={async e=>{e.preventDefault();const fields=Object.fromEntries(new FormData(e.currentTarget));B(true);try{await api(purpose||"recover",{...Object.fromEntries(params),...fields});N(purpose?"Operación completada. Podés iniciar sesión.":"Si existe una cuenta, recibirás las instrucciones por correo.");if(purpose)history.replaceState(null,"","?acceso");}catch(err){N(err.message);}finally{B(false);}}}>
+ {purpose==="reset"?<label>Contraseña nueva<input name="password" type="password" required minLength="10" autoComplete="new-password"/></label>:!purpose&&<label>Correo electrónico<input name="email" required type="email"/></label>}<button disabled={busy}>{purpose?"Confirmar":"Enviar instrucciones"}</button></form><p role="status">{note}</p><a href="?acceso">Volver al ingreso</a></article>;
+}
