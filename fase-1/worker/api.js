@@ -84,6 +84,10 @@ export async function api(request,env){
         folder.archived=data.action==="archive";result={revision:++folder.revision};
       }else{
       if(!Array.isArray(data.people)||JSON.stringify(data.people).length>1000000)fail(400,"Revisá los datos de la carpeta.");
+      const marked = data.people.filter(p=>p?.role==="avo");
+      const existingAvo = folder.people.find(p=>p.role==="avo");
+      if(marked.length>1 || marked.some(p=>p.parentId) || (existingAvo && marked[0]?.id!==existingAvo.id))
+        fail(400,"El AVO es la cabeza de la línea y no puede tener un ascendiente vinculado.");
       folder.people=data.people;result={revision:++folder.revision};
     }
     }

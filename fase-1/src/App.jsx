@@ -82,6 +82,7 @@ export default function App() {
   }
   async function open(id) {
     const f = await api("families/" + id);
+    newPeople.current.clear();
     F(f);
     P(f.people[0]?.id || "");
     T("Nacimiento");
@@ -100,6 +101,26 @@ export default function App() {
   function edit(patch) {
     update(people.map((p) => (p.id === personId ? { ...p, ...patch } : p)));
   }
+  const nameInput = useRef(null);
+  const focusNewName = useRef(false);
+  const newPeople = useRef(new Set());
+  useEffect(() => {
+    if (focusNewName.current && nameInput.current) {
+      nameInput.current.focus();
+      focusNewName.current = false;
+    }
+  }, [personId]);
+  function addGeneration() {
+    const id = crypto.randomUUID();
+    const first = people.length === 0;
+    update([...people, { id, name: "", ...(first ? {role:"avo"} : {}), records: { Nacimiento: {} } }]);
+    newPeople.current.add(id);
+    focusNewName.current = true;
+    P(id);
+    T("Nacimiento");
+  }
+  const heads = people.filter(p => !p.parentId);
+  const avo = people.find(p => p.role === "avo") || (heads.length === 1 ? heads[0] : null);
   const findings = discrepancies(people);
   const consumed = dashboard?.consumed ?? dashboard?.families.length ?? 0;
   const full = dashboard && (dashboard.available === 0 || (demo && consumed >= 5));
@@ -377,36 +398,23 @@ export default function App() {
                         T("Nacimiento");
                       }}
                     >
-                      {p.name}
+                      {p.name || (avo?.id === p.id ? "AVO" : "Nuevo descendiente")}{p.name && avo?.id === p.id ? " · AVO" : ""}
                     </button>
                   ))}
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const name = e.currentTarget.elements.name.value.trim();
-                      if (!name) return;
-                      const id = crypto.randomUUID();
-                      update([...people, { id, name, records: {} }]);
-                      P(id);
-                      T("Nacimiento");
-                      e.currentTarget.reset();
-                    }}
-                  >
-                    <label>
-                      Nueva persona
-                      <input
-                        name="name"
-                        required
-                        placeholder="Nombre y apellido"
-                      />
-                    </label>
-                    <button>Agregar persona</button>
-                  </form>
+                  <button type="button" disabled={people.some(p => !p.name.trim())} onClick={addGeneration}>
+                    {people.length ? "Agregar descendiente" : "Ingresar AVO"}
+                  </button>
                 </article>
                 <article>
                   {person ? (
                     <>
-                      <h2>{person.name}</h2>
+                      {person.id === avo?.id && <small>AVO · Cabeza de la línea de descendencia</small>}
+                      <h2>{person.name || (people[0].id === person.id ? "Datos del AVO" : "Datos del descendiente")}</h2>
+                      {newPeople.current.has(person.id) && !person.name && <button type="button" onClick={() => {
+                        update(people.filter(p => p.id !== person.id));
+                        P(people.find(p => p.id !== person.id)?.id || "");
+                      }}>Descartar carga sin nombre</button>}
+                      {people.length > 1 && person.id !== avo?.id && (
                       <label>
                         Ascendiente en esta línea
                         <select
@@ -438,7 +446,8 @@ export default function App() {
                             ))}
                         </select>
                       </label>
-                      {person.parentId && (
+                      )}
+                      {person.id !== avo?.id && person.parentId && (
                         <label>
                           Vínculo
                           <select
@@ -473,9 +482,11 @@ export default function App() {
                                     ? "number"
                                     : "text"
                               }
-                              value={person.records[record]?.[k] || ""}
+                              ref={record === "Nacimiento" && k === "given" ? nameInput : undefined}
+                              value={person.records[record]?.[k] ?? (record === "Nacimiento" && k === "given" ? person.name : "")}
                               onChange={(e) =>
                                 edit({
+                                  ...(record === "Nacimiento" && k === "given" ? {name: e.target.value} : {}),
                                   records: {
                                     ...person.records,
                                     [record]: {
@@ -491,7 +502,7 @@ export default function App() {
                       </div>
                     </>
                   ) : (
-                    <p>Agregá la primera persona para cargar sus partidas.</p>
+                    <p>Ingresá el AVO para comenzar con su partida de nacimiento.</p>
                   )}
                 </article>
               </fieldset>
@@ -502,10 +513,16 @@ export default function App() {
                 disabled={!dirty || busy}
                 onClick={() =>
                   run(async () => {
+                    const unnamed = people.find(p => !p.name.trim());
+                    if (unnamed) {
+                      P(unnamed.id); T("Nacimiento"); A("Partidas");
+                      throw Error("Completá el nombre y apellido en la partida de nacimiento para guardar.");
+                    }
                     const result = await api("families/" + folder.id, {
                       people,
                       revision: folder.revision,
                     });
+                    newPeople.current.clear();
                     F((f) => ({ ...f, revision: result.revision }));
                     Q(false);
                     M("Carpeta guardada.");
