@@ -24,7 +24,7 @@ export async function sandboxBilling(route,request,env,account,data,origin){
   return {};
  }
  if(!account)throw Object.assign(Error("Iniciá sesión."),{status:401});
- const key="billing/"+account.id,local=await(await bucket.get(key))?.json();
+ const key="billing/"+account.id,entry=await bucket.get(key),local=await entry?.json();
  if(route==="billing/status"){
   if(!local)return {status:"SIN_SUSCRIPCION"};
   const sub=await remote("/v1/billing/subscriptions/"+local.id);
@@ -35,8 +35,14 @@ export async function sandboxBilling(route,request,env,account,data,origin){
  if(route==="billing/cancel"&&local){await remote("/v1/billing/subscriptions/"+local.id+"/cancel",{reason:"Cancelación solicitada por el titular"});return {};}
  if(!["5","10","unlimited"].includes(data.tier)||!plan)throw Object.assign(Error("Plan de prueba no disponible."),{status:400});
  if(route==="billing/change"&&local){const r=await remote("/v1/billing/subscriptions/"+local.id+"/revise",{plan_id:plan,application_context:{return_url:origin+"/?trabajo",cancel_url:origin+"/?trabajo"}});return {url:r.links?.find(l=>l.rel==="approve")?.href};}
- if(route!=="billing/create"||local)throw Object.assign(Error("Revisá tu suscripción actual."),{status:409});
- const sub=await remote("/v1/billing/subscriptions",{plan_id:plan,custom_id:account.id,application_context:{return_url:origin+"/?trabajo",cancel_url:origin+"/?trabajo"}},"sandbox-"+account.id.slice(0,26));
- await bucket.put(key,JSON.stringify({id:sub.id}),{onlyIf:{etagDoesNotMatch:"*"}});
+ if(route!=="billing/create")throw Object.assign(Error("Revisá tu suscripción actual."),{status:409});
+ if(local){
+  const previous=await remote("/v1/billing/subscriptions/"+local.id);
+  if(!["CANCELLED","EXPIRED"].includes(previous.status))throw Object.assign(Error("Ya hay una suscripción en curso."),{status:409});
+ }
+ const requestId=local?"restart-"+local.id:"sandbox-"+account.id.slice(0,26);
+ const sub=await remote("/v1/billing/subscriptions",{plan_id:plan,custom_id:account.id,application_context:{return_url:origin+"/?trabajo",cancel_url:origin+"/?trabajo"}},requestId);
+ const saved=await bucket.put(key,JSON.stringify({id:sub.id}),{onlyIf:entry?{etagMatches:entry.etag}:{etagDoesNotMatch:"*"}});
+ if(!saved)throw Object.assign(Error("La suscripción cambió. Consultá su estado."),{status:409});
  return {url:sub.links.find(l=>l.rel==="approve")?.href};
 }
