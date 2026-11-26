@@ -25,7 +25,12 @@ export async function sandboxBilling(route,request,env,account,data,origin){
  }
  if(!account)throw Object.assign(Error("Iniciá sesión."),{status:401});
  const key="billing/"+account.id,local=await(await bucket.get(key))?.json();
- if(route==="billing/status")return local?await remote("/v1/billing/subscriptions/"+local.id):{status:"SIN_SUSCRIPCION"};
+ if(route==="billing/status"){
+  if(!local)return {status:"SIN_SUSCRIPCION"};
+  const sub=await remote("/v1/billing/subscriptions/"+local.id);
+  const resume=sub.status==="APPROVAL_PENDING"?sub.links?.find(link=>link.rel==="approve")?.href:null;
+  return {id:local.id,status:sub.status,resume};
+ }
  const plan=env["PAYPAL_SANDBOX_PLAN_"+data.tier];
  if(route==="billing/cancel"&&local){await remote("/v1/billing/subscriptions/"+local.id+"/cancel",{reason:"Cancelación solicitada por el titular"});return {};}
  if(!["5","10","unlimited"].includes(data.tier)||!plan)throw Object.assign(Error("Plan de prueba no disponible."),{status:400});
