@@ -17,6 +17,10 @@ async function login(bucket,account){
   await bucket.put("sessions/"+await hash(sid),JSON.stringify({...account,expires:Date.now()+days*1000}));
   return reply({email:account.email},{"Set-Cookie":cookie("sid",sid,days)});
 }
+function pesoPlans(env,account){
+  if(!account || !env.MP_TEST_ACCESS_TOKEN || !env.MP_TEST_BUYER_EMAIL || account.email!==env.MP_TEST_STUDIO_EMAIL)return [];
+  return ["5","10","unlimited"].map(tier=>({tier,amount:Number(env["MP_TEST_ARS_"+tier])})).filter(p=>Number.isSafeInteger(p.amount)&&p.amount>0);
+}
 export async function api(request,env){
   try{
     const url=new URL(request.url),route=url.pathname.slice(5),post=request.method==="POST";
@@ -30,7 +34,7 @@ export async function api(request,env){
     const accountRecord=account?await(await bucket.get("accounts/"+account.id))?.json():null;
     if(account && (account.epoch||0)!==(accountRecord?.epoch||0))account=null;
     const google=Boolean(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET);
-    if(route==="session")return reply({email:account?.email,google,verified:!!accountRecord?.verified,mailReady:!!env.MAILER,profile:accountRecord?.profile||"",sandbox:!!env.PAYPAL_SANDBOX_WEBHOOK});
+    if(route==="session")return reply({email:account?.email,google,verified:!!accountRecord?.verified,mailReady:!!env.MAILER,profile:accountRecord?.profile||"",pesoPlans:pesoPlans(env,account),sandbox:!!env.PAYPAL_SANDBOX_WEBHOOK});
     if(route==="google/link" && google && post && account){
       const data=await request.json(),row=accountRecord;
       if(!row?.verifier||typeof data.password!=="string"||data.password.length>256||await passwordHash(data.password,row.salt)!==row.verifier)fail(403,"Confirmá tu contraseña para vincular Google.");
@@ -76,6 +80,33 @@ export async function api(request,env){
           size+=value.length;if(size>1500000){await reader.cancel();fail(413,"Superaste el tamaño admitido.");}chunks.push(value);}}
         try{data=JSON.parse(await new Blob(chunks).text());}catch{fail(400,"Formato de solicitud inválido.");}
       }else data=await request.json();
+    }
+    if(route==="mercadopago/checkout" && post){
+      const plan=pesoPlans(env,account).find(p=>p.tier===data.tier);
+      if(!plan)fail(403,"Plan de prueba no disponible.");
+      const key="mp-tests/"+account.id;
+      const previous=await bucket.get(key);
+      if(previous){
+        const saved=await previous.json();
+        if(saved.url && saved.tier===plan.tier)return reply({url:saved.url});
+        fail(409,"Ya hay una prueba en curso para este estudio.");
+      }
+      const reservation=await bucket.put(key,JSON.stringify({tier:plan.tier}),{onlyIf:{etagDoesNotMatch:"*"}});
+      if(!reservation)fail(409,"Ya hay una prueba en curso.");
+      const response=await fetch("https://api.mercadopago.com/preapproval",{method:"POST",headers:{Authorization:"Bearer "+env.MP_TEST_ACCESS_TOKEN,"Content-Type":"application/json"},body:JSON.stringify({
+        reason:"Gestor de Partidas · "+(plan.tier==="unlimited"?"Ilimitado":plan.tier+" expedientes"),
+        external_reference:account.id+"-"+plan.tier,payer_email:env.MP_TEST_BUYER_EMAIL,
+        auto_recurring:{frequency:1,frequency_type:"months",transaction_amount:plan.amount,currency_id:"ARS"},
+        back_url:url.origin+"/?trabajo",status:"pending"
+      })});
+      if(!response.ok){
+        if([400,401,403,422].includes(response.status))await bucket.delete(key);
+        fail(502,"Mercado Pago no confirmó la suscripción de prueba.");
+      }
+      const sub=await response.json(),link=new URL(sub.init_point);
+      if(link.protocol!=="https:"||!/(^|\.)mercadopago\.com(\.ar)?$/.test(link.hostname)||!sub.id)fail(502,"Respuesta de Mercado Pago inválida.");
+      await bucket.put(key,JSON.stringify({id:sub.id,tier:plan.tier,url:link.href}),{onlyIf:{etagMatches:reservation.etag}});
+      return reply({url:link.href});
     }
     if(route.startsWith("billing/")&&(post||route==="billing/status")){
       if(route!=="billing/webhook"&&!account)fail(401,"Iniciá sesión.");
