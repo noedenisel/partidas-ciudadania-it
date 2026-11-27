@@ -510,7 +510,7 @@ export default function App() {
                   })
                 }
               >
-                Guardar partida
+                Guardar acta
               </button>
             </footer>
           </>

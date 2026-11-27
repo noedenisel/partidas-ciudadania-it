@@ -12,3 +12,13 @@ test("Contempla el cumpleaños y detecta la defunción anterior al matrimonio",(
  const p={id:"a",name:"Ana",records:{Nacimiento:{born:"1900-12-30"},Matrimonio:{married:"1925-12-29",age:"24"},Defunción:{died:"1924-11-01"}}};
  const f=evaluate([p]).findings;assert.equal(f.length,1);assert.equal(f[0].label,"Orden de los actos");
 });
+
+test("Compara el apellido dentro de una sola acta sin vincular ascendientes",()=>{
+ const person={id:"1",name:"Ana Varela Díaz",records:{Nacimiento:{given:"Ana Varela Díaz",father:"Juan Barela",mother:"María Díaz"}}};
+ const result=evaluate([person]).findings;
+ assert.equal(result.length,1);
+ assert.deepEqual(result[0].sources.map(s=>[s.type,s.key,s.value]),[
+  ["Nacimiento","given","Ana Varela Díaz"],["Nacimiento","father","Juan Barela"]]);
+ person.records.Nacimiento.father="Juan García";
+ assert.equal(evaluate([person]).findings.length,0);
+});

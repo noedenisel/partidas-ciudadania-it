@@ -69,6 +69,22 @@ export function evaluate(people){
        compare(p,label,["father","mother"].includes(key)?"Filiación":key==="born"?"Fecha":key==="origin"?"Lugar":"Identidad",[a,b],()=>normalized(a.value)!==normalized(b.value));
      }
    }
+   for(const type of Object.keys(types)){
+     const holder=source(p,type,"given");
+     for(const role of parents){
+       const relative=source(p,type,role);
+       if(![holder,relative].every(usable))continue;
+       // Full names are transcribed in a single field. Keep the last two
+       // possible surname words to accommodate double surnames.
+       const candidates=value=>normalized(value).split(" ").slice(1).slice(-2);
+       const relatives=candidates(relative.value);
+       const variant=candidates(holder.value).find(word=>relatives.some(other=>
+         word!==other && word.replace(/v/g,"b")===other.replace(/v/g,"b")
+       ) && !relatives.includes(word));
+       if(variant)compare(p,"Posible variante de apellido en la misma acta (B/V)","Filiación",
+         [holder,relative],()=>true);
+     }
+   }
    const birth=source(p,"Nacimiento","born"),marriage=source(p,"Matrimonio","married"),death=source(p,"Defunción","died");
    for(const [a,b] of [[birth,marriage],[birth,death],[marriage,death]]){
      if(completeDate(a.value)&&completeDate(b.value)) compare(p,"Orden de los actos","Cronología",[a,b],()=>a.value>b.value);
